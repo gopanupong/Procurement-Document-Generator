@@ -272,9 +272,10 @@ export default function App() {
                 ref={printRef}
                 className="bg-white shadow-2xl w-[210mm] min-h-[297mm] p-[25mm] text-black print:shadow-none print:p-0 print:m-0"
                 style={{ 
-                  fontFamily: "'Sarabun', sans-serif",
+                  fontFamily: "'TH Sarabun New', 'TH Sarabun PSK', 'Sarabun', sans-serif",
                   fontSize: "16pt",
-                  lineHeight: "1.2"
+                  lineHeight: "1.1",
+                  textRendering: "optimizeLegibility"
                 }}
               >
                 {/* Document Header with Logo - Left Aligned */}
@@ -289,7 +290,7 @@ export default function App() {
                     }}
                   />
                   <div className="text-left mt-1">
-                    <h2 className="text-[18pt] font-bold leading-none">การไฟฟ้าส่วนภูมิภาค</h2>
+                    <h2 className="text-[16pt] font-bold leading-none">การไฟฟ้าส่วนภูมิภาค</h2>
                     <p className="text-[10pt] font-bold uppercase tracking-tight">PROVINCIAL ELECTRICITY AUTHORITY</p>
                   </div>
                 </div>
@@ -314,7 +315,7 @@ export default function App() {
                 </div>
 
                 {/* Main Content */}
-                <div className="space-y-6 text-justify">
+                <div className="space-y-6">
                   <section>
                     <h3 className="font-bold mb-1 ml-[2.5cm]">๑. ข้อมูล</h3>
                     <p className="ml-[3.5cm]">
@@ -385,11 +386,24 @@ export default function App() {
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
         
+        body {
+          font-family: 'TH Sarabun New', 'TH Sarabun PSK', 'Sarabun', sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          text-rendering: optimizeLegibility;
+        }
+
         @media print {
+          @page {
+            size: A4;
+            margin: 2.5cm 2.5cm 2.5cm 2.5cm;
+          }
           body {
             background-color: white !important;
             margin: 0;
             padding: 0;
+            font-family: 'TH Sarabun New', 'TH Sarabun PSK', 'Sarabun', sans-serif !important;
+            line-height: 1.1;
           }
           .min-h-screen {
             min-height: auto;
@@ -399,10 +413,6 @@ export default function App() {
             padding: 0 !important;
             margin: 0 !important;
             max-width: none !important;
-          }
-          @page {
-            size: A4;
-            margin: 0;
           }
         }
       `}} />
