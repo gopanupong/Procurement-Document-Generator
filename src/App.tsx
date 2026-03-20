@@ -100,26 +100,65 @@ export default function App() {
     <div className="min-h-screen bg-stone-100 font-sans text-slate-900">
       {/* Global Print Styles */}
       <style dangerouslySetInnerHTML={{ __html: `
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
+        
+        body {
+          font-family: 'TH Sarabun New', 'TH Sarabun PSK', 'Sarabun', sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          text-rendering: optimizeLegibility;
+        }
+
         @media print {
           @page {
             size: A4;
             margin: 0;
           }
+          
+          /* Hide everything by default */
+          body * {
+            visibility: hidden !important;
+            display: none !important;
+          }
+          
+          /* Show only the print container and its contents */
+          html, body, #root, #root > div, main, .content-container, .print-wrapper-outer, .print-container, .print-container * {
+            visibility: visible !important;
+            display: block !important;
+          }
+
+          /* Special handling for tables to keep their layout */
+          .print-container table {
+            display: table !important;
+          }
+          .print-container tr {
+            display: table-row !important;
+          }
+          .print-container td, .print-container th {
+            display: table-cell !important;
+          }
+          .print-container thead {
+            display: table-header-group !important;
+          }
+          .print-container tbody {
+            display: table-row-group !important;
+          }
+
           body {
+            background: white !important;
             margin: 0 !important;
             padding: 0 !important;
-            background: white !important;
-            -webkit-print-color-adjust: exact;
           }
-          .print-wrapper {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 210mm;
-            margin: 0;
-            padding: 0;
-            background: white;
+
+          .print-wrapper-outer {
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
           }
+
           .print-container {
             width: 210mm !important;
             min-height: 297mm !important;
@@ -128,18 +167,13 @@ export default function App() {
             box-shadow: none !important;
             border: none !important;
             background: white !important;
-            display: block !important;
-            visibility: visible !important;
+            color: black !important;
+            font-family: 'TH Sarabun New', 'TH Sarabun PSK', 'Sarabun', sans-serif !important;
           }
-          .no-print, nav, .form-selector, .navigation-buttons, .footer-guide {
-            display: none !important;
-          }
-          /* Hide everything else */
-          body > *:not(.print-wrapper-outer) {
-            display: none !important;
-          }
-          .print-wrapper-outer {
-            display: block !important;
+          
+          /* Ensure images show up */
+          img {
+            -webkit-print-color-adjust: exact;
           }
         }
       `}} />
@@ -210,15 +244,9 @@ export default function App() {
           </div>
         )}
 
-        <AnimatePresence mode="wait">
+        <div className="content-container">
           {!isPreview ? (
-            <motion.div
-              key="form"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="bg-white rounded-3xl shadow-xl border border-stone-200 overflow-hidden"
-            >
+            <div className="bg-white rounded-3xl shadow-xl border border-stone-200 overflow-hidden">
               <div className="p-8 border-b border-stone-100 bg-stone-50/50">
                 <h2 className="text-2xl font-bold text-slate-800">
                   {currentForm === 'APPROVAL' && '1. บันทึกขอความเห็นชอบดำเนินการ'}
@@ -496,12 +524,12 @@ export default function App() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ) : (
-            <div className="print-wrapper-outer w-full flex flex-col items-center">
+            <div className="print-wrapper-outer w-full flex flex-col items-center py-10 bg-stone-200/50 min-h-screen">
               <div 
                 ref={printRef}
-                className="print-container bg-white shadow-2xl w-[210mm] min-h-[297mm] p-[15mm] text-black print:shadow-none"
+                className="print-container bg-white shadow-2xl w-[210mm] min-h-[297mm] p-[15mm] text-black border border-stone-300 print:border-none print:shadow-none"
                 style={{ 
                   fontFamily: "'TH Sarabun New', 'TH Sarabun PSK', 'Sarabun', sans-serif",
                   fontSize: "15pt",
@@ -791,43 +819,10 @@ export default function App() {
               </div>
             </div>
           )}
-        </AnimatePresence>
+        </div>
       </main>
 
       {/* Print Styles */}
-      <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
-        
-        body {
-          font-family: 'TH Sarabun New', 'TH Sarabun PSK', 'Sarabun', sans-serif;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-          text-rendering: optimizeLegibility;
-        }
-
-        @media print {
-          @page {
-            size: A4;
-            margin: 2.5cm 2.5cm 2.5cm 2.5cm;
-          }
-          body {
-            background-color: white !important;
-            margin: 0;
-            padding: 0;
-            font-family: 'TH Sarabun New', 'TH Sarabun PSK', 'Sarabun', sans-serif !important;
-            line-height: 1.1;
-          }
-          .min-h-screen {
-            min-height: auto;
-            background-color: white !important;
-          }
-          main {
-            padding: 0 !important;
-            margin: 0 !important;
-            max-width: none !important;
-          }
-        }
-      `}} />
     </div>
   );
 }
