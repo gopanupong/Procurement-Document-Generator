@@ -35,9 +35,9 @@ const initialData: ProcurementDoc = {
     requester: "ผจศ.กปบ.(ก3)",
   },
   committee: [
-    { name: "นายพชริศ กรุงกาญจนา", position: "ประธานกรรมการ" },
-    { name: "นายโชคชัย ชัยมาลา", position: "กรรมการ" },
-    { name: "นายธนาคาร สว่างเรือง", position: "กรรมการ" },
+    { name: "นายภานุพงค์ เจนสุริยะกุล", position: "ประธานกรรมการ" },
+    { name: "นายสมชาย ใจดี", position: "กรรมการ" },
+    { name: "นายวิชัย รักชาติ", position: "กรรมการ" },
   ],
   procurementMethod: "เฉพาะเจาะจง",
   estimatedPrice: 15000,
@@ -51,8 +51,8 @@ const initialData: ProcurementDoc = {
   totalAmountThai: "หนึ่งหมื่นสี่พันเจ็ดร้อยสี่สิบสี่บาทหกสิบสตางค์",
   receiver: { name: "นายกฤษณะ ปอยงาม", position: "ชผ.จศ กปบ.(ก3)" },
   signer1: {
-    name: "นายภานุพงค์ เจนสุริยะกุล",
-    position: "หผ.จศ กปบ.(ก3)",
+    name: "นายกานุพงศ์ เจนสุริยะกุล",
+    position: "ผช.จศ กปบ.(ก3)",
   },
   signer2: {
     name: "นายเลอพงศ์ แก่นจันทร์",
@@ -124,7 +124,7 @@ export default function App() {
             width: 210mm !important;
             min-height: 297mm !important;
             margin: 0 !important;
-            padding: 20mm !important;
+            padding: 15mm !important;
             box-shadow: none !important;
             border: none !important;
             background: white !important;
@@ -501,20 +501,20 @@ export default function App() {
             <div className="print-wrapper-outer w-full flex flex-col items-center">
               <div 
                 ref={printRef}
-                className="print-container bg-white shadow-2xl w-[210mm] min-h-[297mm] p-[20mm] text-black print:shadow-none"
+                className="print-container bg-white shadow-2xl w-[210mm] min-h-[297mm] p-[15mm] text-black print:shadow-none"
                 style={{ 
                   fontFamily: "'TH Sarabun New', 'TH Sarabun PSK', 'Sarabun', sans-serif",
-                  fontSize: "16pt",
+                  fontSize: "15pt",
                   lineHeight: "1.1",
                   textRendering: "optimizeLegibility"
                 }}
               >
                 {/* Document Header with Logo - Left Aligned */}
-                <div className="flex flex-col items-start mb-8">
+                <div className="flex flex-col items-start mb-4">
                   <img 
                     src={data.logoUrl} 
                     alt="PEA Logo" 
-                    className="w-24 h-24 object-contain" 
+                    className="w-20 h-20 object-contain" 
                     referrerPolicy="no-referrer" 
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = "https://via.placeholder.com/150?text=PEA+LOGO";
@@ -527,7 +527,7 @@ export default function App() {
                 </div>
 
                 {/* Document Metadata - Grid for precise alignment */}
-                <div className="grid grid-cols-[80px_1fr_80px_1fr] gap-y-1 mb-8">
+                <div className="grid grid-cols-[80px_1fr_80px_1fr] gap-y-0.5 mb-4">
                   <span className="font-bold">จาก</span>
                   <span>{data.from}</span>
                   <span className="font-bold">ถึง</span>
@@ -546,7 +546,7 @@ export default function App() {
                 </div>
 
                 {/* Main Content */}
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {currentForm === 'APPROVAL' && (
                     <>
                       <section>
@@ -624,12 +624,12 @@ export default function App() {
 
                   {currentForm === 'SUMMARY' && (
                     <>
-                      <section className="mt-4">
-                        <p className="indent-[2.5cm]">
+                      <section className="mt-2">
+                        <p className="indent-[2cm]">
                           ตามที่ {data.from} ดำเนินการซื้อ{data.item}โดยวิธี{data.procurementMethod} ขอรายงานผลการพิจารณาการจัดซื้อ ดังนี้
                         </p>
                         
-                        <table className="w-full mt-4 border-collapse border border-black text-[14pt]">
+                        <table className="w-full mt-2 border-collapse border border-black text-[13pt]">
                           <thead>
                             <tr className="bg-stone-50">
                               <th className="border border-black p-1 w-12 text-center">ที่</th>
@@ -656,25 +656,25 @@ export default function App() {
                           </tbody>
                         </table>
 
-                        <p className="mt-4 indent-[2.5cm]">
+                        <p className="mt-2 indent-[2cm]">
                           {data.from} พิจารณาแล้ว เห็นสมควรจัดซื้อ จาก {data.supplierName} จำนวนเงิน {data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท 
                           ภาษีมูลค่าเพิ่ม {data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท เป็นเงินทั้งสิ้น {data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท ({data.totalAmountThai}) รวมภาษีมูลค่าเพิ่ม
                         </p>
-                        <p className="mt-2 indent-[2.5cm]">
+                        <p className="mt-1 indent-[2cm]">
                           จึงเรียนมาเพื่อโปรดพิจารณา หากเห็นชอบ ขอได้โปรดอนุมัติให้สั่งซื้อ จากผู้เสนอราคาดังกล่าว พร้อมทั้งแจ้งคณะกรรมการตรวจรับ 
                           ดำเนินการต่อไป
                         </p>
                       </section>
 
                       {/* Signature Grid for Form 4 (Using Table for Print Stability) */}
-                      <table className="w-full mt-8 border-collapse border-t-2 border-black text-[14pt]">
+                      <table className="w-full mt-4 border-collapse border-t-2 border-black text-[13pt] [page-break-inside:avoid]">
                         <tbody>
                           <tr>
                             {/* Top Left: Approval Box */}
-                            <td className="w-1/2 border-r-2 border-black p-2 align-top">
-                              <div className="border-2 border-black m-1 p-4 text-center flex flex-col justify-between min-h-[180px]">
-                                <p className="font-bold text-[15pt] leading-tight">เห็นชอบและอนุมัติสั่งซื้อ/สั่งจ้างดำเนินการได้ โดยปฏิบัติให้ถูกต้องตามระเบียบ</p>
-                                <div className="mt-auto">
+                            <td className="w-1/2 border-r-2 border-black p-1 align-top">
+                              <div className="border-2 border-black m-1 p-3 text-center flex flex-col justify-between min-h-[140px]">
+                                <p className="font-bold text-[14pt] leading-tight">เห็นชอบและอนุมัติสั่งซื้อ/สั่งจ้างดำเนินการได้ โดยปฏิบัติให้ถูกต้องตามระเบียบ</p>
+                                <div className="mt-4">
                                   <p>( {data.signer2.name} )</p>
                                   <p>{data.signer2.position}</p>
                                 </div>
@@ -682,9 +682,9 @@ export default function App() {
                             </td>
 
                             {/* Top Right: Proposer */}
-                            <td className="w-1/2 p-2 align-top">
-                              <div className="p-4 text-left flex flex-col justify-end min-h-[180px]">
-                                <div className="ml-auto w-full max-w-[280px] space-y-1">
+                            <td className="w-1/2 p-1 align-top">
+                              <div className="p-3 text-right flex flex-col justify-end min-h-[140px]">
+                                <div className="inline-block text-left space-y-1">
                                   <p>ลงชื่อ..............................................................</p>
                                   <div className="pl-4">
                                     <p>( {data.signer1.name} )</p>
@@ -698,14 +698,14 @@ export default function App() {
 
                           <tr>
                             {/* Bottom Left: Committee */}
-                            <td className="w-1/2 border-t-2 border-r-2 border-black p-4 align-top">
-                              <div className="space-y-4">
+                            <td className="w-1/2 border-t-2 border-r-2 border-black p-3 align-top">
+                              <div className="space-y-3">
                                 <p className="font-bold underline">เรียน อก.ปบ.(ก3)</p>
-                                <p className="indent-8 leading-snug">คณะกรรมการตรวจรับได้ทำการตรวจรับ {data.item} จำนวน ๑ รายการ เมื่อวันที่................................เห็นว่าถูกต้องครบถ้วน เห็นควรรับไว้ใช้งานและเบิกจ่ายเงิน ให้แก่ผู้ขาย/ผู้รับจ้างต่อไป</p>
-                                <div className="space-y-6 pt-2">
+                                <p className="indent-8 leading-snug text-[12pt]">คณะกรรมการตรวจรับได้ทำการตรวจรับ {data.item} จำนวน ๑ รายการ เมื่อวันที่................................เห็นว่าถูกต้องครบถ้วน เห็นควรรับไว้ใช้งานและเบิกจ่ายเงิน ให้แก่ผู้ขาย/ผู้รับจ้างต่อไป</p>
+                                <div className="space-y-4 pt-1">
                                   {data.committee.map((member, idx) => (
-                                    <div key={idx} className="text-left pl-4">
-                                      <p>ลงชื่อ.......................................................................{idx === 0 ? 'ประธานกรรมการ' : 'กรรมการ'}</p>
+                                    <div key={idx} className="text-left pl-2">
+                                      <p className="whitespace-nowrap">ลงชื่อ.......................................................................{idx === 0 ? 'ประธานกรรมการ' : 'กรรมการ'}</p>
                                       <p className="pl-12">( {member.name} )</p>
                                     </div>
                                   ))}
@@ -715,18 +715,18 @@ export default function App() {
 
                             {/* Bottom Right: Receiver & Final Approval */}
                             <td className="w-1/2 border-t-2 border-black p-0 align-top">
-                              <div className="p-4 space-y-4 border-b-2 border-black min-h-[180px]">
-                                <p className="indent-8 leading-snug">ข้าพเจ้าได้รับมอบ{data.item}จำนวน ๑ รายการ ดังกล่าว เพื่อนำไปใช้งานแล้วตั้งแต่วันที่............................</p>
-                                <div className="pt-2 text-left pl-8">
+                              <div className="p-3 space-y-3 border-b-2 border-black min-h-[160px]">
+                                <p className="indent-8 leading-snug text-[12pt]">ข้าพเจ้าได้รับมอบ{data.item}จำนวน ๑ รายการ ดังกล่าว เพื่อนำไปใช้งานแล้วตั้งแต่วันที่............................</p>
+                                <div className="pt-1 text-left pl-6">
                                   <p>ลงชื่อ..............................................................(ผู้รับของ)</p>
                                   <p className="pl-12">( {data.receiver.name} )</p>
                                   <p className="pl-12">ตำแหน่ง {data.receiver.position}</p>
                                 </div>
                               </div>
 
-                              <div className="p-4 text-center flex flex-col justify-between min-h-[150px]">
-                                <p className="font-bold text-[15pt] leading-tight">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น {data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท ({data.totalAmountThai}) รวมภาษีมูลค่าเพิ่ม</p>
-                                <div className="mt-auto">
+                              <div className="p-3 text-center flex flex-col justify-between min-h-[130px]">
+                                <p className="font-bold text-[14pt] leading-tight">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น {data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท ({data.totalAmountThai}) รวมภาษีมูลค่าเพิ่ม</p>
+                                <div className="mt-4">
                                   <p>( {data.signer2.name} )</p>
                                   <p>{data.signer2.position}</p>
                                 </div>
@@ -736,9 +736,9 @@ export default function App() {
                         </tbody>
                       </table>
 
-                      <div className="mt-10 text-[12pt]">
+                      <div className="mt-4 text-[11pt]">
                         <p>จซ.(ฉ) ๐๐๑ – ป.๖๐</p>
-                        <p className="mt-2 text-[10pt]">**หมายเหตุ กรณีผู้ขาย/ผู้จ้าง ไม่ได้อยู่ในระบบ VAT ให้ระบุจำนวนเงินไม่รวมภาษีมูลค่าเพิ่ม (ปรับปรุงแบบฟอร์ม วันที่ ๑๘ ก.ย.๒๕๖๑)</p>
+                        <p className="mt-1 text-[9pt]">**หมายเหตุ กรณีผู้ขาย/ผู้จ้าง ไม่ได้อยู่ในระบบ VAT ให้ระบุจำนวนเงินไม่รวมภาษีมูลค่าเพิ่ม (ปรับปรุงแบบฟอร์ม วันที่ ๑๘ ก.ย.๒๕๖๑)</p>
                       </div>
                     </>
                   )}
