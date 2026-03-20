@@ -1,4 +1,12 @@
+export type FormType = 'APPROVAL' | 'ASSIGNMENT' | 'REPORT' | 'SUMMARY';
+
+export interface Signer {
+  name: string;
+  position: string;
+}
+
 export interface ProcurementDoc {
+  // Shared Fields
   from: string;
   to: string;
   docNumber: string;
@@ -7,6 +15,14 @@ export interface ProcurementDoc {
   subject: string;
   recipient: string;
   through: string;
+  department: string;
+  phone: string;
+  logoUrl: string;
+  item: string;
+  budgetYear: string;
+  wbs: string;
+
+  // Form 1: Approval specific
   infoSection: {
     requester: string;
     approvalRef: string;
@@ -14,19 +30,28 @@ export interface ProcurementDoc {
   };
   considerationSection: {
     requester: string;
-    item: string;
-    budgetYear: string;
-    wbs: string;
   };
-  signer1: {
-    name: string;
-    position: string;
-  };
-  signer2: {
-    name: string;
-    position: string;
-  };
-  department: string;
-  phone: string;
-  logoUrl: string;
+
+  // Form 2: Assignment specific
+  committee: Signer[];
+
+  // Form 3: Procurement Report specific
+  procurementMethod: string;
+  estimatedPrice: number;
+  reason: string;
+
+  // Form 4: Summary specific
+  supplierName: string;
+  contractNumber: string;
+  deliveryDate: string;
+  priceBeforeVat: number;
+  vatAmount: number;
+  totalAmount: number;
+  totalAmountThai: string;
+  receiver: Signer;
+
+  // Signers
+  signer1: Signer;
+  signer2: Signer;
+  signer3?: Signer;
 }
