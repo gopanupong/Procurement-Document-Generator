@@ -628,52 +628,59 @@ export default function App() {
                       </section>
 
                       {/* Signature Grid for Form 4 */}
-                      <div className="mt-8 grid grid-cols-2 gap-x-10 gap-y-12">
+                      <div className="mt-8 border-t-2 border-black pt-4 grid grid-cols-2 gap-0 relative">
+                        {/* Vertical Divider */}
+                        <div className="absolute left-1/2 top-4 bottom-0 w-0.5 bg-black"></div>
+
                         {/* Top Left: Approval Box */}
-                        <div className="border border-black p-4 text-center space-y-4">
-                          <p className="font-bold">เห็นชอบและอนุมัติสั่งซื้อ/สั่งจ้างดำเนินการได้ โดยปฏิบัติให้ถูกต้องตามระเบียบ</p>
-                          <div className="pt-8">
+                        <div className="border-2 border-black m-2 p-4 text-center flex flex-col justify-between min-h-[180px]">
+                          <p className="font-bold text-[15pt] leading-tight">เห็นชอบและอนุมัติสั่งซื้อ/สั่งจ้างดำเนินการได้ โดยปฏิบัติให้ถูกต้องตามระเบียบ</p>
+                          <div className="mt-auto">
                             <p>( {data.signer2.name} )</p>
                             <p>{data.signer2.position}</p>
                           </div>
                         </div>
 
                         {/* Top Right: Proposer */}
-                        <div className="text-center pt-8 space-y-1">
-                          <p>ลงชื่อ..............................................................</p>
-                          <p>( {data.signer1.name} )</p>
-                          <p>ตำแหน่ง {data.signer1.position}</p>
-                          <p>วันที่................................</p>
+                        <div className="p-4 text-left flex flex-col justify-end min-h-[180px]">
+                          <div className="ml-auto w-full max-w-[280px] space-y-1">
+                            <p>ลงชื่อ..............................................................</p>
+                            <div className="pl-4">
+                              <p>( {data.signer1.name} )</p>
+                              <p>ตำแหน่ง {data.signer1.position}</p>
+                              <p>วันที่................................</p>
+                            </div>
+                          </div>
                         </div>
 
                         {/* Bottom Left: Committee */}
-                        <div className="space-y-6">
+                        <div className="p-4 border-t-2 border-black space-y-4">
                           <p className="font-bold underline">เรียน อก.ปบ.(ก3)</p>
-                          <p className="indent-8">คณะกรรมการตรวจรับได้ทำการตรวจรับ {data.item} จำนวน ๑ รายการ เมื่อวันที่................................เห็นว่าถูกต้องครบถ้วน เห็นควรรับไว้ใช้งานและเบิกจ่ายเงิน ให้แก่ผู้ขาย/ผู้รับจ้างต่อไป</p>
-                          <div className="space-y-8 pt-4">
+                          <p className="indent-8 leading-snug">คณะกรรมการตรวจรับได้ทำการตรวจรับ {data.item} จำนวน ๑ รายการ เมื่อวันที่................................เห็นว่าถูกต้องครบถ้วน เห็นควรรับไว้ใช้งานและเบิกจ่ายเงิน ให้แก่ผู้ขาย/ผู้รับจ้างต่อไป</p>
+                          <div className="space-y-6 pt-2">
                             {data.committee.map((member, idx) => (
-                              <div key={idx} className="text-center">
+                              <div key={idx} className="text-left pl-4">
                                 <p>ลงชื่อ.......................................................................{idx === 0 ? 'ประธานกรรมการ' : 'กรรมการ'}</p>
-                                <p>( {member.name} )</p>
+                                <p className="pl-12">( {member.name} )</p>
                               </div>
                             ))}
                           </div>
                         </div>
 
                         {/* Bottom Right: Receiver & Final Approval */}
-                        <div className="space-y-12">
-                          <div className="text-center space-y-1">
-                            <p className="indent-8 text-left">ข้าพเจ้าได้รับมอบ{data.item}จำนวน ๑ รายการ ดังกล่าว เพื่อนำไปใช้งานแล้วตั้งแต่วันที่............................</p>
-                            <div className="pt-4">
+                        <div className="border-t-2 border-black">
+                          <div className="p-4 space-y-4 border-b-2 border-black min-h-[180px]">
+                            <p className="indent-8 leading-snug">ข้าพเจ้าได้รับมอบ{data.item}จำนวน ๑ รายการ ดังกล่าว เพื่อนำไปใช้งานแล้วตั้งแต่วันที่............................</p>
+                            <div className="pt-2 text-left pl-8">
                               <p>ลงชื่อ..............................................................(ผู้รับของ)</p>
-                              <p>( {data.receiver.name} )</p>
-                              <p>ตำแหน่ง {data.receiver.position}</p>
+                              <p className="pl-12">( {data.receiver.name} )</p>
+                              <p className="pl-12">ตำแหน่ง {data.receiver.position}</p>
                             </div>
                           </div>
 
-                          <div className="border border-black p-4 text-center space-y-4">
-                            <p className="font-bold">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น {data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท ({data.totalAmountThai}) รวมภาษีมูลค่าเพิ่ม</p>
-                            <div className="pt-8">
+                          <div className="p-4 text-center flex flex-col justify-between min-h-[150px]">
+                            <p className="font-bold text-[15pt] leading-tight">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น {data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท ({data.totalAmountThai}) รวมภาษีมูลค่าเพิ่ม</p>
+                            <div className="mt-auto">
                               <p>( {data.signer2.name} )</p>
                               <p>{data.signer2.position}</p>
                             </div>
