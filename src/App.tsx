@@ -35,9 +35,9 @@ const initialData: ProcurementDoc = {
     requester: "ผจศ.กปบ.(ก3)",
   },
   committee: [
-    { name: "นายภานุพงค์ เจนสุริยะกุล", position: "ประธานกรรมการ" },
-    { name: "นายสมชาย ใจดี", position: "กรรมการ" },
-    { name: "นายวิชัย รักชาติ", position: "กรรมการ" },
+    { name: "นายพชริศ กรุงกาญจนา", position: "ประธานกรรมการ" },
+    { name: "นายโชคชัย ชัยมาลา", position: "กรรมการ" },
+    { name: "นายธนาคาร สว่างเรือง", position: "กรรมการ" },
   ],
   procurementMethod: "เฉพาะเจาะจง",
   estimatedPrice: 15000,
@@ -98,6 +98,51 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-stone-100 font-sans text-slate-900">
+      {/* Global Print Styles */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @media print {
+          @page {
+            size: A4;
+            margin: 0;
+          }
+          body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white !important;
+            -webkit-print-color-adjust: exact;
+          }
+          .print-wrapper {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 210mm;
+            margin: 0;
+            padding: 0;
+            background: white;
+          }
+          .print-container {
+            width: 210mm !important;
+            min-height: 297mm !important;
+            margin: 0 !important;
+            padding: 20mm !important;
+            box-shadow: none !important;
+            border: none !important;
+            background: white !important;
+            display: block !important;
+            visibility: visible !important;
+          }
+          .no-print, nav, .form-selector, .navigation-buttons, .footer-guide {
+            display: none !important;
+          }
+          /* Hide everything else */
+          body > *:not(.print-wrapper-outer) {
+            display: none !important;
+          }
+          .print-wrapper-outer {
+            display: block !important;
+          }
+        }
+      `}} />
       {/* Navigation Bar */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200 px-6 py-4 flex justify-between items-center print:hidden">
         <div className="flex items-center gap-3">
@@ -453,16 +498,10 @@ export default function App() {
               </div>
             </motion.div>
           ) : (
-            <motion.div
-              key="preview"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="flex flex-col items-center"
-            >
+            <div className="print-wrapper-outer w-full flex flex-col items-center">
               <div 
                 ref={printRef}
-                className="bg-white shadow-2xl w-[210mm] min-h-[297mm] p-[25mm] text-black print:shadow-none print:p-0 print:m-0"
+                className="print-container bg-white shadow-2xl w-[210mm] min-h-[297mm] p-[20mm] text-black print:shadow-none"
                 style={{ 
                   fontFamily: "'TH Sarabun New', 'TH Sarabun PSK', 'Sarabun', sans-serif",
                   fontSize: "16pt",
@@ -627,66 +666,75 @@ export default function App() {
                         </p>
                       </section>
 
-                      {/* Signature Grid for Form 4 */}
-                      <div className="mt-8 border-t-2 border-black pt-4 grid grid-cols-2 gap-0 relative">
-                        {/* Vertical Divider */}
-                        <div className="absolute left-1/2 top-4 bottom-0 w-0.5 bg-black"></div>
-
-                        {/* Top Left: Approval Box */}
-                        <div className="border-2 border-black m-2 p-4 text-center flex flex-col justify-between min-h-[180px]">
-                          <p className="font-bold text-[15pt] leading-tight">เห็นชอบและอนุมัติสั่งซื้อ/สั่งจ้างดำเนินการได้ โดยปฏิบัติให้ถูกต้องตามระเบียบ</p>
-                          <div className="mt-auto">
-                            <p>( {data.signer2.name} )</p>
-                            <p>{data.signer2.position}</p>
-                          </div>
-                        </div>
-
-                        {/* Top Right: Proposer */}
-                        <div className="p-4 text-left flex flex-col justify-end min-h-[180px]">
-                          <div className="ml-auto w-full max-w-[280px] space-y-1">
-                            <p>ลงชื่อ..............................................................</p>
-                            <div className="pl-4">
-                              <p>( {data.signer1.name} )</p>
-                              <p>ตำแหน่ง {data.signer1.position}</p>
-                              <p>วันที่................................</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Bottom Left: Committee */}
-                        <div className="p-4 border-t-2 border-black space-y-4">
-                          <p className="font-bold underline">เรียน อก.ปบ.(ก3)</p>
-                          <p className="indent-8 leading-snug">คณะกรรมการตรวจรับได้ทำการตรวจรับ {data.item} จำนวน ๑ รายการ เมื่อวันที่................................เห็นว่าถูกต้องครบถ้วน เห็นควรรับไว้ใช้งานและเบิกจ่ายเงิน ให้แก่ผู้ขาย/ผู้รับจ้างต่อไป</p>
-                          <div className="space-y-6 pt-2">
-                            {data.committee.map((member, idx) => (
-                              <div key={idx} className="text-left pl-4">
-                                <p>ลงชื่อ.......................................................................{idx === 0 ? 'ประธานกรรมการ' : 'กรรมการ'}</p>
-                                <p className="pl-12">( {member.name} )</p>
+                      {/* Signature Grid for Form 4 (Using Table for Print Stability) */}
+                      <table className="w-full mt-8 border-collapse border-t-2 border-black text-[14pt]">
+                        <tbody>
+                          <tr>
+                            {/* Top Left: Approval Box */}
+                            <td className="w-1/2 border-r-2 border-black p-2 align-top">
+                              <div className="border-2 border-black m-1 p-4 text-center flex flex-col justify-between min-h-[180px]">
+                                <p className="font-bold text-[15pt] leading-tight">เห็นชอบและอนุมัติสั่งซื้อ/สั่งจ้างดำเนินการได้ โดยปฏิบัติให้ถูกต้องตามระเบียบ</p>
+                                <div className="mt-auto">
+                                  <p>( {data.signer2.name} )</p>
+                                  <p>{data.signer2.position}</p>
+                                </div>
                               </div>
-                            ))}
-                          </div>
-                        </div>
+                            </td>
 
-                        {/* Bottom Right: Receiver & Final Approval */}
-                        <div className="border-t-2 border-black">
-                          <div className="p-4 space-y-4 border-b-2 border-black min-h-[180px]">
-                            <p className="indent-8 leading-snug">ข้าพเจ้าได้รับมอบ{data.item}จำนวน ๑ รายการ ดังกล่าว เพื่อนำไปใช้งานแล้วตั้งแต่วันที่............................</p>
-                            <div className="pt-2 text-left pl-8">
-                              <p>ลงชื่อ..............................................................(ผู้รับของ)</p>
-                              <p className="pl-12">( {data.receiver.name} )</p>
-                              <p className="pl-12">ตำแหน่ง {data.receiver.position}</p>
-                            </div>
-                          </div>
+                            {/* Top Right: Proposer */}
+                            <td className="w-1/2 p-2 align-top">
+                              <div className="p-4 text-left flex flex-col justify-end min-h-[180px]">
+                                <div className="ml-auto w-full max-w-[280px] space-y-1">
+                                  <p>ลงชื่อ..............................................................</p>
+                                  <div className="pl-4">
+                                    <p>( {data.signer1.name} )</p>
+                                    <p>ตำแหน่ง {data.signer1.position}</p>
+                                    <p>วันที่................................</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
 
-                          <div className="p-4 text-center flex flex-col justify-between min-h-[150px]">
-                            <p className="font-bold text-[15pt] leading-tight">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น {data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท ({data.totalAmountThai}) รวมภาษีมูลค่าเพิ่ม</p>
-                            <div className="mt-auto">
-                              <p>( {data.signer2.name} )</p>
-                              <p>{data.signer2.position}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                          <tr>
+                            {/* Bottom Left: Committee */}
+                            <td className="w-1/2 border-t-2 border-r-2 border-black p-4 align-top">
+                              <div className="space-y-4">
+                                <p className="font-bold underline">เรียน อก.ปบ.(ก3)</p>
+                                <p className="indent-8 leading-snug">คณะกรรมการตรวจรับได้ทำการตรวจรับ {data.item} จำนวน ๑ รายการ เมื่อวันที่................................เห็นว่าถูกต้องครบถ้วน เห็นควรรับไว้ใช้งานและเบิกจ่ายเงิน ให้แก่ผู้ขาย/ผู้รับจ้างต่อไป</p>
+                                <div className="space-y-6 pt-2">
+                                  {data.committee.map((member, idx) => (
+                                    <div key={idx} className="text-left pl-4">
+                                      <p>ลงชื่อ.......................................................................{idx === 0 ? 'ประธานกรรมการ' : 'กรรมการ'}</p>
+                                      <p className="pl-12">( {member.name} )</p>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </td>
+
+                            {/* Bottom Right: Receiver & Final Approval */}
+                            <td className="w-1/2 border-t-2 border-black p-0 align-top">
+                              <div className="p-4 space-y-4 border-b-2 border-black min-h-[180px]">
+                                <p className="indent-8 leading-snug">ข้าพเจ้าได้รับมอบ{data.item}จำนวน ๑ รายการ ดังกล่าว เพื่อนำไปใช้งานแล้วตั้งแต่วันที่............................</p>
+                                <div className="pt-2 text-left pl-8">
+                                  <p>ลงชื่อ..............................................................(ผู้รับของ)</p>
+                                  <p className="pl-12">( {data.receiver.name} )</p>
+                                  <p className="pl-12">ตำแหน่ง {data.receiver.position}</p>
+                                </div>
+                              </div>
+
+                              <div className="p-4 text-center flex flex-col justify-between min-h-[150px]">
+                                <p className="font-bold text-[15pt] leading-tight">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น {data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท ({data.totalAmountThai}) รวมภาษีมูลค่าเพิ่ม</p>
+                                <div className="mt-auto">
+                                  <p>( {data.signer2.name} )</p>
+                                  <p>{data.signer2.position}</p>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
 
                       <div className="mt-10 text-[12pt]">
                         <p>จซ.(ฉ) ๐๐๑ – ป.๖๐</p>
@@ -741,7 +789,7 @@ export default function App() {
                   <p className="text-sm opacity-90">เมื่อกดปุ่มพิมพ์ ให้เลือก "ปลายทาง" (Destination) เป็น <strong>"บันทึกเป็น PDF" (Save as PDF)</strong> เพื่อดาวน์โหลดไฟล์ลงเครื่องครับ</p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           )}
         </AnimatePresence>
       </main>
