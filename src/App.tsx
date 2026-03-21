@@ -8,38 +8,45 @@ import { ProcurementDoc, FormType } from './types';
 import { Printer, Eye, Edit3, Download, ChevronLeft, FileText, CheckCircle2, ClipboardList, FileCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
-const PEA_LOGO_URL = "https://upload.wikimedia.org/wikipedia/th/thumb/0/05/Provincial_Electricity_Authority_Logo.svg/1200px-Provincial_Electricity_Authority_Logo.svg.png";
+const PEA_LOGO_SVG = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="100" height="100">
+  <circle cx="150" cy="150" r="140" fill="none" stroke="#7B2CBF" stroke-width="12"/>
+  <path d="M100 80 H200 V140 H140 V220 H100 Z" fill="#7B2CBF"/>
+  <path d="M160 140 H220 L160 220 Z" fill="#7B2CBF"/>
+  <path d="M130 140 L150 170 L170 140 Z" fill="#7B2CBF"/>
+</svg>
+`;
 
 const initialData: ProcurementDoc = {
-  from: "ผจศ.กปบ.(ก3)",
+  from: "ผจศ.ปบ.(ก3)",
   to: "กปบ.(ก3)",
   docNumber: "ก.3 กปบ.(จศ) /",
   docYear: "2569",
   date: "16 มี.ค. 2569",
-  subject: "ขออนุมัติความเห็นชอบดำเนินการจัดซื้อสว่านโรตารี่ไร้สาย จำนวน 1 เครื่อง",
+  subject: "รายงานสรุปผลการพิจารณาตรวจรับ และอนุมัติจ่ายเงินซื้อสว่านโรตารี่ไร้สาย",
   recipient: "อก.ปบ.(ก3)",
   through: "รก.ปบ.(ก3)",
   department: "แผนกจัดการงานศูนย์สั่งการ",
   phone: "10500-32",
-  logoUrl: "https://upload.wikimedia.org/wikipedia/th/thumb/0/05/Provincial_Electricity_Authority_Logo.svg/512px-Provincial_Electricity_Authority_Logo.svg.png",
+  logoUrl: "",
   item: "สว่านโรตารี่ไร้สาย",
   budgetYear: "2569",
   wbs: "I-69-I-OPDXX.19.2301",
   
   infoSection: {
-    requester: "ผจศ.กปบ.(ก3)",
+    requester: "ผจศ.ปบ.(ก3)",
     approvalRef: "ก.3 กบฟ.(งป) 117/2568",
     approvalDate: "16 ม.ค. 2569",
   },
   considerationSection: {
-    requester: "ผจศ.กปบ.(ก3)",
+    requester: "ผจศ.ปบ.(ก3)",
   },
   committee: [
-    { name: "นายภานุพงค์ เจนสุริยะกุล", position: "ประธานกรรมการ" },
-    { name: "นายสมชาย ใจดี", position: "กรรมการ" },
-    { name: "นายวิชัย รักชาติ", position: "กรรมการ" },
+    { name: "นายพชริศ กรุงกาญจนา", position: "ประธานกรรมการ" },
+    { name: "นายโชคชัย ชัยมาลา", position: "กรรมการ" },
+    { name: "นายธนาคาร สว่างเรือง", position: "กรรมการ" },
   ],
-  procurementMethod: "เฉพาะเจาะจง",
+  procurementMethod: "โดยวิธีเฉพาะเจาะจง",
   estimatedPrice: 15000,
   reason: "เพื่อใช้ในการปฏิบัติงานซ่อมบำรุงอุปกรณ์ในศูนย์สั่งการ",
   supplierName: "บริษัท เอ็นดับเบิ้ลยู วินซ์ จำกัด (สำนักงานใหญ่)",
@@ -49,10 +56,10 @@ const initialData: ProcurementDoc = {
   vatAmount: 964.60,
   totalAmount: 14744.60,
   totalAmountThai: "หนึ่งหมื่นสี่พันเจ็ดร้อยสี่สิบสี่บาทหกสิบสตางค์",
-  receiver: { name: "นายกฤษณะ ปอยงาม", position: "ชผ.จศ กปบ.(ก3)" },
+  receiver: { name: "นายกฤษณะ ปอยงาม", position: "ชผ.จศ.กปบ.(ก3)" },
   signer1: {
-    name: "นายกานุพงศ์ เจนสุริยะกุล",
-    position: "ผช.จศ กปบ.(ก3)",
+    name: "นายภานุพงศ์ เจนสุริยะกุล",
+    position: "หผ.จศ.กปบ.(ก3)",
   },
   signer2: {
     name: "นายเลอพงศ์ แก่นจันทร์",
@@ -530,36 +537,52 @@ export default function App() {
               <div className="print-container bg-white shadow-2xl border border-stone-200 p-[1.5cm] min-h-[297mm] w-[210mm] text-[15pt] leading-normal font-serif text-black relative flex flex-col">
                 {/* Header */}
                 <div className="flex items-start mb-4">
-                  <img src={data.logoUrl || PEA_LOGO_URL} alt="PEA Logo" className="w-16 h-16 object-contain" referrerPolicy="no-referrer" />
-                  <div className="flex-1 text-center pr-16">
-                    <h2 className="text-3xl font-bold font-serif">บันทึกข้อความ</h2>
+                  <div className="flex flex-col items-center w-40 shrink-0">
+                    {data.logoUrl ? (
+                      <img src={data.logoUrl} alt="PEA Logo" className="w-16 h-16 object-contain" referrerPolicy="no-referrer" />
+                    ) : (
+                      <div dangerouslySetInnerHTML={{ __html: PEA_LOGO_SVG }} className="w-16 h-16" />
+                    )}
+                    <div className="text-center mt-1 leading-tight">
+                      <p className="text-[11pt] font-bold">การไฟฟ้าส่วนภูมิภาค</p>
+                      <p className="text-[7pt]">PROVINCIAL ELECTRICITY AUTHORITY</p>
+                    </div>
                   </div>
+                  <div className="flex-1 text-center pt-8">
+                    <h2 className="text-4xl font-bold font-serif">บันทึกข้อความ</h2>
+                  </div>
+                  <div className="w-40 shrink-0"></div> {/* Spacer for symmetry */}
                 </div>
 
                 <div className="space-y-1 mb-6 text-[15pt]">
-                  <div className="flex">
-                    <span className="font-bold w-24 shrink-0">ส่วนราชการ</span>
-                    <span className="flex-1 border-b border-dotted border-black/30 pb-0.5">{data.from} {data.department} โทร. {data.phone}</span>
-                  </div>
-                  <div className="flex gap-4">
+                  <div className="flex gap-8">
                     <div className="flex flex-1">
-                      <span className="font-bold w-12 shrink-0">ที่</span>
-                      <span className="flex-1 border-b border-dotted border-black/30 pb-0.5">{data.docNumber}{data.docYear}</span>
+                      <span className="font-bold w-14 shrink-0">จาก</span>
+                      <span className="flex-1 border-b border-dotted border-black/40 pb-0.5">{data.from}</span>
                     </div>
                     <div className="flex flex-1">
-                      <span className="font-bold w-12 shrink-0">วันที่</span>
-                      <span className="flex-1 border-b border-dotted border-black/30 pb-0.5">{data.date}</span>
+                      <span className="font-bold w-14 shrink-0">ถึง</span>
+                      <span className="flex-1 border-b border-dotted border-black/40 pb-0.5">{data.to}</span>
+                    </div>
+                  </div>
+                  <div className="flex gap-8">
+                    <div className="flex flex-1">
+                      <span className="font-bold w-14 shrink-0">เลขที่</span>
+                      <span className="flex-1 border-b border-dotted border-black/40 pb-0.5">{data.docNumber} {data.docYear}</span>
+                    </div>
+                    <div className="flex flex-1">
+                      <span className="font-bold w-14 shrink-0">วันที่</span>
+                      <span className="flex-1 border-b border-dotted border-black/40 pb-0.5">{data.date}</span>
                     </div>
                   </div>
                   <div className="flex">
-                    <span className="font-bold w-12 shrink-0">เรื่อง</span>
-                    <span className="flex-1 border-b border-dotted border-black/30 pb-0.5">{data.subject}</span>
+                    <span className="font-bold w-14 shrink-0">เรื่อง</span>
+                    <span className="flex-1 border-b border-dotted border-black/40 pb-0.5">{data.subject}</span>
                   </div>
                 </div>
 
-                <div className="mb-6">
-                  <span className="font-bold">เรียน</span> {data.recipient}
-                  {data.through && <span className="ml-2">ผ่าน {data.through}</span>}
+                <div className="mb-6 text-[15pt]">
+                  <span className="font-bold">เรียน</span> {data.recipient} {data.through && <span className="ml-2">ผ่าน {data.through}</span>}
                 </div>
 
                 {/* Main Content */}
@@ -567,22 +590,22 @@ export default function App() {
                   {currentForm === 'APPROVAL' && (
                     <div className="space-y-6">
                       <section>
-                        <h3 className="font-bold mb-1 ml-[2.5cm]">๑. ข้อมูล</h3>
-                        <p className="ml-[3.5cm] leading-relaxed">
+                        <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ข้อมูล</h3>
+                        <p className="indent-[2.5cm] leading-relaxed">
                           {data.infoSection.requester} จัดซื้อตามอนุมัติที่ {data.infoSection.approvalRef} ลว. {data.infoSection.approvalDate}
                         </p>
                       </section>
 
                       <section>
-                        <h3 className="font-bold mb-1 ml-[2.5cm]">๒. ข้อพิจารณา</h3>
-                        <p className="ml-[3.5cm] leading-relaxed">
+                        <h3 className="font-bold mb-1 indent-[2.5cm]">๒. ข้อพิจารณา</h3>
+                        <p className="indent-[2.5cm] leading-relaxed">
                           {data.from} ได้พิจารณาแล้ว เพื่อให้มีความพร้อมในการใช้งาน จึงจำเป็นต้องทำการ
                           จัดซื้อ{data.item} จึงเห็นควรดำเนินการจัดซื้อดังกล่าว โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการ
                           จัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ พ.ศ. ๒๕๖๐ จึงขออนุมัติความเห็นชอบดำเนินการจัดซื้ออุปกรณ์ดังกล่าว 
                           โดยให้เบิกจ่ายจากงบทำการประจำปี {data.budgetYear} จากงบลงทุน หมายเลขงาน (WBS) 
                           {data.wbs} ต่อไป
                         </p>
-                        <p className="ml-[3.5cm] mt-6">
+                        <p className="indent-[2.5cm] mt-6">
                           จึงเรียนมาเพื่อโปรดพิจารณาหากเห็นชอบและโปรดลงนามให้ต่อไป
                         </p>
                       </section>
@@ -592,24 +615,24 @@ export default function App() {
                   {currentForm === 'ASSIGNMENT' && (
                     <div className="space-y-6">
                       <section>
-                        <h3 className="font-bold mb-1 ml-[2.5cm]">๑. ข้อมูล</h3>
-                        <p className="ml-[3.5cm] leading-relaxed">
+                        <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ข้อมูล</h3>
+                        <p className="indent-[2.5cm] leading-relaxed">
                           ตามที่ {data.from} ได้รับอนุมัติให้ดำเนินการจัดซื้อ {data.item} ตามบันทึกที่ {data.docNumber}{data.docYear} ลว. {data.date} นั้น
                         </p>
                       </section>
 
                       <section>
-                        <h3 className="font-bold mb-1 ml-[2.5cm]">๒. ข้อพิจารณา</h3>
-                        <p className="ml-[3.5cm] leading-relaxed">
+                        <h3 className="font-bold mb-1 indent-[2.5cm]">๒. ข้อพิจารณา</h3>
+                        <p className="indent-[2.5cm] leading-relaxed">
                           เพื่อให้การดำเนินการจัดทำคุณลักษณะของพัสดุเป็นไปด้วยความเรียบร้อยและถูกต้องตามระเบียบ 
                           จึงขอแต่งตั้งคณะกรรมการจัดทำคุณลักษณะและกำหนดราคากลาง ดังนี้
                         </p>
-                        <div className="ml-[4.5cm] mt-4 space-y-2">
+                        <div className="ml-[3.5cm] mt-4 space-y-2">
                           {data.committee.map((member, index) => (
                             <p key={index}>{index + 1}. {member.name} ตำแหน่ง {member.position}</p>
                           ))}
                         </div>
-                        <p className="ml-[3.5cm] mt-8">
+                        <p className="indent-[2.5cm] mt-8">
                           จึงเรียนมาเพื่อโปรดพิจารณาแต่งตั้งคณะกรรมการดังกล่าวต่อไป
                         </p>
                       </section>
@@ -619,20 +642,20 @@ export default function App() {
                   {currentForm === 'REPORT' && (
                     <div className="space-y-6">
                       <section>
-                        <h3 className="font-bold mb-1 ml-[2.5cm]">๑. ความเป็นมา</h3>
-                        <p className="ml-[3.5cm] leading-relaxed">
+                        <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ความเป็นมา</h3>
+                        <p className="indent-[2.5cm] leading-relaxed">
                           {data.reason}
                         </p>
                       </section>
 
                       <section>
-                        <h3 className="font-bold mb-1 ml-[2.5cm]">๒. รายละเอียดการจัดซื้อ</h3>
-                        <p className="ml-[3.5cm] leading-relaxed">
+                        <h3 className="font-bold mb-1 indent-[2.5cm]">๒. รายละเอียดการจัดซื้อ</h3>
+                        <p className="indent-[2.5cm] leading-relaxed">
                           ดำเนินการจัดซื้อ {data.item} โดยวิธี {data.procurementMethod} 
                           ราคากลางเป็นเงิน {data.estimatedPrice.toLocaleString()} บาท (รวมภาษีมูลค่าเพิ่ม)
                           โดยใช้เงินงบประมาณปี {data.budgetYear} หมายเลขงาน {data.wbs}
                         </p>
-                        <p className="ml-[3.5cm] mt-8">
+                        <p className="indent-[2.5cm] mt-8">
                           จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติรายงานขอซื้อ/จ้างดังกล่าว
                         </p>
                       </section>
@@ -642,18 +665,18 @@ export default function App() {
                   {currentForm === 'SUMMARY' && (
                     <div className="space-y-4">
                       <section className="mt-1">
-                        <p className="indent-[2cm] leading-relaxed">
-                          ตามที่ {data.from} ดำเนินการจัดซื้อ{data.item}โดยวิธี{data.procurementMethod} ขอรายงานผลการพิจารณาการจัดซื้อ ดังนี้
+                        <p className="indent-[2.5cm] leading-relaxed">
+                          ตามที่ {data.from} ดำเนินการซื้อ{data.item}โดยวิธี{data.procurementMethod} ขอรายงานผลการพิจารณาการจัดซื้อ ดังนี้
                         </p>
                         
                         <table className="w-full mt-4 border-collapse border border-black text-[14pt]">
                           <thead>
-                            <tr className="bg-stone-50">
-                              <th className="border border-black p-2 w-12 text-center">ที่</th>
-                              <th className="border border-black p-2 text-center">รายการ</th>
-                              <th className="border border-black p-2 text-center w-32">ราคาที่เสนอ</th>
-                              <th className="border border-black p-2 text-center w-32">ภาษีมูลค่าเพิ่ม</th>
-                              <th className="border border-black p-2 text-center w-40">ราคาที่ตกลงซื้อ<br/>(รวมภาษีมูลค่าเพิ่ม)</th>
+                            <tr className="bg-stone-50 font-bold">
+                              <th className="border border-black p-2 w-12 text-center font-bold">ที่</th>
+                              <th className="border border-black p-2 text-center font-bold">รายการ</th>
+                              <th className="border border-black p-2 text-center w-32 font-bold">ราคาที่เสนอ</th>
+                              <th className="border border-black p-2 text-center w-32 font-bold">ภาษีมูลค่าเพิ่ม</th>
+                              <th className="border border-black p-2 text-center w-40 font-bold">ราคาที่ตกลงซื้อ<br/>(รวมภาษีมูลค่าเพิ่ม)</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -665,7 +688,7 @@ export default function App() {
                               <td className="border border-black p-2 text-right">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
                             </tr>
                             <tr className="font-bold">
-                              <td colSpan={2} className="border border-black p-2 text-center uppercase">รวม</td>
+                              <td colSpan={2} className="border border-black p-2 text-center">รวม</td>
                               <td className="border border-black p-2 text-right">{data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
                               <td className="border border-black p-2 text-right">{data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
                               <td className="border border-black p-2 text-right">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
@@ -673,25 +696,25 @@ export default function App() {
                           </tbody>
                         </table>
 
-                        <p className="mt-4 indent-[2cm] leading-relaxed">
+                        <p className="mt-4 indent-[2.5cm] leading-relaxed">
                           {data.from} พิจารณาแล้ว เห็นสมควรจัดซื้อ จาก {data.supplierName} จำนวนเงิน {data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท 
                           ภาษีมูลค่าเพิ่ม {data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท เป็นเงินทั้งสิ้น {data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท ({data.totalAmountThai}) รวมภาษีมูลค่าเพิ่ม
                         </p>
-                        <p className="mt-2 indent-[2cm] leading-relaxed">
+                        <p className="mt-2 indent-[2.5cm] leading-relaxed">
                           จึงเรียนมาเพื่อโปรดพิจารณา หากเห็นชอบ ขอได้โปรดอนุมัติให้สั่งซื้อ จากผู้เสนอราคาดังกล่าว พร้อมทั้งแจ้งคณะกรรมการตรวจรับ 
                           ดำเนินการต่อไป
                         </p>
                       </section>
 
                       {/* Signature Grid for Form 4 */}
-                      <table className="w-full mt-6 border-collapse border-t-2 border-black text-[13pt] [page-break-inside:avoid]">
+                      <table className="w-full mt-4 border-collapse border-t-2 border-black text-[13pt] [page-break-inside:avoid]">
                         <tbody>
                           <tr>
                             {/* Top Left: Approval Box */}
                             <td className="w-1/2 border-r-2 border-black p-1 align-top">
-                              <div className="border-2 border-black m-1 p-3 text-center flex flex-col justify-between min-h-[140px]">
+                              <div className="p-3 text-left flex flex-col justify-between min-h-[160px]">
                                 <p className="font-bold text-[14pt] leading-tight">เห็นชอบและอนุมัติสั่งซื้อ/สั่งจ้างดำเนินการได้ โดยปฏิบัติให้ถูกต้องตามระเบียบ</p>
-                                <div className="mt-4">
+                                <div className="mt-12 text-center">
                                   <p>( {data.signer2.name} )</p>
                                   <p>{data.signer2.position}</p>
                                 </div>
@@ -700,7 +723,7 @@ export default function App() {
 
                             {/* Top Right: Proposer */}
                             <td className="w-1/2 p-1 align-top">
-                              <div className="p-3 text-right flex flex-col justify-end min-h-[140px]">
+                              <div className="p-3 text-right flex flex-col justify-end min-h-[160px]">
                                 <div className="inline-block text-left space-y-1">
                                   <p>ลงชื่อ..............................................................</p>
                                   <div className="pl-4">
@@ -719,7 +742,7 @@ export default function App() {
                               <div className="space-y-3">
                                 <p className="font-bold underline">เรียน อก.ปบ.(ก3)</p>
                                 <p className="indent-8 leading-snug text-[12pt]">คณะกรรมการตรวจรับได้ทำการตรวจรับ {data.item} จำนวน ๑ รายการ เมื่อวันที่................................เห็นว่าถูกต้องครบถ้วน เห็นควรรับไว้ใช้งานและเบิกจ่ายเงิน ให้แก่ผู้ขาย/ผู้รับจ้างต่อไป</p>
-                                <div className="space-y-4 pt-1">
+                                <div className="space-y-6 pt-2">
                                   {data.committee.map((member, idx) => (
                                     <div key={idx} className="text-left pl-2">
                                       <p className="whitespace-nowrap">ลงชื่อ.......................................................................{idx === 0 ? 'ประธานกรรมการ' : 'กรรมการ'}</p>
@@ -732,18 +755,20 @@ export default function App() {
 
                             {/* Bottom Right: Receiver & Final Approval */}
                             <td className="w-1/2 border-t-2 border-black p-0 align-top">
-                              <div className="p-3 space-y-3 border-b-2 border-black min-h-[160px]">
+                              <div className="p-3 space-y-3 border-b-2 border-black min-h-[180px]">
                                 <p className="indent-8 leading-snug text-[12pt]">ข้าพเจ้าได้รับมอบ{data.item}จำนวน ๑ รายการ ดังกล่าว เพื่อนำไปใช้งานแล้วตั้งแต่วันที่............................</p>
-                                <div className="pt-1 text-left pl-6">
+                                <div className="pt-4 text-left pl-6">
                                   <p>ลงชื่อ..............................................................(ผู้รับของ)</p>
-                                  <p className="pl-12">( {data.receiver.name} )</p>
-                                  <p className="pl-12">ตำแหน่ง {data.receiver.position}</p>
+                                  <div className="pl-12">
+                                    <p>( {data.receiver.name} )</p>
+                                    <p>ตำแหน่ง {data.receiver.position}</p>
+                                  </div>
                                 </div>
                               </div>
 
-                              <div className="p-3 text-center flex flex-col justify-between min-h-[130px]">
-                                <p className="font-bold text-[14pt] leading-tight">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น {data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท ({data.totalAmountThai}) รวมภาษีมูลค่าเพิ่ม</p>
-                                <div className="mt-4">
+                              <div className="p-3 text-center flex flex-col justify-between min-h-[140px]">
+                                <p className="font-bold text-[13pt] leading-tight">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น {data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท ({data.totalAmountThai}) รวมภาษีมูลค่าเพิ่ม</p>
+                                <div className="mt-8">
                                   <p>( {data.signer2.name} )</p>
                                   <p>{data.signer2.position}</p>
                                 </div>
@@ -753,7 +778,7 @@ export default function App() {
                         </tbody>
                       </table>
 
-                      <div className="mt-4 text-[11pt]">
+                      <div className="mt-auto pt-4 text-[11pt]">
                         <p>จซ.(ฉ) ๐๐๑ – ป.๖๐</p>
                         <p className="mt-1 text-[9pt]">**หมายเหตุ กรณีผู้ขาย/ผู้จ้าง ไม่ได้อยู่ในระบบ VAT ให้ระบุจำนวนเงินไม่รวมภาษีมูลค่าเพิ่ม (ปรับปรุงแบบฟอร์ม วันที่ ๑๘ ก.ย.๒๕๖๑)</p>
                       </div>
@@ -764,24 +789,25 @@ export default function App() {
                 {/* Signatures (Hidden for Form 4 as it has custom grid) */}
                 {currentForm !== 'SUMMARY' && (
                   <div className="mt-auto">
-                    <div className="mt-20 flex justify-end pr-20">
+                    <div className="flex justify-end pr-10">
                       <div className="text-center w-80 space-y-1">
-                        <p className="mb-10">(......................................................)</p>
-                        <p>({data.signer1.name})</p>
-                        <p>{data.signer1.position}</p>
+                        <p className="mb-10">ลงชื่อ..............................................................</p>
+                        <p>( {data.signer1.name} )</p>
+                        <p>ตำแหน่ง {data.signer1.position}</p>
                       </div>
                     </div>
 
-                    <div className="mt-16 space-y-12">
-                      <div className="ml-[0cm]">
-                        <p>-{data.from} เห็นชอบอนุมัติให้ดำเนินการ</p>
+                    <div className="mt-12 space-y-8">
+                      <div className="ml-[1cm]">
+                        <p className="font-bold underline">ความเห็นของ {data.signer2.position}</p>
+                        <p className="mt-2">- เห็นชอบและอนุมัติให้ดำเนินการได้</p>
                       </div>
                       
-                      <div className="flex justify-end pr-20">
+                      <div className="flex justify-end pr-10">
                         <div className="text-center w-80 space-y-1">
-                          <p className="mb-10">(......................................................)</p>
-                          <p>({data.signer2.name})</p>
-                          <p>{data.signer2.position}</p>
+                          <p className="mb-10">ลงชื่อ..............................................................</p>
+                          <p>( {data.signer2.name} )</p>
+                          <p>ตำแหน่ง {data.signer2.position}</p>
                         </div>
                       </div>
                     </div>
