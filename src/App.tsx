@@ -110,7 +110,7 @@ export default function App() {
         @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
         
         body {
-          font-family: 'TH Sarabun New', 'TH Sarabun PSK', 'Sarabun', sans-serif;
+          font-family: 'TH SarabunPSK', 'TH Sarabun New', 'Sarabun', sans-serif;
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
           text-rendering: optimizeLegibility;
@@ -168,14 +168,15 @@ export default function App() {
 
           .print-container {
             width: 210mm !important;
-            min-height: 297mm !important;
+            height: 297mm !important;
             margin: 0 !important;
-            padding: 15mm !important;
+            padding: 20mm 15mm 15mm 25mm !important; /* Standard Thai Gov margins: Top 2cm, Right 1.5cm, Bottom 1.5cm, Left 2.5cm */
             box-shadow: none !important;
             border: none !important;
             background: white !important;
             color: black !important;
-            font-family: 'TH Sarabun New', 'TH Sarabun PSK', 'Sarabun', sans-serif !important;
+            font-family: 'TH SarabunPSK', 'TH Sarabun New', 'Sarabun', sans-serif !important;
+            font-size: 14pt !important;
           }
           
           /* Ensure images show up */
@@ -534,7 +535,7 @@ export default function App() {
             </div>
           ) : (
             <div className="print-wrapper-outer p-4 md:p-8 flex justify-center">
-              <div className="print-container bg-white shadow-2xl border border-stone-200 p-[1.5cm] min-h-[297mm] w-[210mm] text-[15pt] leading-normal font-serif text-black relative flex flex-col">
+              <div className="print-container bg-white shadow-2xl border border-stone-200 p-[1.5cm] min-h-[297mm] w-[210mm] text-[14pt] leading-normal font-serif text-black relative flex flex-col">
                 {/* Header */}
                 <div className="flex items-start mb-4">
                   <div className="flex flex-col items-center w-40 shrink-0">
@@ -554,7 +555,7 @@ export default function App() {
                   <div className="w-40 shrink-0"></div> {/* Spacer for symmetry */}
                 </div>
 
-                <div className="space-y-1 mb-6 text-[15pt]">
+                <div className="space-y-1 mb-6 text-[14pt]">
                   <div className="flex gap-8">
                     <div className="flex flex-1">
                       <span className="font-bold w-14 shrink-0">จาก</span>
@@ -581,14 +582,14 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="mb-6 text-[15pt]">
+                <div className="mb-6 text-[14pt]">
                   <span className="font-bold">เรียน</span> {data.recipient} {data.through && <span className="ml-2">ผ่าน {data.through}</span>}
                 </div>
 
                 {/* Main Content */}
                 <div className="flex-1">
                   {currentForm === 'APPROVAL' && (
-                    <div className="space-y-6">
+                    <div className="space-y-6 text-[14pt]">
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ข้อมูล</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
@@ -613,7 +614,7 @@ export default function App() {
                   )}
 
                   {currentForm === 'ASSIGNMENT' && (
-                    <div className="space-y-6">
+                    <div className="space-y-6 text-[14pt]">
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ข้อมูล</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
@@ -640,7 +641,7 @@ export default function App() {
                   )}
 
                   {currentForm === 'REPORT' && (
-                    <div className="space-y-6">
+                    <div className="space-y-6 text-[14pt]">
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ความเป็นมา</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
@@ -663,7 +664,7 @@ export default function App() {
                   )}
 
                   {currentForm === 'SUMMARY' && (
-                    <div className="space-y-4">
+                    <div className="space-y-4 text-[14pt]">
                       <section className="mt-1">
                         <p className="indent-[2.5cm] leading-relaxed">
                           ตามที่ {data.from} ดำเนินการซื้อ{data.item}โดยวิธี{data.procurementMethod} ขอรายงานผลการพิจารณาการจัดซื้อ ดังนี้
@@ -672,42 +673,42 @@ export default function App() {
                         <table className="w-full mt-4 border-collapse border border-black text-[14pt]">
                           <thead>
                             <tr className="bg-stone-50 font-bold">
-                              <th className="border border-black p-2 w-12 text-center font-bold">ที่</th>
-                              <th className="border border-black p-2 text-center font-bold">รายการ</th>
-                              <th className="border border-black p-2 text-center w-32 font-bold">ราคาที่เสนอ</th>
-                              <th className="border border-black p-2 text-center w-32 font-bold">ภาษีมูลค่าเพิ่ม</th>
-                              <th className="border border-black p-2 text-center w-40 font-bold">ราคาที่ตกลงซื้อ<br/>(รวมภาษีมูลค่าเพิ่ม)</th>
+                              <th className="border border-black p-1 w-12 text-center font-bold">ที่</th>
+                              <th className="border border-black p-1 text-center font-bold">รายการ</th>
+                              <th className="border border-black p-1 text-center w-32 font-bold">ราคาที่เสนอ</th>
+                              <th className="border border-black p-1 text-center w-32 font-bold">ภาษีมูลค่าเพิ่ม</th>
+                              <th className="border border-black p-1 text-center w-40 font-bold">ราคาที่ตกลงซื้อ<br/>(รวมภาษีมูลค่าเพิ่ม)</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
-                              <td className="border border-black p-2 text-center">๑</td>
-                              <td className="border border-black p-2">{data.item}</td>
-                              <td className="border border-black p-2 text-right">{data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
-                              <td className="border border-black p-2 text-right">{data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
-                              <td className="border border-black p-2 text-right">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                              <td className="border border-black p-1 text-center">๑</td>
+                              <td className="border border-black p-1">{data.item}</td>
+                              <td className="border border-black p-1 text-right">{data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                              <td className="border border-black p-1 text-right">{data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                              <td className="border border-black p-1 text-right">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
                             </tr>
                             <tr className="font-bold">
-                              <td colSpan={2} className="border border-black p-2 text-center">รวม</td>
-                              <td className="border border-black p-2 text-right">{data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
-                              <td className="border border-black p-2 text-right">{data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
-                              <td className="border border-black p-2 text-right">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                              <td colSpan={2} className="border border-black p-1 text-center font-bold">รวม</td>
+                              <td className="border border-black p-1 text-right">{data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                              <td className="border border-black p-1 text-right">{data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                              <td className="border border-black p-1 text-right">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
                             </tr>
                           </tbody>
                         </table>
 
-                        <p className="mt-4 indent-[2.5cm] leading-relaxed">
+                        <p className="mt-4 indent-[1.5cm] leading-relaxed">
                           {data.from} พิจารณาแล้ว เห็นสมควรจัดซื้อ จาก {data.supplierName} จำนวนเงิน {data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท 
                           ภาษีมูลค่าเพิ่ม {data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท เป็นเงินทั้งสิ้น {data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท ({data.totalAmountThai}) รวมภาษีมูลค่าเพิ่ม
                         </p>
-                        <p className="mt-2 indent-[2.5cm] leading-relaxed">
+                        <p className="mt-2 indent-[1.5cm] leading-relaxed">
                           จึงเรียนมาเพื่อโปรดพิจารณา หากเห็นชอบ ขอได้โปรดอนุมัติให้สั่งซื้อ จากผู้เสนอราคาดังกล่าว พร้อมทั้งแจ้งคณะกรรมการตรวจรับ 
                           ดำเนินการต่อไป
                         </p>
                       </section>
 
                       {/* Signature Grid for Form 4 */}
-                      <table className="w-full mt-4 border-collapse border-t-2 border-black text-[13pt] [page-break-inside:avoid]">
+                      <table className="w-full mt-4 border-collapse border-t-2 border-black text-[14pt] [page-break-inside:avoid]">
                         <tbody>
                           <tr>
                             {/* Top Left: Approval Box */}
@@ -741,7 +742,7 @@ export default function App() {
                             <td className="w-1/2 border-t-2 border-r-2 border-black p-3 align-top">
                               <div className="space-y-3">
                                 <p className="font-bold underline">เรียน อก.ปบ.(ก3)</p>
-                                <p className="indent-8 leading-snug text-[12pt]">คณะกรรมการตรวจรับได้ทำการตรวจรับ {data.item} จำนวน ๑ รายการ เมื่อวันที่................................เห็นว่าถูกต้องครบถ้วน เห็นควรรับไว้ใช้งานและเบิกจ่ายเงิน ให้แก่ผู้ขาย/ผู้รับจ้างต่อไป</p>
+                                <p className="indent-8 leading-snug text-[14pt]">คณะกรรมการตรวจรับได้ทำการตรวจรับ {data.item} จำนวน ๑ รายการ เมื่อวันที่................................เห็นว่าถูกต้องครบถ้วน เห็นควรรับไว้ใช้งานและเบิกจ่ายเงิน ให้แก่ผู้ขาย/ผู้รับจ้างต่อไป</p>
                                 <div className="space-y-6 pt-2">
                                   {data.committee.map((member, idx) => (
                                     <div key={idx} className="text-left pl-2">
@@ -756,7 +757,7 @@ export default function App() {
                             {/* Bottom Right: Receiver & Final Approval */}
                             <td className="w-1/2 border-t-2 border-black p-0 align-top">
                               <div className="p-3 space-y-3 border-b-2 border-black min-h-[180px]">
-                                <p className="indent-8 leading-snug text-[12pt]">ข้าพเจ้าได้รับมอบ{data.item}จำนวน ๑ รายการ ดังกล่าว เพื่อนำไปใช้งานแล้วตั้งแต่วันที่............................</p>
+                                <p className="indent-8 leading-snug text-[14pt]">ข้าพเจ้าได้รับมอบ{data.item}จำนวน ๑ รายการ ดังกล่าว เพื่อนำไปใช้งานแล้วตั้งแต่วันที่............................</p>
                                 <div className="pt-4 text-left pl-6">
                                   <p>ลงชื่อ..............................................................(ผู้รับของ)</p>
                                   <div className="pl-12">
@@ -767,7 +768,7 @@ export default function App() {
                               </div>
 
                               <div className="p-3 text-center flex flex-col justify-between min-h-[140px]">
-                                <p className="font-bold text-[13pt] leading-tight">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น {data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท ({data.totalAmountThai}) รวมภาษีมูลค่าเพิ่ม</p>
+                                <p className="font-bold text-[14pt] leading-tight">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น {data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})} บาท ({data.totalAmountThai}) รวมภาษีมูลค่าเพิ่ม</p>
                                 <div className="mt-8">
                                   <p>( {data.signer2.name} )</p>
                                   <p>{data.signer2.position}</p>
@@ -813,7 +814,7 @@ export default function App() {
                     </div>
 
                     {/* Footer */}
-                    <div className="mt-10 pt-10 text-[12pt] text-slate-600 border-t border-stone-100">
+                    <div className="mt-10 pt-10 text-[14pt] text-slate-600 border-t border-stone-100">
                       <p>{data.department}</p>
                       <p>เบอร์โทร {data.phone}</p>
                     </div>
