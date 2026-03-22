@@ -12,7 +12,10 @@ export interface ProcurementDoc {
   docNumber: string;
   docYear: string;
   date: string;
-  subject: string;
+  subjectApproval: string;
+  subjectAssignment: string;
+  subjectReport: string;
+  subjectSummary: string;
   recipient: string;
   through: string;
   department: string;

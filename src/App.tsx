@@ -22,7 +22,10 @@ const initialData: ProcurementDoc = {
   docNumber: 'ก.3-001/2567',
   docYear: '',
   date: '22 มีนาคม 2567',
-  subject: 'รายงานผลการพิจารณาและขออนุมัติจ้างเหมาทำความสะอาด ผจฟ.1 ประจำเดือน เมษายน - กันยายน 2567',
+  subjectApproval: 'ขอความเห็นชอบดำเนินการจ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
+  subjectAssignment: 'ขออนุมัติแต่งตั้งคณะกรรมการจัดทำคุณลักษณะและกำหนดราคากลาง จ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
+  subjectReport: 'รายงานขอจ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567 โดยวิธีเฉพาะเจาะจง',
+  subjectSummary: 'รายงานผลการพิจารณาและขออนุมัติจ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
   recipient: 'อก.ปบ.(ก3)',
   through: '',
   department: 'แผนกปฏิบัติการและบำรุงรักษา',
@@ -72,7 +75,25 @@ export default function App() {
   const [data, setData] = useState<ProcurementDoc>(initialData);
   const [isPreview, setIsPreview] = useState(false);
   const [currentForm, setCurrentForm] = useState<FormType>('SUMMARY');
+  const [procurementType, setProcurementType] = useState<string | null>(null);
   const printRef = useRef<HTMLDivElement>(null);
+
+  const updateSubjects = (type: string, currentData: ProcurementDoc) => {
+    const itemText = type === 'CLEANING' ? 'จ้างเหมาทำความสะอาด' : 'จ้างเหมาตัดหญ้า';
+    return {
+      ...currentData,
+      item: itemText,
+      subjectApproval: `ขอความเห็นชอบดำเนินการ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
+      subjectAssignment: `ขออนุมัติแต่งตั้งคณะกรรมการจัดทำคุณลักษณะและกำหนดราคากลาง ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
+      subjectReport: `รายงานขอ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd} โดยวิธีเฉพาะเจาะจง`,
+      subjectSummary: `รายงานผลการพิจารณาและขออนุมัติ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
+    };
+  };
+
+  const handleSelectProcurement = (type: string) => {
+    setProcurementType(type);
+    setData(prev => updateSubjects(type, prev));
+  };
 
   const handleCommitteeChange = (index: number, field: 'name' | 'position', value: string) => {
     setData(prev => {
@@ -96,7 +117,20 @@ export default function App() {
         }
       }));
     } else {
-      setData(prev => ({ ...prev, [name]: finalValue }));
+      setData(prev => {
+        const newData = { ...prev, [name]: finalValue };
+        // Auto-update subjects if key fields change
+        if (['unitName', 'monthStart', 'monthEnd', 'item'].includes(name)) {
+          return {
+            ...newData,
+            subjectApproval: `ขอความเห็นชอบดำเนินการ${newData.item} ${newData.unitName} ประจำเดือน ${newData.monthStart} - ${newData.monthEnd}`,
+            subjectAssignment: `ขออนุมัติแต่งตั้งคณะกรรมการจัดทำคุณลักษณะและกำหนดราคากลาง ${newData.item} ${newData.unitName} ประจำเดือน ${newData.monthStart} - ${newData.monthEnd}`,
+            subjectReport: `รายงานขอ${newData.item} ${newData.unitName} ประจำเดือน ${newData.monthStart} - ${newData.monthEnd} โดยวิธีเฉพาะเจาะจง`,
+            subjectSummary: `รายงานผลการพิจารณาและขออนุมัติ${newData.item} ${newData.unitName} ประจำเดือน ${newData.monthStart} - ${newData.monthEnd}`,
+          };
+        }
+        return newData;
+      });
     }
   };
 
@@ -106,6 +140,65 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-stone-100 font-sans text-slate-900">
+      <AnimatePresence>
+        {!procurementType && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-stone-900/40 backdrop-blur-xl flex items-center justify-center p-6"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              className="bg-white rounded-[2.5rem] shadow-2xl p-10 max-w-2xl w-full border border-white/20"
+            >
+              <div className="text-center mb-10">
+                <div className="w-20 h-20 bg-purple-700 rounded-3xl mx-auto flex items-center justify-center text-white shadow-xl mb-6 rotate-3">
+                  <FileText size={40} />
+                </div>
+                <h2 className="text-3xl font-black text-slate-800 mb-3">ยินดีต้อนรับสู่ระบบจัดทำเอกสาร</h2>
+                <p className="text-slate-500 font-medium">กรุณาเลือกหัวข้อการจัดซื้อจัดจ้างเพื่อเริ่มต้น</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <button
+                  onClick={() => handleSelectProcurement('CLEANING')}
+                  className="group relative overflow-hidden bg-white border-2 border-stone-100 hover:border-purple-500 p-8 rounded-[2rem] transition-all duration-300 text-left shadow-sm hover:shadow-xl active:scale-[0.98]"
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
+                  <div className="relative z-10">
+                    <div className="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center text-purple-600 mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
+                      <CheckCircle2 size={28} />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-800 mb-2">จ้างทำความสะอาด</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed">จัดทำเอกสารเกี่ยวกับการจ้างเหมาทำความสะอาดอาคารและสำนักงาน</p>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => handleSelectProcurement('MOWING')}
+                  className="group relative overflow-hidden bg-white border-2 border-stone-100 hover:border-emerald-500 p-8 rounded-[2rem] transition-all duration-300 text-left shadow-sm hover:shadow-xl active:scale-[0.98]"
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
+                  <div className="relative z-10">
+                    <div className="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300">
+                      <ClipboardList size={28} />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-800 mb-2">จ้างตัดหญ้า</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed">จัดทำเอกสารเกี่ยวกับการจ้างเหมาตัดหญ้าและดูแลสวนบริเวณสถานีไฟฟ้า</p>
+                  </div>
+                </button>
+              </div>
+              
+              <div className="mt-10 pt-8 border-t border-stone-100 text-center">
+                <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Provincial Electricity Authority • Procurement System</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Global Print Styles */}
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
@@ -198,6 +291,15 @@ export default function App() {
           </div>
         </div>
         <div className="flex gap-2">
+          {procurementType && (
+            <button
+              onClick={() => setProcurementType(null)}
+              className="flex items-center gap-2 bg-white border border-stone-200 hover:bg-stone-50 text-slate-700 px-4 py-2.5 rounded-xl transition-all shadow-sm active:scale-95 font-medium mr-2"
+            >
+              <FileText size={18} />
+              เปลี่ยนหัวข้อจัดซื้อ
+            </button>
+          )}
           {!isPreview ? (
             <button
               onClick={() => setIsPreview(true)}
@@ -296,7 +398,22 @@ export default function App() {
                       </div>
                       <div className="md:col-span-2 space-y-1.5">
                         <label className="text-xs font-bold text-slate-500 uppercase">เรื่อง</label>
-                        <input name="subject" value={data.subject} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                        <input 
+                          name={
+                            currentForm === 'APPROVAL' ? 'subjectApproval' :
+                            currentForm === 'ASSIGNMENT' ? 'subjectAssignment' :
+                            currentForm === 'REPORT' ? 'subjectReport' :
+                            'subjectSummary'
+                          } 
+                          value={
+                            currentForm === 'APPROVAL' ? data.subjectApproval :
+                            currentForm === 'ASSIGNMENT' ? data.subjectAssignment :
+                            currentForm === 'REPORT' ? data.subjectReport :
+                            data.subjectSummary
+                          } 
+                          onChange={handleChange} 
+                          className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" 
+                        />
                       </div>
                       <div className="md:col-span-3 space-y-1.5">
                         <label className="text-xs font-bold text-slate-500 uppercase">เรียน</label>
@@ -472,7 +589,12 @@ export default function App() {
                   </div>
                   <div className="flex gap-2">
                     <span className="font-bold shrink-0">เรื่อง</span>
-                    <span className="border-b border-dotted border-black flex-1 px-2 text-red-600 font-bold">{data.subject}</span>
+                    <span className="border-b border-dotted border-black flex-1 px-2 text-red-600 font-bold">
+                      {currentForm === 'APPROVAL' ? data.subjectApproval :
+                       currentForm === 'ASSIGNMENT' ? data.subjectAssignment :
+                       currentForm === 'REPORT' ? data.subjectReport :
+                       data.subjectSummary}
+                    </span>
                   </div>
                 </div>
 
@@ -561,14 +683,14 @@ export default function App() {
                     <div className="space-y-4 text-[14pt] leading-[1.2]">
                       <section className="mt-1">
                         <p className="indent-[2.5cm] leading-relaxed">
-                          ตามที่ <span className="text-red-600">{data.from}</span> ได้ดำเนินการจ้างเหมาทำความสะอาด <span className="text-red-600">{data.unitName}</span> ประจำเดือน <span className="text-red-600">{data.monthStart}</span> - <span className="text-red-600">{data.monthEnd}</span> โดยวิธีเฉพาะเจาะจง นั้น
+                          ตามที่ <span className="text-red-600">{data.from}</span> ได้ดำเนินการ<span className="text-red-600">{data.item}</span> <span className="text-red-600">{data.unitName}</span> ประจำเดือน <span className="text-red-600">{data.monthStart}</span> - <span className="text-red-600">{data.monthEnd}</span> โดยวิธีเฉพาะเจาะจง นั้น
                         </p>
                         
                         <div className="mt-4 space-y-4">
                           <div>
                             <p className="font-bold">๑. ข้อมูล</p>
                             <p className="indent-[1.5cm]">
-                              <span className="text-red-600">{data.from}</span> มีความประสงค์จะจ้างเหมาทำความสะอาด <span className="text-red-600">{data.unitName}</span> จำนวน <span className="text-red-600">{data.stationCount}</span> สถานี ได้แก่ <span className="text-red-600">{data.stationList}</span> ประจำเดือน <span className="text-red-600">{data.monthStart}</span> - <span className="text-red-600">{data.monthEnd}</span>
+                              <span className="text-red-600">{data.from}</span> มีความประสงค์จะ<span className="text-red-600">{data.item}</span> <span className="text-red-600">{data.unitName}</span> จำนวน <span className="text-red-600">{data.stationCount}</span> สถานี ได้แก่ <span className="text-red-600">{data.stationList}</span> ประจำเดือน <span className="text-red-600">{data.monthStart}</span> - <span className="text-red-600">{data.monthEnd}</span>
                             </p>
                           </div>
 
@@ -582,7 +704,7 @@ export default function App() {
                           <div>
                             <p className="font-bold">๓. ข้อเสนอ</p>
                             <p className="indent-[1.5cm]">
-                              <span className="text-red-600">{data.from}</span> พิจารณาแล้ว เห็นสมควรจ้างเหมาทำความสะอาด จาก <span className="text-red-600">{data.supplierName}</span> เป็นเงินทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม
+                              <span className="text-red-600">{data.from}</span> พิจารณาแล้ว เห็นสมควร<span className="text-red-600">{data.item}</span> จาก <span className="text-red-600">{data.supplierName}</span> เป็นเงินทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม
                             </p>
                           </div>
                         </div>
