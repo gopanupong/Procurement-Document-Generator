@@ -54,4 +54,15 @@ export interface ProcurementDoc {
   signer1: Signer;
   signer2: Signer;
   signer3?: Signer;
+
+  // New fields for specific template
+  unitName: string;
+  monthStart: string;
+  monthEnd: string;
+  parentUnit: string;
+  stationCount: string;
+  stationList: string;
+  accountCode: string;
+  costCenter: string;
+  signer1Unit: string;
 }
