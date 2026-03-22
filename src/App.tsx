@@ -9,11 +9,10 @@ import { Printer, Eye, Edit3, Download, ChevronLeft, FileText, CheckCircle2, Cli
 import { motion, AnimatePresence } from 'motion/react';
 
 const PEA_LOGO_SVG = `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="100" height="100">
-  <circle cx="150" cy="150" r="140" fill="none" stroke="#7B2CBF" stroke-width="12"/>
-  <path d="M100 80 H200 V140 H140 V220 H100 Z" fill="#7B2CBF"/>
-  <path d="M160 140 H220 L160 220 Z" fill="#7B2CBF"/>
-  <path d="M130 140 L150 170 L170 140 Z" fill="#7B2CBF"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <circle cx="150" cy="150" r="140" fill="#7B2CBF"/>
+  <circle cx="150" cy="150" r="110" fill="white"/>
+  <path d="M150 70 C105 70 70 105 70 150 C70 195 105 230 150 230 C195 230 230 195 230 150 C230 105 195 70 150 70 Z M150 90 C183 90 210 117 210 150 C210 183 183 210 150 210 C117 210 90 183 90 150 C90 117 117 90 150 90 Z" fill="#7B2CBF"/>
 </svg>
 `;
 
@@ -28,7 +27,7 @@ const initialData: ProcurementDoc = {
   through: '',
   department: 'แผนกปฏิบัติการและบำรุงรักษา',
   phone: '0-4351-1234',
-  logoUrl: 'https://upload.wikimedia.org/wikipedia/th/thumb/0/00/PEA_Logo.svg/1200px-PEA_Logo.svg.png',
+  logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/90/Logo_of_the_Provincial_Electricity_Authority_of_Thailand.svg',
   item: 'จ้างเหมาทำความสะอาด',
   budgetYear: '2567',
   wbs: 'WBS-123456',
@@ -230,8 +229,9 @@ export default function App() {
 
       <main className="max-w-5xl mx-auto p-6 md:p-10">
         {/* Form Selector */}
-        {!isPreview && (
-          <div className="flex flex-wrap gap-2 mb-8">
+        <div className="flex flex-col gap-2 mb-8 print:hidden">
+          <p className="text-sm font-bold text-slate-500 uppercase tracking-wider ml-1">เลือกหัวข้อที่ต้องการพิมพ์:</p>
+          <div className="flex flex-wrap gap-2">
             {[
               { id: 'APPROVAL', label: '1. ขอความเห็นชอบ', icon: FileText },
               { id: 'ASSIGNMENT', label: '2. มอบหมายคุณลักษณะ', icon: ClipboardList },
@@ -252,7 +252,7 @@ export default function App() {
               </button>
             ))}
           </div>
-        )}
+        </div>
 
         <div className="content-container">
           {!isPreview ? (
@@ -487,18 +487,18 @@ export default function App() {
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ข้อมูล</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
-                          {data.infoSection.requester} จัดซื้อตามอนุมัติที่ {data.infoSection.approvalRef} ลว. {data.infoSection.approvalDate}
+                          <span className="text-red-600">{data.infoSection.requester}</span> จัดซื้อตามอนุมัติที่ <span className="text-red-600">{data.infoSection.approvalRef}</span> ลว. <span className="text-red-600">{data.infoSection.approvalDate}</span>
                         </p>
                       </section>
 
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">๒. ข้อพิจารณา</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
-                          {data.from} ได้พิจารณาแล้ว เพื่อให้มีความพร้อมในการใช้งาน จึงจำเป็นต้องทำการ
-                          จัดซื้อ{data.item} จึงเห็นควรดำเนินการจัดซื้อดังกล่าว โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการ
+                          <span className="text-red-600">{data.from}</span> ได้พิจารณาแล้ว เพื่อให้มีความพร้อมในการใช้งาน จึงจำเป็นต้องทำการ
+                          จัดซื้อ<span className="text-red-600">{data.item}</span> จึงเห็นควรดำเนินการจัดซื้อดังกล่าว โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการ
                           จัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ พ.ศ. ๒๕๖๐ จึงขออนุมัติความเห็นชอบดำเนินการจัดซื้ออุปกรณ์ดังกล่าว 
-                          โดยให้เบิกจ่ายจากงบทำการประจำปี {data.budgetYear} จากงบลงทุน หมายเลขงาน (WBS) 
-                          {data.wbs} ต่อไป
+                          โดยให้เบิกจ่ายจากงบทำการประจำปี <span className="text-red-600">{data.budgetYear}</span> จากงบลงทุน หมายเลขงาน (WBS) 
+                          <span className="text-red-600">{data.wbs}</span> ต่อไป
                         </p>
                         <p className="indent-[2.5cm] mt-6">
                           จึงเรียนมาเพื่อโปรดพิจารณาหากเห็นชอบและโปรดลงนามให้ต่อไป
@@ -512,7 +512,7 @@ export default function App() {
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ข้อมูล</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
-                          ตามที่ {data.from} ได้รับอนุมัติให้ดำเนินการจัดซื้อ {data.item} ตามบันทึกที่ {data.docNumber}{data.docYear} ลว. {data.date} นั้น
+                          ตามที่ <span className="text-red-600">{data.from}</span> ได้รับอนุมัติให้ดำเนินการจัดซื้อ <span className="text-red-600">{data.item}</span> ตามบันทึกที่ <span className="text-red-600">{data.docNumber}</span><span className="text-red-600">{data.docYear}</span> ลว. <span className="text-red-600">{data.date}</span> นั้น
                         </p>
                       </section>
 
@@ -524,7 +524,7 @@ export default function App() {
                         </p>
                         <div className="ml-[3.5cm] mt-4 space-y-2">
                           {data.committee.map((member, index) => (
-                            <p key={index}>{index + 1}. {member.name} ตำแหน่ง {member.position}</p>
+                            <p key={index}>{index + 1}. <span className="text-red-600">{member.name}</span> ตำแหน่ง <span className="text-red-600">{member.position}</span></p>
                           ))}
                         </div>
                         <p className="indent-[2.5cm] mt-8">
@@ -538,7 +538,7 @@ export default function App() {
                     <div className="space-y-6 text-[14pt]">
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ความเป็นมา</h3>
-                        <p className="indent-[2.5cm] leading-relaxed">
+                        <p className="indent-[2.5cm] leading-relaxed text-red-600">
                           {data.reason}
                         </p>
                       </section>
@@ -546,9 +546,9 @@ export default function App() {
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">๒. รายละเอียดการจัดซื้อ</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
-                          ดำเนินการจัดซื้อ {data.item} โดยวิธี {data.procurementMethod} 
-                          ราคากลางเป็นเงิน {data.estimatedPrice.toLocaleString()} บาท (รวมภาษีมูลค่าเพิ่ม)
-                          โดยใช้เงินงบประมาณปี {data.budgetYear} หมายเลขงาน {data.wbs}
+                          ดำเนินการจัดซื้อ <span className="text-red-600">{data.item}</span> โดยวิธี <span className="text-red-600">{data.procurementMethod}</span> 
+                          ราคากลางเป็นเงิน <span className="text-red-600">{data.estimatedPrice.toLocaleString()}</span> บาท (รวมภาษีมูลค่าเพิ่ม)
+                          โดยใช้เงินงบประมาณปี <span className="text-red-600">{data.budgetYear}</span> หมายเลขงาน <span className="text-red-600">{data.wbs}</span>
                         </p>
                         <p className="indent-[2.5cm] mt-8">
                           จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติรายงานขอซื้อ/จ้างดังกล่าว
