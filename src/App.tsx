@@ -28,7 +28,7 @@ const initialData: ProcurementDoc = {
   subjectSummary: 'รายงานสรุปผลการพิจารณาตรวจรับ และอนุมัติจ่ายเงินจ้างทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
   recipient: 'กปบ.(ก3)',
   through: 'ชก.ปบ.(ก3)',
-  department: 'แผนกจัดการสถานีไฟฟ้า 1',
+  department: 'แผนกจัดการงานสถานีไฟฟ้า 1',
   phone: '10520-21',
   logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/90/Logo_of_the_Provincial_Electricity_Authority_of_Thailand.svg',
   item: 'จัดจ้าง',
@@ -613,7 +613,7 @@ export default function App() {
                       <p className="text-[8pt] font-bold">PROVINCIAL ELECTRICITY AUTHORITY</p>
                     </div>
                   </div>
-                  {currentForm !== 'SUMMARY' && (
+                  {currentForm !== 'SUMMARY' && currentForm !== 'APPROVAL' && (
                     <div className="flex-1 text-center pt-8">
                       <h2 className="text-[29pt] font-bold">บันทึกข้อความ</h2>
                     </div>
@@ -621,7 +621,47 @@ export default function App() {
                   <div className="w-40 shrink-0"></div>
                 </div>
 
-                {currentForm !== 'SUMMARY' ? (
+                {currentForm === 'APPROVAL' ? (
+                  <div className="space-y-1 mb-6">
+                    <div className="flex">
+                      <div className="w-[8cm] flex gap-2">
+                        <span className="font-bold shrink-0 w-[1.2cm]">จาก</span>
+                        <span className="px-1">{data.from}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="font-bold shrink-0 w-[1cm]">ถึง</span>
+                        <span className="px-1">{data.recipient}</span>
+                      </div>
+                    </div>
+                    <div className="flex">
+                      <div className="w-[8cm] flex gap-2">
+                        <span className="font-bold shrink-0 w-[1.2cm]">เลขที่</span>
+                        <span className="px-1">{data.docNumber}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="font-bold shrink-0 w-[1cm]">วันที่</span>
+                        <span className="px-1 text-red-600">{data.date}</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col">
+                      <div className="flex gap-2">
+                        <span className="font-bold shrink-0 w-[1.2cm]">เรื่อง</span>
+                        <span className="px-1 font-bold">
+                          ขอความเห็นชอบดำเนินการ<span className="text-red-600">{data.item}</span>ตัดหญ้าและฉีดยากำจัดวัชพืชสถานีไฟฟ้าในหน่วยปฏิบัติงาน
+                        </span>
+                      </div>
+                      <div className="ml-[1.2cm] px-1 font-bold">
+                        สถานีไฟฟ้าที่ <span className="text-red-600">{data.stationCount}</span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <span className="font-bold shrink-0 w-[1.2cm]">เรียน</span>
+                      <span className="px-1">
+                        {data.to} {data.through && <span className="ml-2">ผ่าน {data.through}</span>}
+                      </span>
+                    </div>
+                  </div>
+                ) : currentForm !== 'SUMMARY' ? (
                   <div className="space-y-1 mb-4">
                     <div className="flex gap-2">
                       <span className="font-bold shrink-0">ส่วนราชการ</span>
@@ -642,8 +682,7 @@ export default function App() {
                     <div className="flex gap-2">
                       <span className="font-bold shrink-0">เรื่อง</span>
                       <span className="flex-1 px-2 text-red-600 font-bold leading-none">
-                        {currentForm === 'APPROVAL' ? data.subjectApproval :
-                         currentForm === 'ASSIGNMENT' ? data.subjectAssignment :
+                        {currentForm === 'ASSIGNMENT' ? data.subjectAssignment :
                          currentForm === 'REPORT' ? data.subjectReport :
                          data.subjectSummary}
                       </span>
@@ -693,20 +732,20 @@ export default function App() {
                 {/* Main Content */}
                 <div className="flex-1">
                   {currentForm === 'APPROVAL' && (
-                    <div className="space-y-6">
+                    <div className="space-y-6 mt-4">
                       <section>
-                        <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ข้อมูล</h3>
-                        <p className="indent-[2.5cm] leading-relaxed">
+                        <h3 className="font-bold mb-1 ml-[1.2cm]">1. ข้อมูล</h3>
+                        <p className="ml-[2.2cm] leading-relaxed">
                           หน่วยปฏิบัติงานสถานีไฟฟ้าที่ <span className="text-red-600">{data.stationCount}</span> (<span className="text-red-600">{data.stationList}</span>) สังกัด <span>{data.from}</span> <span>{data.recipient}</span> ตรวจสอบพบว่าบริเวณพื้นที่ภายในบริเวณสถานีไฟฟ้ามีต้นหญ้าและวัชพืชขึ้นเป็นจำนวนมาก
                         </p>
                       </section>
 
                       <section>
-                        <h3 className="font-bold mb-1 indent-[2.5cm]">๒. ข้อพิจารณา</h3>
-                        <p className="indent-[2.5cm] leading-relaxed">
-                          <span>{data.from}</span> <span>{data.recipient}</span> ได้พิจารณาแล้วเพื่อป้องกันการเกิดกระแสไฟฟ้าขัดข้องจากสัตว์เลื้อยคลานต่างๆ จึงเห็นควรดำเนินการ<span className="text-red-600">{data.item}</span>ตัดหญ้าและฉีดยากำจัดวัชพืช โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการจัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ พ.ศ. ๒๕๖๐ จึงขออนุมัติความเห็นชอบดำเนินการจัดซื้อ/จ้างดังกล่าว โดยให้เบิกจ่ายจากงบทำการ ประจำปี <span className="text-red-600">{data.budgetYear}</span> <span className="text-red-600">{data.accountName}</span> รหัสบัญชี <span className="text-red-600">{data.accountCode}</span> ของ <span>{data.from}</span> ศูนย์ต้นทุน <span className="text-red-600">{data.costCenter}</span> ต่อไป
+                        <h3 className="font-bold mb-1 ml-[1.2cm]">2. ข้อพิจารณา</h3>
+                        <p className="ml-[2.2cm] leading-relaxed">
+                          <span>{data.from}</span> <span>{data.recipient}</span> ได้พิจารณาแล้วเพื่อป้องกันการเกิดกระแสไฟฟ้าขัดข้องจากสัตว์เลื้อยคลานต่างๆ จึงเห็นควรดำเนินการ<span className="text-red-600">{data.item}</span>ตัดหญ้าและฉีดยากำจัดวัชพืช โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการจัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ พ.ศ. 2560 จึงขออนุมัติความเห็นชอบดำเนินการจัดซื้อ/จ้างดังกล่าว โดยให้เบิกจ่ายจากงบทำการ ประจำปี <span className="text-red-600">{data.budgetYear}</span> <span className="text-red-600">{data.accountName}</span> รหัสบัญชี <span className="text-red-600">{data.accountCode}</span> ของ <span>{data.from}</span> ศูนย์ต้นทุน <span className="text-red-600">{data.costCenter}</span> ต่อไป
                         </p>
-                        <p className="indent-[2.5cm] mt-6">
+                        <p className="ml-[2.2cm] mt-6">
                           จึงเรียนมาเพื่อโปรดพิจารณาหากเห็นชอบโปรดลงนามให้ต่อไป
                         </p>
                       </section>
@@ -716,14 +755,14 @@ export default function App() {
                   {currentForm === 'ASSIGNMENT' && (
                     <div className="space-y-6">
                       <section>
-                        <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ข้อมูล</h3>
+                        <h3 className="font-bold mb-1 indent-[2.5cm]">1. ข้อมูล</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
                           ตามที่ <span>{data.from}</span> ได้รับอนุมัติให้ดำเนินการจัดซื้อ <span className="text-red-600">{data.item}</span> ตามบันทึกที่ <span>{data.docNumber}</span> ลว. <span className="text-red-600">{data.date}</span> นั้น
                         </p>
                       </section>
 
                       <section>
-                        <h3 className="font-bold mb-1 indent-[2.5cm]">๒. ข้อพิจารณา</h3>
+                        <h3 className="font-bold mb-1 indent-[2.5cm]">2. ข้อพิจารณา</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
                           เพื่อให้การดำเนินการจัดทำคุณลักษณะของพัสดุเป็นไปด้วยความเรียบร้อยและถูกต้องตามระเบียบ 
                           จึงขอแต่งตั้งคณะกรรมการจัดทำคุณลักษณะและกำหนดราคากลาง ดังนี้
@@ -743,14 +782,14 @@ export default function App() {
                   {currentForm === 'REPORT' && (
                     <div className="space-y-6">
                       <section>
-                        <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ความเป็นมา</h3>
+                        <h3 className="font-bold mb-1 indent-[2.5cm]">1. ความเป็นมา</h3>
                         <p className="indent-[2.5cm] leading-relaxed text-red-600">
                           {data.reason}
                         </p>
                       </section>
 
                       <section>
-                        <h3 className="font-bold mb-1 indent-[2.5cm]">๒. รายละเอียดการจัดซื้อ</h3>
+                        <h3 className="font-bold mb-1 indent-[2.5cm]">2. รายละเอียดการจัดซื้อ</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
                           ดำเนินการจัดซื้อ <span className="text-red-600">{data.item}</span> โดยวิธี <span className="text-red-600">{data.procurementMethod}</span> 
                           ราคากลางเป็นเงิน <span className="text-red-600">{data.estimatedPrice.toLocaleString()}</span> บาท (รวมภาษีมูลค่าเพิ่ม)
@@ -781,7 +820,7 @@ export default function App() {
                         </thead>
                         <tbody>
                           <tr>
-                            <td className="border border-black p-1">๑</td>
+                            <td className="border border-black p-1">1</td>
                             <td className="border border-black p-1 text-left px-2">{data.item}</td>
                             <td className="border border-black p-1">{data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
                             <td className="border border-black p-1">{data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
@@ -827,7 +866,7 @@ export default function App() {
                         <div className="grid grid-cols-2 border-b border-black">
                           <div className="border-r border-black p-4">
                             <p className="mb-2 font-bold">เรียน {data.to}</p>
-                            <p className="indent-[0.8cm] mb-4 leading-tight">คณะกรรมการตรวจรับได้ทำการตรวจรับ <span className="text-red-600">{data.item}</span> จำนวน ๑ รายการ เมื่อวันที่................................เห็นว่าถูกต้องครบถ้วน เห็นควรรับไว้ใช้งานและเบิกจ่ายเงิน ให้แก่ผู้ขาย/ผู้รับจ้างต่อไป</p>
+                            <p className="indent-[0.8cm] mb-4 leading-tight">คณะกรรมการตรวจรับได้ทำการตรวจรับ <span className="text-red-600">{data.item}</span> จำนวน 1 รายการ เมื่อวันที่................................เห็นว่าถูกต้องครบถ้วน เห็นควรรับไว้ใช้งานและเบิกจ่ายเงิน ให้แก่ผู้ขาย/ผู้รับจ้างต่อไป</p>
                             <div className="space-y-4">
                               {data.committee.map((member, idx) => (
                                 <div key={idx} className="flex flex-col items-center">
@@ -838,7 +877,7 @@ export default function App() {
                             </div>
                           </div>
                           <div className="p-4 flex flex-col">
-                            <p className="mb-4 leading-tight">ข้าพเจ้าได้รับมอบ<span className="text-red-600">{data.item}</span>จำนวน ๑ รายการ ดังกล่าว เพื่อนำไปใช้งานแล้วตั้งแต่วันที่............................</p>
+                            <p className="mb-4 leading-tight">ข้าพเจ้าได้รับมอบ<span className="text-red-600">{data.item}</span>จำนวน 1 รายการ ดังกล่าว เพื่อนำไปใช้งานแล้วตั้งแต่วันที่............................</p>
                             <div className="text-center mt-auto">
                               <p className="mb-6">ลงชื่อ..............................................................(ผู้รับของ)</p>
                               <p>( <span className="text-red-600">{data.receiver.name}</span> )</p>
@@ -850,7 +889,7 @@ export default function App() {
 
                         <div className="grid grid-cols-2">
                           <div className="border-r border-black p-2 text-[10pt] flex items-end">
-                            <p>จซ.(ฉ) ๐๐๑ – ป.๖๐</p>
+                            <p>จซ.(ฉ) 001 – ป.60</p>
                           </div>
                           <div className="p-4 text-center">
                              <p className="mb-4 font-bold">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม</p>
@@ -861,7 +900,7 @@ export default function App() {
                           </div>
                         </div>
                       </div>
-                      <p className="text-[10pt] mt-2 font-bold">**หมายเหตุ กรณีผู้ขาย/ผู้จ้าง ไม่ได้อยู่ในระบบ VAT ให้ระบุจำนวนเงินไม่รวมภาษีมูลค่าเพิ่ม (ปรับปรุงแบบฟอร์ม วันที่ ๑๘ ก.ย.๒๕๖๑)</p>
+                      <p className="text-[10pt] mt-2 font-bold">**หมายเหตุ กรณีผู้ขาย/ผู้จ้าง ไม่ได้อยู่ในระบบ VAT ให้ระบุจำนวนเงินไม่รวมภาษีมูลค่าเพิ่ม (ปรับปรุงแบบฟอร์ม วันที่ 18 ก.ย.2561)</p>
                     </div>
                   )}
 
@@ -871,23 +910,26 @@ export default function App() {
                 {currentForm !== 'SUMMARY' && (
                   <div className="mt-auto">
                     {currentForm === 'APPROVAL' ? (
-                      <div className="grid grid-cols-2 mt-12">
-                        <div className="space-y-8">
-                          <div className="text-center w-80">
-                            <p className="mb-8 font-bold">เห็นชอบ</p>
-                            <div className="space-y-1">
-                              <p className="mb-10">...........................................................</p>
-                              <p>( <span className="text-red-600">{data.signer2.name}</span> )</p>
-                              <p><span className="text-red-600">{data.signer2.position}</span></p>
-                            </div>
+                      <div className="mt-12 space-y-12">
+                        {/* Signer 1 on the right */}
+                        <div className="flex justify-end">
+                          <div className="text-center w-80 space-y-1">
+                            <p className="mb-10">( <span className="text-red-600">{data.signer1.name}</span> )</p>
+                            <p><span className="text-red-600">{data.signer1.position}</span></p>
                           </div>
                         </div>
-                        <div className="flex flex-col items-center ml-auto w-80">
-                          <p className="mb-8">ขอแสดงความนับถือ</p>
-                          <div className="text-center space-y-1">
-                            <p className="mb-10">...........................................................</p>
-                            <p>( <span className="text-red-600">{data.signer1.name}</span> )</p>
-                            <p><span className="text-red-600">{data.signer1.position}</span></p>
+
+                        {/* Signer 2 on the left */}
+                        <div className="space-y-8">
+                          <div className="ml-[1.2cm]">
+                            <p>เห็นชอบดำเนินการต่อไป</p>
+                          </div>
+                          
+                          <div className="flex justify-start ml-[1.2cm]">
+                            <div className="text-center w-80 space-y-1">
+                              <p className="mb-10">( <span className="text-red-600">{data.signer2.name}</span> )</p>
+                              <p><span className="text-red-600">{data.signer2.position}</span></p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -919,9 +961,27 @@ export default function App() {
                     )}
 
                     {/* Footer */}
-                    <div className="mt-10 pt-10 text-slate-600 border-t border-stone-100">
-                      <p>{data.department}</p>
-                      <p>เบอร์โทร {data.phone}</p>
+                    <div className="mt-10 pt-10 text-slate-600 border-t border-stone-100 flex justify-between items-end">
+                      <div>
+                        <p>{data.department}</p>
+                        <p>เบอร์โทร {data.phone}</p>
+                      </div>
+                      {currentForm === 'APPROVAL' && (
+                        <table className="border-collapse border border-black text-[10pt] w-56">
+                          <tbody>
+                            <tr>
+                              <td className="border border-black px-2 py-1 w-12">ชผ.</td>
+                              <td className="border border-black px-2 py-1"></td>
+                              <td className="border border-black px-2 py-1 w-20"></td>
+                            </tr>
+                            <tr>
+                              <td className="border border-black px-2 py-1">พชง.</td>
+                              <td className="border border-black px-2 py-1"></td>
+                              <td className="border border-black px-2 py-1"></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      )}
                     </div>
                   </div>
                 )}
