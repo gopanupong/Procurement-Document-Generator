@@ -1,4 +1,4 @@
-export type FormType = 'APPROVAL' | 'ASSIGNMENT' | 'REPORT' | 'NOTICE' | 'SUMMARY';
+export type FormType = 'APPROVAL' | 'ASSIGNMENT' | 'REPORT' | 'SUMMARY';
 
 export interface Signer {
   name: string;
@@ -15,7 +15,6 @@ export interface ProcurementDoc {
   subjectApproval: string;
   subjectAssignment: string;
   subjectReport: string;
-  subjectNotice: string;
   subjectSummary: string;
   recipient: string;
   through: string;

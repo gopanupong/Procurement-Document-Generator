@@ -25,7 +25,6 @@ const initialData: ProcurementDoc = {
   subjectApproval: 'ขอความเห็นชอบดำเนินการจ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
   subjectAssignment: 'ขออนุมัติแต่งตั้งคณะกรรมการจัดทำคุณลักษณะและกำหนดราคากลาง จ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
   subjectReport: 'รายงานขอจ้างทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567 โดยวิธีเฉพาะเจาะจง',
-  subjectNotice: 'ประกาศผู้ชนะการเสนอราคา จ้างทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
   subjectSummary: 'รายงานสรุปผลการพิจารณาตรวจรับ และอนุมัติจ่ายเงินจ้างทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
   recipient: 'กปบ.(ก3)',
   through: 'รก.ปบ.(ก3)',
@@ -87,7 +86,6 @@ export default function App() {
       subjectApproval: `ขอความเห็นชอบดำเนินการ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
       subjectAssignment: `ขออนุมัติแต่งตั้งคณะกรรมการจัดทำคุณลักษณะและกำหนดราคากลาง ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
       subjectReport: `รายงานขอ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd} โดยวิธีเฉพาะเจาะจง`,
-      subjectNotice: `ประกาศผู้ชนะการเสนอราคา ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
       subjectSummary: `รายงานสรุปผลการพิจารณาตรวจรับ และอนุมัติจ่ายเงิน${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
     };
   };
@@ -363,8 +361,7 @@ export default function App() {
               { id: 'APPROVAL', label: '1. ขอความเห็นชอบ', icon: FileText },
               { id: 'ASSIGNMENT', label: '2. มอบหมายคุณลักษณะ', icon: ClipboardList },
               { id: 'REPORT', label: '3. รายงานขอซื้อ/จ้าง', icon: FileCheck },
-              { id: 'NOTICE', label: '4. ประกาศผู้ชนะ', icon: FileText },
-              { id: 'SUMMARY', label: '5. สรุปผล/ตรวจรับ', icon: CheckCircle2 },
+              { id: 'SUMMARY', label: '4. สรุปผล/ตรวจรับ', icon: CheckCircle2 },
             ].map((form) => (
               <button
                 key={form.id}
@@ -391,8 +388,7 @@ export default function App() {
                   {currentForm === 'APPROVAL' && '1. บันทึกขอความเห็นชอบดำเนินการ'}
                   {currentForm === 'ASSIGNMENT' && '2. มอบหมายจัดทำคุณลักษณะ'}
                   {currentForm === 'REPORT' && '3. รายงานขอจัดซื้อหรือจัดจ้าง'}
-                  {currentForm === 'NOTICE' && '4. ประกาศผู้ชนะการเสนอราคา'}
-                  {currentForm === 'SUMMARY' && '5. รายงานสรุปผลพิจารณาและตรวจรับ'}
+                  {currentForm === 'SUMMARY' && '4. รายงานสรุปผลพิจารณาและตรวจรับ'}
                 </h2>
                 <p className="text-slate-500 mt-1">กรุณากรอกข้อมูลที่เปลี่ยนแปลงในส่วนนี้ ข้อมูลพื้นฐานจะถูกเชื่อมโยงกันอัตโนมัติ</p>
               </div>
@@ -431,14 +427,12 @@ export default function App() {
                             currentForm === 'APPROVAL' ? 'subjectApproval' :
                             currentForm === 'ASSIGNMENT' ? 'subjectAssignment' :
                             currentForm === 'REPORT' ? 'subjectReport' :
-                            currentForm === 'NOTICE' ? 'subjectNotice' :
                             'subjectSummary'
                           } 
                           value={
                             currentForm === 'APPROVAL' ? data.subjectApproval :
                             currentForm === 'ASSIGNMENT' ? data.subjectAssignment :
                             currentForm === 'REPORT' ? data.subjectReport :
-                            currentForm === 'NOTICE' ? data.subjectNotice :
                             data.subjectSummary
                           } 
                           onChange={handleChange} 
@@ -551,7 +545,7 @@ export default function App() {
                     {currentForm !== 'APPROVAL' && (
                       <button
                         onClick={() => {
-                          const forms: FormType[] = ['APPROVAL', 'ASSIGNMENT', 'REPORT', 'NOTICE', 'SUMMARY'];
+                          const forms: FormType[] = ['APPROVAL', 'ASSIGNMENT', 'REPORT', 'SUMMARY'];
                           const idx = forms.indexOf(currentForm);
                           setCurrentForm(forms[idx - 1]);
                         }}
@@ -563,7 +557,7 @@ export default function App() {
                     {currentForm !== 'SUMMARY' && (
                       <button
                         onClick={() => {
-                          const forms: FormType[] = ['APPROVAL', 'ASSIGNMENT', 'REPORT', 'NOTICE', 'SUMMARY'];
+                          const forms: FormType[] = ['APPROVAL', 'ASSIGNMENT', 'REPORT', 'SUMMARY'];
                           const idx = forms.indexOf(currentForm);
                           setCurrentForm(forms[idx + 1]);
                           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -582,7 +576,7 @@ export default function App() {
 
           {/* Print Preview - Always visible in print, hidden on screen if not in preview mode */}
           <div className={`print-wrapper-outer p-4 md:p-8 flex justify-center ${isPreview ? 'block' : 'hidden'} print:block`}>
-            <div className="print-container bg-white shadow-2xl border border-stone-200 p-[1.5cm] min-h-[297mm] w-[210mm] text-[16pt] leading-normal font-serif text-black relative flex flex-col">
+            <div className="print-container bg-white shadow-2xl border border-stone-200 pt-[0.3in] px-[1.5cm] pb-[1.5cm] min-h-[297mm] w-[210mm] text-[16pt] leading-normal font-serif text-black relative flex flex-col">
                 {/* Header */}
                 <div className="flex items-start mb-4">
                   <div className="flex flex-col items-start w-48 shrink-0">
@@ -608,27 +602,26 @@ export default function App() {
                   <div className="space-y-1 mb-4 text-[16pt]">
                     <div className="flex gap-2">
                       <span className="font-bold shrink-0">ส่วนราชการ</span>
-                      <span className="border-b border-dotted border-black flex-1 px-2 leading-none">
+                      <span className="flex-1 px-2 leading-none">
                         <span className="text-red-600">{data.from}</span> <span className="ml-4">โทร</span> <span className="text-red-600">{data.phone}</span>
                       </span>
                     </div>
                     <div className="flex gap-4">
                       <div className="flex gap-2 flex-1">
                         <span className="font-bold shrink-0">ที่</span>
-                        <span className="border-b border-dotted border-black flex-1 px-2 text-red-600 leading-none">{data.docNumber}</span>
+                        <span className="flex-1 px-2 text-red-600 leading-none">{data.docNumber}</span>
                       </div>
                       <div className="flex gap-2 flex-1">
                         <span className="font-bold shrink-0">วันที่</span>
-                        <span className="border-b border-dotted border-black flex-1 px-2 text-red-600 leading-none">{data.date}</span>
+                        <span className="flex-1 px-2 text-red-600 leading-none">{data.date}</span>
                       </div>
                     </div>
                     <div className="flex gap-2">
                       <span className="font-bold shrink-0">เรื่อง</span>
-                      <span className="border-b border-dotted border-black flex-1 px-2 text-red-600 font-bold leading-none">
+                      <span className="flex-1 px-2 text-red-600 font-bold leading-none">
                         {currentForm === 'APPROVAL' ? data.subjectApproval :
                          currentForm === 'ASSIGNMENT' ? data.subjectAssignment :
                          currentForm === 'REPORT' ? data.subjectReport :
-                         currentForm === 'NOTICE' ? data.subjectNotice :
                          data.subjectSummary}
                       </span>
                     </div>
@@ -638,30 +631,30 @@ export default function App() {
                     <div className="grid grid-cols-2 gap-x-8 mb-2">
                       <div className="flex gap-2">
                         <span className="font-bold shrink-0">จาก</span>
-                        <span className="border-b border-dotted border-black flex-1 px-1 text-red-600">{data.from}</span>
+                        <span className="flex-1 px-1 text-red-600">{data.from}</span>
                       </div>
                       <div className="flex gap-2">
                         <span className="font-bold shrink-0">ถึง</span>
-                        <span className="border-b border-dotted border-black flex-1 px-1 text-red-600">{data.recipient}</span>
+                        <span className="flex-1 px-1 text-red-600">{data.recipient}</span>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-x-8 mb-2">
                       <div className="flex gap-2">
                         <span className="font-bold shrink-0">เลขที่</span>
-                        <span className="border-b border-dotted border-black flex-1 px-1 text-red-600">{data.docNumber}</span>
+                        <span className="flex-1 px-1 text-red-600">{data.docNumber}</span>
                       </div>
                       <div className="flex gap-2">
                         <span className="font-bold shrink-0">วันที่</span>
-                        <span className="border-b border-dotted border-black flex-1 px-1 text-red-600">{data.date}</span>
+                        <span className="flex-1 px-1 text-red-600">{data.date}</span>
                       </div>
                     </div>
                     <div className="flex gap-2 mb-2">
                       <span className="font-bold shrink-0">เรื่อง</span>
-                      <span className="border-b border-dotted border-black flex-1 px-1 text-red-600 font-bold">{data.subjectSummary}</span>
+                      <span className="flex-1 px-1 text-red-600 font-bold">{data.subjectSummary}</span>
                     </div>
                     <div className="flex gap-2">
                       <span className="font-bold shrink-0">เรียน</span>
-                      <span className="border-b border-dotted border-black flex-1 px-1 text-red-600">
+                      <span className="flex-1 px-1 text-red-600">
                         {data.to} {data.through && <span className="ml-2">ผ่าน {data.through}</span>}
                       </span>
                     </div>
@@ -746,26 +739,6 @@ export default function App() {
                         </p>
                         <p className="indent-[2.5cm] mt-8">
                           จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติรายงานขอซื้อ/จ้างดังกล่าว
-                        </p>
-                      </section>
-                    </div>
-                  )}
-
-                  {currentForm === 'NOTICE' && (
-                    <div className="space-y-6 text-[14pt]">
-                      <section className="text-center">
-                        <h3 className="font-bold text-[18pt] mb-4">ประกาศผู้ชนะการเสนอราคา</h3>
-                        <p className="font-bold mb-4">{data.subjectNotice}</p>
-                      </section>
-                      <section>
-                        <p className="indent-[2.5cm] leading-relaxed">
-                          ตามที่ <span className="text-red-600">{data.from}</span> ได้มีโครงการ <span className="text-red-600">{data.item}</span> โดยวิธีเฉพาะเจาะจง นั้น
-                        </p>
-                        <p className="indent-[2.5cm] leading-relaxed mt-4">
-                          <span className="text-red-600">{data.item}</span> ผู้ได้รับการคัดเลือก ได้แก่ <span className="text-red-600">{data.supplierName}</span> โดยเสนอราคา เป็นเงินทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่มและภาษีอื่น ค่าขนส่ง ค่าจดทะเบียน และค่าใช้จ่ายอื่นๆ ทั้งปวง
-                        </p>
-                        <p className="indent-[2.5cm] mt-12">
-                          ประกาศ ณ วันที่ <span className="text-red-600">{data.date}</span>
                         </p>
                       </section>
                     </div>
@@ -876,7 +849,7 @@ export default function App() {
                 </div>
 
                 {/* Signatures (Hidden for Form 4 as it has custom grid) */}
-                {currentForm !== 'SUMMARY' && currentForm !== 'NOTICE' && (
+                {currentForm !== 'SUMMARY' && (
                   <div className="mt-auto">
                     <div className="flex justify-end pr-10">
                       <div className="text-center w-80 space-y-1">
