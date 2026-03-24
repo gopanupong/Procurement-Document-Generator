@@ -18,8 +18,8 @@ const PEA_LOGO_SVG = `
 
 const initialData: ProcurementDoc = {
   from: 'ผจฟ.1',
-  to: 'อก.ปบ.(ก3)',
-  docNumber: 'ก.3 กปบ.(จฟ.1)',
+  to: 'กปบ.(ก3)',
+  docNumber: 'ก.3 กปบ.(จฟ.1)                /2569',
   docYear: '/2569',
   date: '22 มีนาคม 2569',
   subjectApproval: 'ขอความเห็นชอบดำเนินการจัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชสถานีไฟฟ้าในหน่วยปฏิบัติงาน สถานีไฟฟ้าที่ 1',
@@ -28,7 +28,7 @@ const initialData: ProcurementDoc = {
   subjectSummary: 'รายงานสรุปผลการพิจารณาตรวจรับ และอนุมัติจ่ายเงินจ้างทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
   recipient: 'กปบ.(ก3)',
   through: 'ชก.ปบ.(ก3)',
-  department: 'แผนกจัดการงานสถานีไฟฟ้า 1',
+  department: 'แผนกจัดการสถานีไฟฟ้า 1',
   phone: '10520-21',
   logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/90/Logo_of_the_Provincial_Electricity_Authority_of_Thailand.svg',
   item: 'จัดจ้าง',
@@ -440,24 +440,12 @@ export default function App() {
                     ) : (
                       <>
                         {/* Header Info */}
-                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-red-50/30 rounded-2xl border border-red-100">
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">ส่วนราชการ</label>
-                            <input name="from" value={data.from} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">โทร</label>
-                            <input name="phone" value={data.phone} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">ที่ (เลขที่หนังสือ)</label>
-                            <input name="docNumber" value={data.docNumber} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                          </div>
+                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-red-50/30 rounded-2xl border border-red-100">
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">วันที่</label>
                             <input name="date" value={data.date} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
                           </div>
-                          <div className="md:col-span-2 space-y-1.5">
+                          <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">เรื่อง</label>
                             <input 
                               name={
@@ -475,10 +463,6 @@ export default function App() {
                               onChange={handleChange} 
                               className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" 
                             />
-                          </div>
-                          <div className="md:col-span-3 space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">เรียน</label>
-                            <input name="to" value={data.to} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
                           </div>
                         </div>
 
@@ -642,13 +626,13 @@ export default function App() {
                     <div className="flex gap-2">
                       <span className="font-bold shrink-0">ส่วนราชการ</span>
                       <span className="flex-1 px-2 leading-none">
-                        <span className="text-red-600">{data.from}</span> <span className="ml-4">โทร</span> <span className="text-red-600">{data.phone}</span>
+                        <span>{data.from}</span> <span className="ml-4">โทร</span> <span>{data.phone}</span>
                       </span>
                     </div>
                     <div className="flex gap-4">
                       <div className="flex gap-2 flex-1">
                         <span className="font-bold shrink-0">ที่</span>
-                        <span className="flex-1 px-2 text-red-600 leading-none">{data.docNumber}</span>
+                        <span className="flex-1 px-2 leading-none">{data.docNumber}</span>
                       </div>
                       <div className="flex gap-2 flex-1">
                         <span className="font-bold shrink-0">วันที่</span>
@@ -670,17 +654,17 @@ export default function App() {
                     <div className="grid grid-cols-2 gap-x-8 mb-2">
                       <div className="flex gap-2">
                         <span className="font-bold shrink-0">จาก</span>
-                        <span className="flex-1 px-1 text-red-600">{data.from}</span>
+                        <span className="flex-1 px-1">{data.from}</span>
                       </div>
                       <div className="flex gap-2">
                         <span className="font-bold shrink-0">ถึง</span>
-                        <span className="flex-1 px-1 text-red-600">{data.recipient}</span>
+                        <span className="flex-1 px-1">{data.recipient}</span>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-x-8 mb-2">
                       <div className="flex gap-2">
                         <span className="font-bold shrink-0">เลขที่</span>
-                        <span className="flex-1 px-1 text-red-600">{data.docNumber}</span>
+                        <span className="flex-1 px-1">{data.docNumber}</span>
                       </div>
                       <div className="flex gap-2">
                         <span className="font-bold shrink-0">วันที่</span>
@@ -693,7 +677,7 @@ export default function App() {
                     </div>
                     <div className="flex gap-2">
                       <span className="font-bold shrink-0">เรียน</span>
-                      <span className="flex-1 px-1 text-red-600">
+                      <span className="flex-1 px-1">
                         {data.to} {data.through && <span className="ml-2">ผ่าน {data.through}</span>}
                       </span>
                     </div>
@@ -702,7 +686,7 @@ export default function App() {
 
                 {currentForm !== 'SUMMARY' && (
                   <div className="mb-4">
-                    <p><span className="font-bold">เรียน</span> <span className="text-red-600 ml-2">{data.to}</span> {data.through && <span className="ml-2">ผ่าน <span className="text-red-600">{data.through}</span></span>}</p>
+                    <p><span className="font-bold">เรียน</span> <span className="ml-2">{data.to}</span> {data.through && <span className="ml-2">ผ่าน <span className="text-red-600">{data.through}</span></span>}</p>
                   </div>
                 )}
 
@@ -713,14 +697,14 @@ export default function App() {
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ข้อมูล</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
-                          หน่วยปฏิบัติงานสถานีไฟฟ้าที่ <span className="text-red-600">{data.stationCount}</span> (<span className="text-red-600">{data.stationList}</span>) สังกัด <span className="text-red-600">{data.from}</span> <span className="text-red-600">{data.recipient}</span> ตรวจสอบพบว่าบริเวณพื้นที่ภายในบริเวณสถานีไฟฟ้ามีต้นหญ้าและวัชพืชขึ้นเป็นจำนวนมาก
+                          หน่วยปฏิบัติงานสถานีไฟฟ้าที่ <span className="text-red-600">{data.stationCount}</span> (<span className="text-red-600">{data.stationList}</span>) สังกัด <span>{data.from}</span> <span>{data.recipient}</span> ตรวจสอบพบว่าบริเวณพื้นที่ภายในบริเวณสถานีไฟฟ้ามีต้นหญ้าและวัชพืชขึ้นเป็นจำนวนมาก
                         </p>
                       </section>
 
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">๒. ข้อพิจารณา</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
-                          <span className="text-red-600">{data.from}</span> <span className="text-red-600">{data.recipient}</span> ได้พิจารณาแล้วเพื่อป้องกันการเกิดกระแสไฟฟ้าขัดข้องจากสัตว์เลื้อยคลานต่างๆ จึงเห็นควรดำเนินการ<span className="text-red-600">{data.item}</span>ตัดหญ้าและฉีดยากำจัดวัชพืช โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการจัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ พ.ศ. ๒๕๖๐ จึงขออนุมัติความเห็นชอบดำเนินการจัดซื้อ/จ้างดังกล่าว โดยให้เบิกจ่ายจากงบทำการ ประจำปี <span className="text-red-600">{data.budgetYear}</span> <span className="text-red-600">{data.accountName}</span> รหัสบัญชี <span className="text-red-600">{data.accountCode}</span> ของ <span className="text-red-600">{data.from}</span> ศูนย์ต้นทุน <span className="text-red-600">{data.costCenter}</span> ต่อไป
+                          <span>{data.from}</span> <span>{data.recipient}</span> ได้พิจารณาแล้วเพื่อป้องกันการเกิดกระแสไฟฟ้าขัดข้องจากสัตว์เลื้อยคลานต่างๆ จึงเห็นควรดำเนินการ<span className="text-red-600">{data.item}</span>ตัดหญ้าและฉีดยากำจัดวัชพืช โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการจัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ พ.ศ. ๒๕๖๐ จึงขออนุมัติความเห็นชอบดำเนินการจัดซื้อ/จ้างดังกล่าว โดยให้เบิกจ่ายจากงบทำการ ประจำปี <span className="text-red-600">{data.budgetYear}</span> <span className="text-red-600">{data.accountName}</span> รหัสบัญชี <span className="text-red-600">{data.accountCode}</span> ของ <span>{data.from}</span> ศูนย์ต้นทุน <span className="text-red-600">{data.costCenter}</span> ต่อไป
                         </p>
                         <p className="indent-[2.5cm] mt-6">
                           จึงเรียนมาเพื่อโปรดพิจารณาหากเห็นชอบโปรดลงนามให้ต่อไป
@@ -734,7 +718,7 @@ export default function App() {
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ข้อมูล</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
-                          ตามที่ <span className="text-red-600">{data.from}</span> ได้รับอนุมัติให้ดำเนินการจัดซื้อ <span className="text-red-600">{data.item}</span> ตามบันทึกที่ <span className="text-red-600">{data.docNumber}</span><span className="text-red-600">{data.docYear}</span> ลว. <span className="text-red-600">{data.date}</span> นั้น
+                          ตามที่ <span>{data.from}</span> ได้รับอนุมัติให้ดำเนินการจัดซื้อ <span className="text-red-600">{data.item}</span> ตามบันทึกที่ <span>{data.docNumber}</span> ลว. <span className="text-red-600">{data.date}</span> นั้น
                         </p>
                       </section>
 
@@ -782,7 +766,7 @@ export default function App() {
                   {currentForm === 'SUMMARY' && (
                     <div className="space-y-4 leading-tight">
                       <p className="indent-[2.5cm] mb-4">
-                        ตามที่ <span className="text-red-600">{data.from}</span> ดำเนินการจัดซื้อ/จ้าง <span className="text-red-600">{data.item}</span> โดยวิธีเฉพาะเจาะจง ขอรายงานผลการพิจารณาการจัดซื้อ/จ้าง ดังนี้
+                        ตามที่ <span>{data.from}</span> ดำเนินการจัดซื้อ/จ้าง <span className="text-red-600">{data.item}</span> โดยวิธีเฉพาะเจาะจง ขอรายงานผลการพิจารณาการจัดซื้อ/จ้าง ดังนี้
                       </p>
 
                       <table className="w-full border-collapse border border-black mb-4 text-center">
@@ -813,7 +797,7 @@ export default function App() {
                       </table>
 
                       <p className="indent-[1.5cm] mb-2 leading-relaxed">
-                        <span className="text-red-600">{data.from}</span> พิจารณาแล้ว เห็นสมควรจัดซื้อ/จ้าง จาก <span className="text-red-600">{data.supplierName}</span> จำนวนเงิน <span className="text-red-600">{data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท ภาษีมูลค่าเพิ่ม <span className="text-red-600">{data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท เป็นเงินทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม
+                        <span>{data.from}</span> พิจารณาแล้ว เห็นสมควรจัดซื้อ/จ้าง จาก <span className="text-red-600">{data.supplierName}</span> จำนวนเงิน <span className="text-red-600">{data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท ภาษีมูลค่าเพิ่ม <span className="text-red-600">{data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท เป็นเงินทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม
                       </p>
 
                       <p className="indent-[1.5cm] mb-6">
