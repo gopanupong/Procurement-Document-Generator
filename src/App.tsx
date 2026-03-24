@@ -599,7 +599,7 @@ export default function App() {
 
           {/* Print Preview - Always visible in print, hidden on screen if not in preview mode */}
           <div className={`print-wrapper-outer p-4 md:p-8 flex justify-center ${isPreview ? 'block' : 'hidden'} print:block`}>
-            <div className={`print-container bg-white shadow-2xl border border-stone-200 pt-[0.3in] px-[1.5cm] pb-[1.5cm] min-h-[297mm] w-[210mm] ${currentForm === 'SUMMARY' ? 'text-[14pt]' : 'text-[16pt]'} leading-normal font-serif text-black relative flex flex-col`}>
+            <div className={`print-container bg-white shadow-2xl border border-stone-200 pt-[0.1in] px-[1.5cm] pb-[1.5cm] min-h-[297mm] w-[210mm] ${currentForm === 'SUMMARY' ? 'text-[14pt]' : 'text-[16pt]'} leading-normal font-serif text-black relative flex flex-col`}>
                 {/* Header */}
                 <div className="flex items-start mb-4">
                   <div className="flex flex-col items-start w-48 shrink-0">
@@ -961,23 +961,23 @@ export default function App() {
                     )}
 
                     {/* Footer */}
-                    <div className="mt-10 pt-10 text-slate-600 border-t border-stone-100 flex justify-between items-end">
+                    <div className="mt-6 pt-4 text-slate-600 border-t border-stone-100 flex justify-between items-end">
                       <div>
                         <p>{data.department}</p>
                         <p>เบอร์โทร {data.phone}</p>
                       </div>
                       {currentForm === 'APPROVAL' && (
-                        <table className="border-collapse border border-black text-[10pt] w-56">
+                        <table className="border-collapse border border-black text-[10pt] w-48">
                           <tbody>
                             <tr>
-                              <td className="border border-black px-2 py-1 w-12">ชผ.</td>
-                              <td className="border border-black px-2 py-1"></td>
-                              <td className="border border-black px-2 py-1 w-20"></td>
+                              <td className="border border-black px-1 py-0.5 w-10 text-center">ชผ.</td>
+                              <td className="border border-black px-1 py-0.5 w-16"></td>
+                              <td className="border border-black px-1 py-0.5 w-16"></td>
                             </tr>
                             <tr>
-                              <td className="border border-black px-2 py-1">พชง.</td>
-                              <td className="border border-black px-2 py-1"></td>
-                              <td className="border border-black px-2 py-1"></td>
+                              <td className="border border-black px-1 py-0.5 text-center">พชง.</td>
+                              <td className="border border-black px-1 py-0.5"></td>
+                              <td className="border border-black px-1 py-0.5"></td>
                             </tr>
                           </tbody>
                         </table>
