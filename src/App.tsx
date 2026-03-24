@@ -17,22 +17,22 @@ const PEA_LOGO_SVG = `
 `;
 
 const initialData: ProcurementDoc = {
-  from: 'ผจฟ.1',
+  from: 'ผจศ.ปบ.(ก3)',
   to: 'อก.ปบ.(ก3)',
-  docNumber: 'ก.3-001/2567',
+  docNumber: 'ก.3 กปบ.(จศ) /2569',
   docYear: '',
-  date: '22 มีนาคม 2567',
+  date: '22 มีนาคม 2569',
   subjectApproval: 'ขอความเห็นชอบดำเนินการจ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
   subjectAssignment: 'ขออนุมัติแต่งตั้งคณะกรรมการจัดทำคุณลักษณะและกำหนดราคากลาง จ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
   subjectReport: 'รายงานขอจ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567 โดยวิธีเฉพาะเจาะจง',
-  subjectSummary: 'รายงานผลการพิจารณาและขออนุมัติจ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
-  recipient: 'อก.ปบ.(ก3)',
-  through: '',
+  subjectSummary: 'รายงานสรุปผลการพิจารณาตรวจรับ และอนุมัติจ่ายเงินจ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
+  recipient: 'กปบ.(ก3)',
+  through: 'รก.ปบ.(ก3)',
   department: 'แผนกปฏิบัติการและบำรุงรักษา',
   phone: '0-4351-1234',
   logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/90/Logo_of_the_Provincial_Electricity_Authority_of_Thailand.svg',
   item: 'จ้างเหมาทำความสะอาด',
-  budgetYear: '2567',
+  budgetYear: '2569',
   wbs: 'WBS-123456',
   unitName: 'กฟส.บางละมุง',
   monthStart: 'ตุลาคม 2566',
@@ -52,23 +52,23 @@ const initialData: ProcurementDoc = {
     requester: 'แผนกปฏิบัติการและบำรุงรักษา',
   },
   committee: [
-    { name: 'นายสมชาย ใจดี', position: 'ประธานกรรมการ' },
-    { name: 'นายสมหญิง รักดี', position: 'กรรมการ' },
-    { name: 'นายสมพร มีชัย', position: 'กรรมการ' },
+    { name: 'นายพชริศ กรุงกาญจนา', position: 'ประธานกรรมการ' },
+    { name: 'นายโชคชัย ชัยมาลา', position: 'กรรมการ' },
+    { name: 'นายธนาคาร สว่างเรือง', position: 'กรรมการ' },
   ],
   procurementMethod: 'เฉพาะเจาะจง',
-  estimatedPrice: 10700,
+  estimatedPrice: 14744.60,
   reason: 'เนื่องจากมีความจำเป็นต้องจ้างเหมาทำความสะอาด เพื่อความเป็นระเบียบเรียบร้อยและถูกสุขลักษณะ',
-  supplierName: 'ห้างหุ้นส่วนจำกัด สะอาดใส',
+  supplierName: 'บริษัท เอ็นดับเบิ้ลยู วินซ์ จำกัด (สำนักงานใหญ่)',
   contractNumber: 'จซ.123/2567',
   deliveryDate: '30 กันยายน 2567',
-  priceBeforeVat: 10000,
-  vatAmount: 700,
-  totalAmount: 10700,
-  totalAmountThai: 'หนึ่งหมื่นเจ็ดร้อยบาทถ้วน',
-  receiver: { name: 'นายสมชาย ใจดี', position: 'ผจก.กฟส.บางละมุง' },
-  signer1: { name: 'นายสมชาย ใจดี', position: 'ผจก.กฟส.บางละมุง' },
-  signer2: { name: 'นายสมหมาย มั่นคง', position: 'ผจก.กฟภ.จ.ชลบุรี' },
+  priceBeforeVat: 13780.00,
+  vatAmount: 964.60,
+  totalAmount: 14744.60,
+  totalAmountThai: 'หนึ่งหมื่นสี่พันเจ็ดร้อยสี่สิบสี่บาทหกสิบสตางค์',
+  receiver: { name: 'นายกฤษณะ ปอยงาม', position: 'ชผ.จศ.กปบ.(ก3)' },
+  signer1: { name: 'นายภานุพงศ์ เจนสุริยะกุล', position: 'หผ.จศ.กปบ.(ก3)' },
+  signer2: { name: 'นายเลอพงศ์ แก่นจันทร์', position: 'อก.ปบ.(ก3)' },
 };
 
 export default function App() {
@@ -86,7 +86,7 @@ export default function App() {
       subjectApproval: `ขอความเห็นชอบดำเนินการ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
       subjectAssignment: `ขออนุมัติแต่งตั้งคณะกรรมการจัดทำคุณลักษณะและกำหนดราคากลาง ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
       subjectReport: `รายงานขอ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd} โดยวิธีเฉพาะเจาะจง`,
-      subjectSummary: `รายงานผลการพิจารณาและขออนุมัติ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
+      subjectSummary: `รายงานสรุปผลการพิจารณาตรวจรับ และอนุมัติจ่ายเงิน${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
     };
   };
 
@@ -216,66 +216,83 @@ export default function App() {
             margin: 0;
           }
           
-          /* Hide everything by default */
-          body * {
-            visibility: hidden !important;
-            display: none !important;
-          }
-          
-          /* Show only the print container and its contents */
-          html, body, #root, #root > div, main, .content-container, .print-wrapper-outer, .print-container, .print-container * {
-            visibility: visible !important;
-            display: block !important;
-          }
-
-          /* Special handling for tables to keep their layout */
-          .print-container table {
-            display: table !important;
-          }
-          .print-container tr {
-            display: table-row !important;
-          }
-          .print-container td, .print-container th {
-            display: table-cell !important;
-          }
-          .print-container thead {
-            display: table-header-group !important;
-          }
-          .print-container tbody {
-            display: table-row-group !important;
-          }
-
-          body {
+          html, body {
+            width: 210mm;
+            height: 297mm;
+            margin: 0 !important;
+            padding: 0 !important;
             background: white !important;
+          }
+
+          /* Hide UI elements */
+          nav, .form-selector, .instructions-box, button, .bg-stone-100 {
+            display: none !important;
+            background: none !important;
+          }
+
+          main {
+            padding: 0 !important;
+            margin: 0 !important;
+            max-width: none !important;
+          }
+
+          .content-container {
             margin: 0 !important;
             padding: 0 !important;
           }
 
           .print-wrapper-outer {
-            position: absolute !important;
-            left: 0 !important;
-            top: 0 !important;
-            width: 100% !important;
-            margin: 0 !important;
             padding: 0 !important;
+            margin: 0 !important;
+            display: block !important;
+            background: white !important;
           }
 
           .print-container {
+            display: block !important;
             width: 210mm !important;
             height: 297mm !important;
             margin: 0 !important;
-            padding: 20mm 15mm 15mm 25mm !important; /* Standard Thai Gov margins: Top 2cm, Right 1.5cm, Bottom 1.5cm, Left 2.5cm */
-            box-shadow: none !important;
-            border: none !important;
+            padding: 20mm 15mm 15mm 25mm !important; /* Top 2cm, Right 1.5cm, Bottom 1.5cm, Left 2.5cm */
             background: white !important;
             color: black !important;
             font-family: 'TH SarabunPSK', 'TH Sarabun New', 'Sarabun', sans-serif !important;
-            font-size: 14pt !important;
+            font-size: 16pt !important;
+            line-height: 1.1 !important;
+            position: relative !important;
+            box-sizing: border-box !important;
+            box-shadow: none !important;
+            border: none !important;
+          }
+
+          /* Force all text to black and remove red highlights for official print */
+          .print-container * {
+            color: black !important;
+            border-color: black !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            visibility: visible !important;
+          }
+
+          .print-container .text-red-600 {
+            color: black !important;
+          }
+
+          .print-container table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            margin-top: 10pt !important;
           }
           
-          /* Ensure images show up */
-          img {
-            -webkit-print-color-adjust: exact;
+          .print-container td, .print-container th {
+            border: 1px solid black !important;
+            padding: 4pt !important;
+          }
+
+          /* Ensure dots are visible but clean */
+          .border-dotted {
+            border-style: solid !important;
+            border-bottom-width: 0.5pt !important;
           }
         }
       `}} />
@@ -331,7 +348,7 @@ export default function App() {
 
       <main className="max-w-5xl mx-auto p-6 md:p-10">
         {/* Form Selector */}
-        <div className="flex flex-col gap-2 mb-8 print:hidden">
+        <div className="flex flex-col gap-2 mb-8 print:hidden form-selector">
           <p className="text-sm font-bold text-slate-500 uppercase tracking-wider ml-1">เลือกหัวข้อที่ต้องการพิมพ์:</p>
           <div className="flex flex-wrap gap-2">
             {[
@@ -550,57 +567,96 @@ export default function App() {
             </div>
           ) : (
             <div className="print-wrapper-outer p-4 md:p-8 flex justify-center">
-              <div className="print-container bg-white shadow-2xl border border-stone-200 p-[1.5cm] min-h-[297mm] w-[210mm] text-[14pt] leading-normal font-serif text-black relative flex flex-col">
+              <div className="print-container bg-white shadow-2xl border border-stone-200 p-[1.5cm] min-h-[297mm] w-[210mm] text-[16pt] leading-normal font-serif text-black relative flex flex-col">
                 {/* Header */}
-                <div className="flex items-start mb-2">
-                  <div className="flex flex-col items-center w-40 shrink-0">
+                <div className="flex items-start mb-4">
+                  <div className="flex flex-col items-start w-48 shrink-0">
                     {data.logoUrl ? (
-                      <img src={data.logoUrl} alt="PEA Logo" className="w-16 h-16 object-contain" referrerPolicy="no-referrer" />
+                      <img src={data.logoUrl} alt="PEA Logo" className="w-20 h-20 object-contain" referrerPolicy="no-referrer" />
                     ) : (
-                      <div dangerouslySetInnerHTML={{ __html: PEA_LOGO_SVG }} className="w-16 h-16" />
+                      <div dangerouslySetInnerHTML={{ __html: PEA_LOGO_SVG }} className="w-20 h-20" />
                     )}
-                    <div className="text-center mt-1 leading-tight">
-                      <p className="text-[11pt] font-bold">การไฟฟ้าส่วนภูมิภาค</p>
-                      <p className="text-[7pt]">PROVINCIAL ELECTRICITY AUTHORITY</p>
+                    <div className="text-left mt-1 leading-tight">
+                      <p className="text-[12pt] font-bold">การไฟฟ้าส่วนภูมิภาค</p>
+                      <p className="text-[8pt] font-bold">PROVINCIAL ELECTRICITY AUTHORITY</p>
                     </div>
                   </div>
-                  <div className="flex-1 text-center pt-8">
-                    <h2 className="text-[29pt] font-bold">บันทึกข้อความ</h2>
-                  </div>
-                  <div className="w-40 shrink-0"></div> {/* Spacer for symmetry */}
+                  {currentForm !== 'SUMMARY' && (
+                    <div className="flex-1 text-center pt-8">
+                      <h2 className="text-[29pt] font-bold">บันทึกข้อความ</h2>
+                    </div>
+                  )}
+                  <div className="w-40 shrink-0"></div>
                 </div>
 
-                <div className="space-y-1 mb-4 text-[14pt]">
-                  <div className="flex gap-2">
-                    <span className="font-bold shrink-0">ส่วนราชการ</span>
-                    <span className="border-b border-dotted border-black flex-1 px-2">
-                      <span className="text-red-600">{data.from}</span> โทร <span className="text-red-600">{data.phone}</span>
-                    </span>
-                  </div>
-                  <div className="flex gap-4">
-                    <div className="flex gap-2 flex-1">
-                      <span className="font-bold shrink-0">ที่</span>
-                      <span className="border-b border-dotted border-black flex-1 px-2 text-red-600">{data.docNumber}</span>
+                {currentForm !== 'SUMMARY' ? (
+                  <div className="space-y-1 mb-4 text-[16pt]">
+                    <div className="flex gap-2">
+                      <span className="font-bold shrink-0">ส่วนราชการ</span>
+                      <span className="border-b border-dotted border-black flex-1 px-2 leading-none">
+                        <span className="text-red-600">{data.from}</span> <span className="ml-4">โทร</span> <span className="text-red-600">{data.phone}</span>
+                      </span>
                     </div>
-                    <div className="flex gap-2 flex-1">
-                      <span className="font-bold shrink-0">วันที่</span>
-                      <span className="border-b border-dotted border-black flex-1 px-2 text-red-600">{data.date}</span>
+                    <div className="flex gap-4">
+                      <div className="flex gap-2 flex-1">
+                        <span className="font-bold shrink-0">ที่</span>
+                        <span className="border-b border-dotted border-black flex-1 px-2 text-red-600 leading-none">{data.docNumber}</span>
+                      </div>
+                      <div className="flex gap-2 flex-1">
+                        <span className="font-bold shrink-0">วันที่</span>
+                        <span className="border-b border-dotted border-black flex-1 px-2 text-red-600 leading-none">{data.date}</span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <span className="font-bold shrink-0">เรื่อง</span>
+                      <span className="border-b border-dotted border-black flex-1 px-2 text-red-600 font-bold leading-none">
+                        {currentForm === 'APPROVAL' ? data.subjectApproval :
+                         currentForm === 'ASSIGNMENT' ? data.subjectAssignment :
+                         currentForm === 'REPORT' ? data.subjectReport :
+                         data.subjectSummary}
+                      </span>
                     </div>
                   </div>
-                  <div className="flex gap-2">
-                    <span className="font-bold shrink-0">เรื่อง</span>
-                    <span className="border-b border-dotted border-black flex-1 px-2 text-red-600 font-bold">
-                      {currentForm === 'APPROVAL' ? data.subjectApproval :
-                       currentForm === 'ASSIGNMENT' ? data.subjectAssignment :
-                       currentForm === 'REPORT' ? data.subjectReport :
-                       data.subjectSummary}
-                    </span>
+                ) : (
+                  <div className="text-[16pt] mb-4">
+                    <div className="grid grid-cols-2 gap-x-8 mb-2">
+                      <div className="flex gap-2">
+                        <span className="font-bold shrink-0">จาก</span>
+                        <span className="border-b border-dotted border-black flex-1 px-1 text-red-600">{data.from}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="font-bold shrink-0">ถึง</span>
+                        <span className="border-b border-dotted border-black flex-1 px-1 text-red-600">{data.recipient}</span>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-x-8 mb-2">
+                      <div className="flex gap-2">
+                        <span className="font-bold shrink-0">เลขที่</span>
+                        <span className="border-b border-dotted border-black flex-1 px-1 text-red-600">{data.docNumber}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="font-bold shrink-0">วันที่</span>
+                        <span className="border-b border-dotted border-black flex-1 px-1 text-red-600">{data.date}</span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2 mb-2">
+                      <span className="font-bold shrink-0">เรื่อง</span>
+                      <span className="border-b border-dotted border-black flex-1 px-1 text-red-600 font-bold">{data.subjectSummary}</span>
+                    </div>
+                    <div className="flex gap-2">
+                      <span className="font-bold shrink-0">เรียน</span>
+                      <span className="border-b border-dotted border-black flex-1 px-1 text-red-600">
+                        {data.to} {data.through && <span className="ml-2">ผ่าน {data.through}</span>}
+                      </span>
+                    </div>
                   </div>
-                </div>
+                )}
 
-                <div className="text-[14pt] mb-4">
-                  <p><span className="font-bold">เรียน</span> <span className="text-red-600">{data.to}</span></p>
-                </div>
+                {currentForm !== 'SUMMARY' && (
+                  <div className="text-[16pt] mb-4">
+                    <p><span className="font-bold">เรียน</span> <span className="text-red-600 ml-2">{data.to}</span> {data.through && <span className="ml-2">ผ่าน <span className="text-red-600">{data.through}</span></span>}</p>
+                  </div>
+                )}
 
                 {/* Main Content */}
                 <div className="flex-1">
@@ -680,86 +736,104 @@ export default function App() {
                   )}
 
                   {currentForm === 'SUMMARY' && (
-                    <div className="space-y-4 text-[14pt] leading-[1.2]">
-                      <section className="mt-1">
-                        <p className="indent-[2.5cm] leading-relaxed">
-                          ตามที่ <span className="text-red-600">{data.from}</span> ได้ดำเนินการ<span className="text-red-600">{data.item}</span> <span className="text-red-600">{data.unitName}</span> ประจำเดือน <span className="text-red-600">{data.monthStart}</span> - <span className="text-red-600">{data.monthEnd}</span> โดยวิธีเฉพาะเจาะจง นั้น
-                        </p>
+                    <div className="space-y-4 text-[16pt] leading-tight">
+                      <p className="indent-[2.5cm] mb-4">
+                        ตามที่ <span className="text-red-600">{data.from}</span> ดำเนินการจัดซื้อ/จ้าง <span className="text-red-600">{data.item}</span> โดยวิธีเฉพาะเจาะจง ขอรายงานผลการพิจารณาการจัดซื้อ/จ้าง ดังนี้
+                      </p>
+
+                      <table className="w-full border-collapse border border-black mb-4 text-center">
+                        <thead>
+                          <tr>
+                            <th className="border border-black p-1 w-12">ที่</th>
+                            <th className="border border-black p-1">รายการ</th>
+                            <th className="border border-black p-1">ราคาที่เสนอ</th>
+                            <th className="border border-black p-1">ภาษีมูลค่าเพิ่ม</th>
+                            <th className="border border-black p-1">ราคาที่ตกลงซื้อ/จ้าง<br/>(รวมภาษีมูลค่าเพิ่ม)</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td className="border border-black p-1">๑</td>
+                            <td className="border border-black p-1 text-left px-2">{data.item}</td>
+                            <td className="border border-black p-1">{data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                            <td className="border border-black p-1">{data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                            <td className="border border-black p-1">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                          </tr>
+                          <tr>
+                            <td colSpan={2} className="border border-black p-1 font-bold">รวม</td>
+                            <td className="border border-black p-1">{data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                            <td className="border border-black p-1">{data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                            <td className="border border-black p-1 font-bold">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <p className="indent-[1.5cm] mb-2 leading-relaxed">
+                        <span className="text-red-600">{data.from}</span> พิจารณาแล้ว เห็นสมควรจัดซื้อ/จ้าง จาก <span className="text-red-600">{data.supplierName}</span> จำนวนเงิน <span className="text-red-600">{data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท ภาษีมูลค่าเพิ่ม <span className="text-red-600">{data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท เป็นเงินทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม
+                      </p>
+
+                      <p className="indent-[1.5cm] mb-6">
+                        จึงเรียนมาเพื่อโปรดพิจารณา หากเห็นชอบ ขอได้โปรดอนุมัติให้สั่งซื้อ/จ้าง จากผู้เสนอราคาดังกล่าว พร้อมทั้งแจ้งคณะกรรมการตรวจรับ ดำเนินการต่อไป
+                      </p>
+
+                      {/* Signature Grid from PDF */}
+                      <div className="border border-black">
+                        <div className="grid grid-cols-2 border-b border-black">
+                          <div className="border-r border-black p-4 min-h-[140px] flex flex-col">
+                            <p className="text-center font-bold mb-4 leading-tight">เห็นชอบและอนุมัติสั่งซื้อ/สั่งจ้างดำเนินการได้ โดยปฏิบัติให้ถูกต้องตามระเบียบ</p>
+                            <div className="text-center mt-auto">
+                              <p className="mb-1">( <span className="text-red-600">{data.signer2.name}</span> )</p>
+                              <p><span className="text-red-600">{data.signer2.position}</span></p>
+                            </div>
+                          </div>
+                          <div className="p-4 flex flex-col items-center justify-center">
+                            <div className="text-center">
+                              <p className="mb-6">ลงชื่อ..............................................................</p>
+                              <p>( <span className="text-red-600">{data.signer1.name}</span> )</p>
+                              <p>ตำแหน่ง <span className="text-red-600">{data.signer1.position}</span></p>
+                              <p>วันที่........./........../..........</p>
+                            </div>
+                          </div>
+                        </div>
                         
-                        <div className="mt-4 space-y-4">
-                          <div>
-                            <p className="font-bold">๑. ข้อมูล</p>
-                            <p className="indent-[1.5cm]">
-                              <span className="text-red-600">{data.from}</span> มีความประสงค์จะ<span className="text-red-600">{data.item}</span> <span className="text-red-600">{data.unitName}</span> จำนวน <span className="text-red-600">{data.stationCount}</span> สถานี ได้แก่ <span className="text-red-600">{data.stationList}</span> ประจำเดือน <span className="text-red-600">{data.monthStart}</span> - <span className="text-red-600">{data.monthEnd}</span>
-                            </p>
+                        <div className="grid grid-cols-2 border-b border-black">
+                          <div className="border-r border-black p-4">
+                            <p className="mb-2 font-bold">เรียน {data.to}</p>
+                            <p className="indent-[0.8cm] mb-4 leading-tight">คณะกรรมการตรวจรับได้ทำการตรวจรับ <span className="text-red-600">{data.item}</span> จำนวน ๑ รายการ เมื่อวันที่................................เห็นว่าถูกต้องครบถ้วน เห็นควรรับไว้ใช้งานและเบิกจ่ายเงิน ให้แก่ผู้ขาย/ผู้รับจ้างต่อไป</p>
+                            <div className="space-y-4">
+                              {data.committee.map((member, idx) => (
+                                <div key={idx} className="flex flex-col items-center">
+                                  <p className="mb-1">ลงชื่อ..............................................................{idx === 0 ? 'ประธานกรรมการ' : 'กรรมการ'}</p>
+                                  <p>( <span className="text-red-600">{member.name}</span> )</p>
+                                </div>
+                              ))}
+                            </div>
                           </div>
-
-                          <div>
-                            <p className="font-bold">๒. ข้อพิจารณา</p>
-                            <p className="indent-[1.5cm]">
-                              คณะกรรมการกำหนดราคากลาง ได้กำหนดราคากลางเป็นเงิน <span className="text-red-600">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท (รวมภาษีมูลค่าเพิ่ม) และ <span className="text-red-600">{data.from}</span> ได้เจรจาตกลงจ้างกับ <span className="text-red-600">{data.supplierName}</span> เป็นเงิน <span className="text-red-600">{data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท ภาษีมูลค่าเพิ่ม <span className="text-red-600">{data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท รวมเป็นเงินทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) ซึ่งเป็นราคาที่รวมภาษีมูลค่าเพิ่มแล้ว
-                            </p>
-                          </div>
-
-                          <div>
-                            <p className="font-bold">๓. ข้อเสนอ</p>
-                            <p className="indent-[1.5cm]">
-                              <span className="text-red-600">{data.from}</span> พิจารณาแล้ว เห็นสมควร<span className="text-red-600">{data.item}</span> จาก <span className="text-red-600">{data.supplierName}</span> เป็นเงินทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม
-                            </p>
-                          </div>
-                        </div>
-
-                        <p className="mt-6 indent-[1.5cm] leading-relaxed">
-                          จึงเรียนมาเพื่อโปรดพิจารณา หากเห็นชอบขอได้โปรดอนุมัติให้สั่งจ้างจากผู้เสนอราคาดังกล่าว พร้อมทั้งแจ้งคณะกรรมการตรวจรับดำเนินการต่อไปด้วย จะเป็นพระคุณ
-                        </p>
-                      </section>
-
-                      {/* Signature Section */}
-                      <div className="mt-8 grid grid-cols-2 gap-8">
-                        <div className="border border-black p-4 min-h-[150px]">
-                          <p className="font-bold text-center mb-4">คำสั่ง</p>
-                          <p className="mb-8">- อนุมัติ</p>
-                          <div className="text-center mt-auto">
-                            <p className="mb-1">ลงชื่อ...........................................................</p>
-                            <p>( <span className="text-red-600">{data.signer2.name}</span> )</p>
-                            <p><span className="text-red-600">{data.signer2.position}</span></p>
-                            <p>........./........../..........</p>
+                          <div className="p-4 flex flex-col">
+                            <p className="mb-4 leading-tight">ข้าพเจ้าได้รับมอบ<span className="text-red-600">{data.item}</span>จำนวน ๑ รายการ ดังกล่าว เพื่อนำไปใช้งานแล้วตั้งแต่วันที่............................</p>
+                            <div className="text-center mt-auto">
+                              <p className="mb-6">ลงชื่อ..............................................................(ผู้รับของ)</p>
+                              <p>( <span className="text-red-600">{data.receiver.name}</span> )</p>
+                              <p>ตำแหน่ง <span className="text-red-600">{data.receiver.position}</span></p>
+                              <p>วันที่........./........../..........</p>
+                            </div>
                           </div>
                         </div>
 
-                        <div className="flex flex-col items-center justify-end pb-4">
-                          <div className="text-center space-y-1">
-                            <p className="mb-8">ลงชื่อ...........................................................</p>
-                            <p>( <span className="text-red-600">{data.signer1.name}</span> )</p>
-                            <p><span className="text-red-600">{data.signer1.position}</span></p>
-                            <p><span className="text-red-600">{data.signer1Unit}</span></p>
+                        <div className="grid grid-cols-2">
+                          <div className="border-r border-black p-2 text-[10pt] flex items-end">
+                            <p>จซ.(ฉ) ๐๐๑ – ป.๖๐</p>
+                          </div>
+                          <div className="p-4 text-center">
+                             <p className="mb-4 font-bold">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม</p>
+                             <div className="mt-4">
+                               <p className="mb-1">( <span className="text-red-600">{data.signer2.name}</span> )</p>
+                               <p><span className="text-red-600">{data.signer2.position}</span></p>
+                             </div>
                           </div>
                         </div>
                       </div>
-
-                      {/* Footer Table */}
-                      <div className="mt-8">
-                        <table className="w-full border-collapse border border-black text-[10pt]">
-                          <thead>
-                            <tr>
-                              <th className="border border-black p-1 text-center">รหัสบัญชี</th>
-                              <th className="border border-black p-1 text-center">ศูนย์ต้นทุน</th>
-                              <th className="border border-black p-1 text-center">งานหลัก</th>
-                              <th className="border border-black p-1 text-center">งานรอง</th>
-                              <th className="border border-black p-1 text-center">งบประมาณ</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="border border-black p-1 text-center font-mono"><span className="text-red-600">{data.accountCode}</span></td>
-                              <td className="border border-black p-1 text-center font-mono"><span className="text-red-600">{data.costCenter}</span></td>
-                              <td className="border border-black p-1 text-center"></td>
-                              <td className="border border-black p-1 text-center"></td>
-                              <td className="border border-black p-1 text-center"></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
+                      <p className="text-[10pt] mt-2 font-bold">**หมายเหตุ กรณีผู้ขาย/ผู้จ้าง ไม่ได้อยู่ในระบบ VAT ให้ระบุจำนวนเงินไม่รวมภาษีมูลค่าเพิ่ม (ปรับปรุงแบบฟอร์ม วันที่ ๑๘ ก.ย.๒๕๖๑)</p>
                     </div>
                   )}
 
@@ -800,7 +874,7 @@ export default function App() {
                 )}
               </div>
 
-              <div className="mt-8 max-w-[210mm] w-full bg-blue-50 border border-blue-100 p-4 rounded-xl flex items-start gap-3 text-blue-800 print:hidden">
+              <div className="mt-8 max-w-[210mm] w-full bg-blue-50 border border-blue-100 p-4 rounded-xl flex items-start gap-3 text-blue-800 print:hidden instructions-box">
                 <div className="p-1 bg-blue-100 rounded-full">
                   <Printer size={16} />
                 </div>
