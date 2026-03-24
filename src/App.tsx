@@ -24,8 +24,9 @@ const initialData: ProcurementDoc = {
   date: '22 มีนาคม 2569',
   subjectApproval: 'ขอความเห็นชอบดำเนินการจ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
   subjectAssignment: 'ขออนุมัติแต่งตั้งคณะกรรมการจัดทำคุณลักษณะและกำหนดราคากลาง จ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
-  subjectReport: 'รายงานขอจ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567 โดยวิธีเฉพาะเจาะจง',
-  subjectSummary: 'รายงานสรุปผลการพิจารณาตรวจรับ และอนุมัติจ่ายเงินจ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
+  subjectReport: 'รายงานขอจ้างทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567 โดยวิธีเฉพาะเจาะจง',
+  subjectNotice: 'ประกาศผู้ชนะการเสนอราคา จ้างทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
+  subjectSummary: 'รายงานสรุปผลการพิจารณาตรวจรับ และอนุมัติจ่ายเงินจ้างทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
   recipient: 'กปบ.(ก3)',
   through: 'รก.ปบ.(ก3)',
   department: 'แผนกปฏิบัติการและบำรุงรักษา',
@@ -79,13 +80,14 @@ export default function App() {
   const printRef = useRef<HTMLDivElement>(null);
 
   const updateSubjects = (type: string, currentData: ProcurementDoc) => {
-    const itemText = type === 'CLEANING' ? 'จ้างเหมาทำความสะอาด' : 'จ้างเหมาตัดหญ้า';
+    const itemText = type === 'CLEANING' ? 'จ้างทำความสะอาด' : 'จ้างตัดหญ้า';
     return {
       ...currentData,
       item: itemText,
       subjectApproval: `ขอความเห็นชอบดำเนินการ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
       subjectAssignment: `ขออนุมัติแต่งตั้งคณะกรรมการจัดทำคุณลักษณะและกำหนดราคากลาง ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
       subjectReport: `รายงานขอ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd} โดยวิธีเฉพาะเจาะจง`,
+      subjectNotice: `ประกาศผู้ชนะการเสนอราคา ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
       subjectSummary: `รายงานสรุปผลการพิจารณาตรวจรับ และอนุมัติจ่ายเงิน${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
     };
   };
@@ -218,40 +220,44 @@ export default function App() {
           
           html, body {
             width: 210mm;
-            height: 297mm;
+            height: auto !important;
             margin: 0 !important;
             padding: 0 !important;
             background: white !important;
+            overflow: visible !important;
           }
 
-          /* Hide UI elements */
-          nav, .form-selector, .instructions-box, button, .bg-stone-100 {
+          /* Hide UI elements but NOT the main container */
+          nav, 
+          .form-selector, 
+          .instructions-box, 
+          button,
+          .print\:hidden {
             display: none !important;
-            background: none !important;
           }
 
-          main {
-            padding: 0 !important;
-            margin: 0 !important;
-            max-width: none !important;
-          }
-
-          .content-container {
-            margin: 0 !important;
-            padding: 0 !important;
-          }
-
+          /* Reset background and layout for print */
+          .bg-stone-100,
+          main,
+          .content-container,
           .print-wrapper-outer {
+            background: white !important;
+            min-height: 0 !important;
             padding: 0 !important;
             margin: 0 !important;
             display: block !important;
-            background: white !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            transform: none !important;
+            width: 210mm !important;
+            max-width: none !important;
+            overflow: visible !important;
           }
 
           .print-container {
             display: block !important;
             width: 210mm !important;
-            height: 297mm !important;
+            min-height: 297mm !important;
             margin: 0 !important;
             padding: 20mm 15mm 15mm 25mm !important; /* Top 2cm, Right 1.5cm, Bottom 1.5cm, Left 2.5cm */
             background: white !important;
@@ -263,6 +269,8 @@ export default function App() {
             box-sizing: border-box !important;
             box-shadow: none !important;
             border: none !important;
+            visibility: visible !important;
+            overflow: visible !important;
           }
 
           /* Force all text to black and remove red highlights for official print */
@@ -355,7 +363,8 @@ export default function App() {
               { id: 'APPROVAL', label: '1. ขอความเห็นชอบ', icon: FileText },
               { id: 'ASSIGNMENT', label: '2. มอบหมายคุณลักษณะ', icon: ClipboardList },
               { id: 'REPORT', label: '3. รายงานขอซื้อ/จ้าง', icon: FileCheck },
-              { id: 'SUMMARY', label: '4. สรุปผล/ตรวจรับ', icon: CheckCircle2 },
+              { id: 'NOTICE', label: '4. ประกาศผู้ชนะ', icon: FileText },
+              { id: 'SUMMARY', label: '5. สรุปผล/ตรวจรับ', icon: CheckCircle2 },
             ].map((form) => (
               <button
                 key={form.id}
@@ -374,14 +383,16 @@ export default function App() {
         </div>
 
         <div className="content-container">
-          {!isPreview ? (
+          {/* Form Editor - Hidden in print, hidden on screen if in preview mode */}
+          <div className={`${isPreview ? 'hidden' : 'block'} print:hidden`}>
             <div className="bg-white rounded-3xl shadow-xl border border-stone-200 overflow-hidden">
               <div className="p-8 border-b border-stone-100 bg-stone-50/50">
                 <h2 className="text-2xl font-bold text-slate-800">
                   {currentForm === 'APPROVAL' && '1. บันทึกขอความเห็นชอบดำเนินการ'}
                   {currentForm === 'ASSIGNMENT' && '2. มอบหมายจัดทำคุณลักษณะ'}
                   {currentForm === 'REPORT' && '3. รายงานขอจัดซื้อหรือจัดจ้าง'}
-                  {currentForm === 'SUMMARY' && '4. รายงานสรุปผลพิจารณาและตรวจรับ'}
+                  {currentForm === 'NOTICE' && '4. ประกาศผู้ชนะการเสนอราคา'}
+                  {currentForm === 'SUMMARY' && '5. รายงานสรุปผลพิจารณาและตรวจรับ'}
                 </h2>
                 <p className="text-slate-500 mt-1">กรุณากรอกข้อมูลที่เปลี่ยนแปลงในส่วนนี้ ข้อมูลพื้นฐานจะถูกเชื่อมโยงกันอัตโนมัติ</p>
               </div>
@@ -420,12 +431,14 @@ export default function App() {
                             currentForm === 'APPROVAL' ? 'subjectApproval' :
                             currentForm === 'ASSIGNMENT' ? 'subjectAssignment' :
                             currentForm === 'REPORT' ? 'subjectReport' :
+                            currentForm === 'NOTICE' ? 'subjectNotice' :
                             'subjectSummary'
                           } 
                           value={
                             currentForm === 'APPROVAL' ? data.subjectApproval :
                             currentForm === 'ASSIGNMENT' ? data.subjectAssignment :
                             currentForm === 'REPORT' ? data.subjectReport :
+                            currentForm === 'NOTICE' ? data.subjectNotice :
                             data.subjectSummary
                           } 
                           onChange={handleChange} 
@@ -538,7 +551,7 @@ export default function App() {
                     {currentForm !== 'APPROVAL' && (
                       <button
                         onClick={() => {
-                          const forms: FormType[] = ['APPROVAL', 'ASSIGNMENT', 'REPORT', 'SUMMARY'];
+                          const forms: FormType[] = ['APPROVAL', 'ASSIGNMENT', 'REPORT', 'NOTICE', 'SUMMARY'];
                           const idx = forms.indexOf(currentForm);
                           setCurrentForm(forms[idx - 1]);
                         }}
@@ -550,7 +563,7 @@ export default function App() {
                     {currentForm !== 'SUMMARY' && (
                       <button
                         onClick={() => {
-                          const forms: FormType[] = ['APPROVAL', 'ASSIGNMENT', 'REPORT', 'SUMMARY'];
+                          const forms: FormType[] = ['APPROVAL', 'ASSIGNMENT', 'REPORT', 'NOTICE', 'SUMMARY'];
                           const idx = forms.indexOf(currentForm);
                           setCurrentForm(forms[idx + 1]);
                           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -565,9 +578,11 @@ export default function App() {
                 </div>
               </div>
             </div>
-          ) : (
-            <div className="print-wrapper-outer p-4 md:p-8 flex justify-center">
-              <div className="print-container bg-white shadow-2xl border border-stone-200 p-[1.5cm] min-h-[297mm] w-[210mm] text-[16pt] leading-normal font-serif text-black relative flex flex-col">
+          </div>
+
+          {/* Print Preview - Always visible in print, hidden on screen if not in preview mode */}
+          <div className={`print-wrapper-outer p-4 md:p-8 flex justify-center ${isPreview ? 'block' : 'hidden'} print:block`}>
+            <div className="print-container bg-white shadow-2xl border border-stone-200 p-[1.5cm] min-h-[297mm] w-[210mm] text-[16pt] leading-normal font-serif text-black relative flex flex-col">
                 {/* Header */}
                 <div className="flex items-start mb-4">
                   <div className="flex flex-col items-start w-48 shrink-0">
@@ -613,6 +628,7 @@ export default function App() {
                         {currentForm === 'APPROVAL' ? data.subjectApproval :
                          currentForm === 'ASSIGNMENT' ? data.subjectAssignment :
                          currentForm === 'REPORT' ? data.subjectReport :
+                         currentForm === 'NOTICE' ? data.subjectNotice :
                          data.subjectSummary}
                       </span>
                     </div>
@@ -735,6 +751,26 @@ export default function App() {
                     </div>
                   )}
 
+                  {currentForm === 'NOTICE' && (
+                    <div className="space-y-6 text-[14pt]">
+                      <section className="text-center">
+                        <h3 className="font-bold text-[18pt] mb-4">ประกาศผู้ชนะการเสนอราคา</h3>
+                        <p className="font-bold mb-4">{data.subjectNotice}</p>
+                      </section>
+                      <section>
+                        <p className="indent-[2.5cm] leading-relaxed">
+                          ตามที่ <span className="text-red-600">{data.from}</span> ได้มีโครงการ <span className="text-red-600">{data.item}</span> โดยวิธีเฉพาะเจาะจง นั้น
+                        </p>
+                        <p className="indent-[2.5cm] leading-relaxed mt-4">
+                          <span className="text-red-600">{data.item}</span> ผู้ได้รับการคัดเลือก ได้แก่ <span className="text-red-600">{data.supplierName}</span> โดยเสนอราคา เป็นเงินทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่มและภาษีอื่น ค่าขนส่ง ค่าจดทะเบียน และค่าใช้จ่ายอื่นๆ ทั้งปวง
+                        </p>
+                        <p className="indent-[2.5cm] mt-12">
+                          ประกาศ ณ วันที่ <span className="text-red-600">{data.date}</span>
+                        </p>
+                      </section>
+                    </div>
+                  )}
+
                   {currentForm === 'SUMMARY' && (
                     <div className="space-y-4 text-[16pt] leading-tight">
                       <p className="indent-[2.5cm] mb-4">
@@ -840,7 +876,7 @@ export default function App() {
                 </div>
 
                 {/* Signatures (Hidden for Form 4 as it has custom grid) */}
-                {currentForm !== 'SUMMARY' && (
+                {currentForm !== 'SUMMARY' && currentForm !== 'NOTICE' && (
                   <div className="mt-auto">
                     <div className="flex justify-end pr-10">
                       <div className="text-center w-80 space-y-1">
@@ -872,6 +908,16 @@ export default function App() {
                     </div>
                   </div>
                 )}
+
+                {currentForm === 'NOTICE' && (
+                  <div className="mt-auto pt-20">
+                    <div className="flex flex-col items-center ml-[6cm]">
+                      <p className="mb-12">ลงชื่อ..............................................................</p>
+                      <p>( <span className="text-red-600">{data.signer2.name}</span> )</p>
+                      <p><span className="text-red-600">{data.signer2.position}</span></p>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="mt-8 max-w-[210mm] w-full bg-blue-50 border border-blue-100 p-4 rounded-xl flex items-start gap-3 text-blue-800 print:hidden instructions-box">
@@ -884,11 +930,9 @@ export default function App() {
                 </div>
               </div>
             </div>
-          )}
-        </div>
-      </main>
-
-      {/* Print Styles */}
-    </div>
-  );
+          </div>
+        </main>
+      </div>
+    );
+  }
 }
