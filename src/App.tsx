@@ -17,31 +17,32 @@ const PEA_LOGO_SVG = `
 `;
 
 const initialData: ProcurementDoc = {
-  from: 'ผจศ.ปบ.(ก3)',
+  from: 'ผจฟ.1',
   to: 'อก.ปบ.(ก3)',
-  docNumber: 'ก.3 กปบ.(จศ) /2569',
-  docYear: '',
+  docNumber: 'ก.3 กปบ.(จฟ.1)',
+  docYear: '/2569',
   date: '22 มีนาคม 2569',
-  subjectApproval: 'ขอความเห็นชอบดำเนินการจ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
+  subjectApproval: 'ขอความเห็นชอบดำเนินการจัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชสถานีไฟฟ้าในหน่วยปฏิบัติงาน สถานีไฟฟ้าที่ 1',
   subjectAssignment: 'ขออนุมัติแต่งตั้งคณะกรรมการจัดทำคุณลักษณะและกำหนดราคากลาง จ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
   subjectReport: 'รายงานขอจ้างทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567 โดยวิธีเฉพาะเจาะจง',
   subjectSummary: 'รายงานสรุปผลการพิจารณาตรวจรับ และอนุมัติจ่ายเงินจ้างทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
   recipient: 'กปบ.(ก3)',
-  through: 'รก.ปบ.(ก3)',
-  department: 'แผนกปฏิบัติการและบำรุงรักษา',
-  phone: '0-4351-1234',
+  through: 'ชก.ปบ.(ก3)',
+  department: 'แผนกจัดการงานสถานีไฟฟ้า 1',
+  phone: '10520-21',
   logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/90/Logo_of_the_Provincial_Electricity_Authority_of_Thailand.svg',
-  item: 'จ้างเหมาทำความสะอาด',
-  budgetYear: '2569',
+  item: 'จัดจ้าง',
+  budgetYear: '2568',
   wbs: 'WBS-123456',
   unitName: 'กฟส.บางละมุง',
   monthStart: 'ตุลาคม 2566',
   monthEnd: 'กันยายน 2567',
   parentUnit: 'กฟภ.จ.ชลบุรี',
   stationCount: '1',
-  stationList: 'กฟส.บางละมุง',
-  accountCode: '5301010',
-  costCenter: '1234567',
+  stationList: 'สถานีไฟฟ้าท่าทราย 1',
+  accountCode: '53034030',
+  accountName: 'บัญชีค่าจ้างบำรุงรักษาสวน',
+  costCenter: 'I301031040',
   signer1Unit: 'กฟส.บางละมุง',
   infoSection: {
     requester: 'แผนกปฏิบัติการและบำรุงรักษา',
@@ -67,7 +68,7 @@ const initialData: ProcurementDoc = {
   totalAmount: 14744.60,
   totalAmountThai: 'หนึ่งหมื่นสี่พันเจ็ดร้อยสี่สิบสี่บาทหกสิบสตางค์',
   receiver: { name: 'นายกฤษณะ ปอยงาม', position: 'ชผ.จศ.กปบ.(ก3)' },
-  signer1: { name: 'นายภานุพงศ์ เจนสุริยะกุล', position: 'หผ.จศ.กปบ.(ก3)' },
+  signer1: { name: 'นายภานุพงศ์ เจนสุริยะกุล', position: 'หผ.จฟ.1 กปบ.(ก3)' },
   signer2: { name: 'นายเลอพงศ์ แก่นจันทร์', position: 'อก.ปบ.(ก3)' },
 };
 
@@ -80,10 +81,11 @@ export default function App() {
 
   const updateSubjects = (type: string, currentData: ProcurementDoc) => {
     const itemText = type === 'CLEANING' ? 'จ้างทำความสะอาด' : 'จ้างตัดหญ้า';
+    const actionText = type === 'CLEANING' ? 'จัดจ้าง' : 'จัดจ้าง';
     return {
       ...currentData,
-      item: itemText,
-      subjectApproval: `ขอความเห็นชอบดำเนินการ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
+      item: actionText,
+      subjectApproval: `ขอความเห็นชอบดำเนินการ${actionText}${itemText}และฉีดยากำจัดวัชพืชสถานีไฟฟ้าในหน่วยปฏิบัติงาน สถานีไฟฟ้าที่ ${currentData.stationCount}`,
       subjectAssignment: `ขออนุมัติแต่งตั้งคณะกรรมการจัดทำคุณลักษณะและกำหนดราคากลาง ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
       subjectReport: `รายงานขอ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd} โดยวิธีเฉพาะเจาะจง`,
       subjectSummary: `รายงานสรุปผลการพิจารณาตรวจรับ และอนุมัติจ่ายเงิน${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
@@ -402,138 +404,175 @@ export default function App() {
                   </h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Header Info */}
-                    <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-red-50/30 rounded-2xl border border-red-100">
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-500 uppercase">ส่วนราชการ</label>
-                        <input name="from" value={data.from} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-500 uppercase">โทร</label>
-                        <input name="phone" value={data.phone} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-500 uppercase">ที่ (เลขที่หนังสือ)</label>
-                        <input name="docNumber" value={data.docNumber} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-500 uppercase">วันที่</label>
-                        <input name="date" value={data.date} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                      </div>
-                      <div className="md:col-span-2 space-y-1.5">
-                        <label className="text-xs font-bold text-slate-500 uppercase">เรื่อง</label>
-                        <input 
-                          name={
-                            currentForm === 'APPROVAL' ? 'subjectApproval' :
-                            currentForm === 'ASSIGNMENT' ? 'subjectAssignment' :
-                            currentForm === 'REPORT' ? 'subjectReport' :
-                            'subjectSummary'
-                          } 
-                          value={
-                            currentForm === 'APPROVAL' ? data.subjectApproval :
-                            currentForm === 'ASSIGNMENT' ? data.subjectAssignment :
-                            currentForm === 'REPORT' ? data.subjectReport :
-                            data.subjectSummary
-                          } 
-                          onChange={handleChange} 
-                          className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" 
-                        />
-                      </div>
-                      <div className="md:col-span-3 space-y-1.5">
-                        <label className="text-xs font-bold text-slate-500 uppercase">เรียน</label>
-                        <input name="to" value={data.to} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                      </div>
-                    </div>
-
-                    {/* Content Info */}
-                    <div className="md:col-span-2 space-y-1.5">
-                      <label className="text-xs font-bold text-slate-500 uppercase">ชื่อหน่วยปฏิบัติงาน / สถานีไฟฟ้า</label>
-                      <input name="unitName" value={data.unitName} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none font-medium" />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-500 uppercase">เดือนเริ่มต้น</label>
-                      <input name="monthStart" value={data.monthStart} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-500 uppercase">เดือนสิ้นสุด</label>
-                      <input name="monthEnd" value={data.monthEnd} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-500 uppercase">จำนวนสถานีไฟฟ้า (ตัวเลข)</label>
-                      <input name="stationCount" value={data.stationCount} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-500 uppercase">รายชื่อสถานีไฟฟ้าที่รับผิดชอบ</label>
-                      <input name="stationList" value={data.stationList} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                    </div>
-
-                    {/* Financial Info */}
-                    <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-red-50/30 rounded-2xl border border-red-100">
-                      <div className="md:col-span-2 space-y-1.5">
-                        <label className="text-xs font-bold text-slate-500 uppercase">ชื่อผู้รับจ้าง (Supplier)</label>
-                        <input name="supplierName" value={data.supplierName} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-500 uppercase">ราคาไม่รวม VAT</label>
-                        <input type="number" name="priceBeforeVat" value={data.priceBeforeVat} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-500 uppercase">ภาษีมูลค่าเพิ่ม (VAT)</label>
-                        <input type="number" name="vatAmount" value={data.vatAmount} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-500 uppercase">ราคาสุทธิ (รวม VAT)</label>
-                        <input type="number" name="totalAmount" value={data.totalAmount} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-500 uppercase">ราคาสุทธิ (ตัวอักษร)</label>
-                        <input name="totalAmountThai" value={data.totalAmountThai} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-500 uppercase">รหัสบัญชี</label>
-                        <input name="accountCode" value={data.accountCode} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-500 uppercase">รหัสศูนย์ต้นทุน</label>
-                        <input name="costCenter" value={data.costCenter} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
-                      </div>
-                    </div>
-
-                    {/* Signers */}
-                    <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100 space-y-4">
-                        <p className="text-xs font-bold text-purple-600 uppercase">ผู้เสนอ</p>
-                        <div className="space-y-3">
+                    {currentForm === 'APPROVAL' ? (
+                      <>
+                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-red-50/30 rounded-2xl border border-red-100">
                           <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">ชื่อ-นามสกุล</label>
-                            <input name="signer1.name" value={data.signer1.name} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none bg-white" />
+                            <label className="text-xs font-bold text-slate-500 uppercase">ประเภทการดำเนินการ (จัดซื้อ/จัดจ้าง)</label>
+                            <input name="item" value={data.item} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
                           </div>
                           <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">ตำแหน่ง</label>
-                            <input name="signer1.position" value={data.signer1.position} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none bg-white" />
+                            <label className="text-xs font-bold text-slate-500 uppercase">ปีงบประมาณ</label>
+                            <input name="budgetYear" value={data.budgetYear} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
                           </div>
                           <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">หน่วยงาน</label>
-                            <input name="signer1Unit" value={data.signer1Unit} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none bg-white" />
+                            <label className="text-xs font-bold text-slate-500 uppercase">จำนวนสถานีไฟฟ้า (ตัวเลข)</label>
+                            <input name="stationCount" value={data.stationCount} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          </div>
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-bold text-slate-500 uppercase">รายชื่อสถานีไฟฟ้า</label>
+                            <input name="stationList" value={data.stationList} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          </div>
+                          <div className="md:col-span-2 space-y-1.5">
+                            <label className="text-xs font-bold text-slate-500 uppercase">ชื่อบัญชี</label>
+                            <input name="accountName" value={data.accountName} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          </div>
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-bold text-slate-500 uppercase">รหัสบัญชี</label>
+                            <input name="accountCode" value={data.accountCode} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          </div>
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-bold text-slate-500 uppercase">รหัสศูนย์ต้นทุน</label>
+                            <input name="costCenter" value={data.costCenter} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
                           </div>
                         </div>
-                      </div>
-                      <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100 space-y-4">
-                        <p className="text-xs font-bold text-purple-600 uppercase">ผู้อนุมัติ</p>
-                        <div className="space-y-3">
+                      </>
+                    ) : (
+                      <>
+                        {/* Header Info */}
+                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-red-50/30 rounded-2xl border border-red-100">
                           <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">ชื่อ-นามสกุล</label>
-                            <input name="signer2.name" value={data.signer2.name} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none bg-white" />
+                            <label className="text-xs font-bold text-slate-500 uppercase">ส่วนราชการ</label>
+                            <input name="from" value={data.from} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
                           </div>
                           <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">ตำแหน่ง</label>
-                            <input name="signer2.position" value={data.signer2.position} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none bg-white" />
+                            <label className="text-xs font-bold text-slate-500 uppercase">โทร</label>
+                            <input name="phone" value={data.phone} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          </div>
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-bold text-slate-500 uppercase">ที่ (เลขที่หนังสือ)</label>
+                            <input name="docNumber" value={data.docNumber} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          </div>
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-bold text-slate-500 uppercase">วันที่</label>
+                            <input name="date" value={data.date} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          </div>
+                          <div className="md:col-span-2 space-y-1.5">
+                            <label className="text-xs font-bold text-slate-500 uppercase">เรื่อง</label>
+                            <input 
+                              name={
+                                currentForm === 'APPROVAL' ? 'subjectApproval' :
+                                currentForm === 'ASSIGNMENT' ? 'subjectAssignment' :
+                                currentForm === 'REPORT' ? 'subjectReport' :
+                                'subjectSummary'
+                              } 
+                              value={
+                                currentForm === 'APPROVAL' ? data.subjectApproval :
+                                currentForm === 'ASSIGNMENT' ? data.subjectAssignment :
+                                currentForm === 'REPORT' ? data.subjectReport :
+                                data.subjectSummary
+                              } 
+                              onChange={handleChange} 
+                              className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" 
+                            />
+                          </div>
+                          <div className="md:col-span-3 space-y-1.5">
+                            <label className="text-xs font-bold text-slate-500 uppercase">เรียน</label>
+                            <input name="to" value={data.to} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
                           </div>
                         </div>
-                      </div>
-                    </div>
+
+                        {/* Content Info */}
+                        <div className="md:col-span-2 space-y-1.5">
+                          <label className="text-xs font-bold text-slate-500 uppercase">ชื่อหน่วยปฏิบัติงาน / สถานีไฟฟ้า</label>
+                          <input name="unitName" value={data.unitName} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none font-medium" />
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-bold text-slate-500 uppercase">เดือนเริ่มต้น</label>
+                          <input name="monthStart" value={data.monthStart} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-bold text-slate-500 uppercase">เดือนสิ้นสุด</label>
+                          <input name="monthEnd" value={data.monthEnd} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-bold text-slate-500 uppercase">จำนวนสถานีไฟฟ้า (ตัวเลข)</label>
+                          <input name="stationCount" value={data.stationCount} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-bold text-slate-500 uppercase">รายชื่อสถานีไฟฟ้าที่รับผิดชอบ</label>
+                          <input name="stationList" value={data.stationList} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                        </div>
+
+                        {/* Financial Info */}
+                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-red-50/30 rounded-2xl border border-red-100">
+                          <div className="md:col-span-2 space-y-1.5">
+                            <label className="text-xs font-bold text-slate-500 uppercase">ชื่อผู้รับจ้าง (Supplier)</label>
+                            <input name="supplierName" value={data.supplierName} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          </div>
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-bold text-slate-500 uppercase">ราคาไม่รวม VAT</label>
+                            <input type="number" name="priceBeforeVat" value={data.priceBeforeVat} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          </div>
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-bold text-slate-500 uppercase">ภาษีมูลค่าเพิ่ม (VAT)</label>
+                            <input type="number" name="vatAmount" value={data.vatAmount} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          </div>
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-bold text-slate-500 uppercase">ราคาสุทธิ (รวม VAT)</label>
+                            <input type="number" name="totalAmount" value={data.totalAmount} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          </div>
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-bold text-slate-500 uppercase">ราคาสุทธิ (ตัวอักษร)</label>
+                            <input name="totalAmountThai" value={data.totalAmountThai} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          </div>
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-bold text-slate-500 uppercase">รหัสบัญชี</label>
+                            <input name="accountCode" value={data.accountCode} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          </div>
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-bold text-slate-500 uppercase">รหัสศูนย์ต้นทุน</label>
+                            <input name="costCenter" value={data.costCenter} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          </div>
+                        </div>
+
+                        {/* Signers */}
+                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100 space-y-4">
+                            <p className="text-xs font-bold text-purple-600 uppercase">ผู้เสนอ</p>
+                            <div className="space-y-3">
+                              <div className="space-y-1.5">
+                                <label className="text-xs font-bold text-slate-500 uppercase">ชื่อ-นามสกุล</label>
+                                <input name="signer1.name" value={data.signer1.name} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none bg-white" />
+                              </div>
+                              <div className="space-y-1.5">
+                                <label className="text-xs font-bold text-slate-500 uppercase">ตำแหน่ง</label>
+                                <input name="signer1.position" value={data.signer1.position} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none bg-white" />
+                              </div>
+                              <div className="space-y-1.5">
+                                <label className="text-xs font-bold text-slate-500 uppercase">หน่วยงาน</label>
+                                <input name="signer1Unit" value={data.signer1Unit} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none bg-white" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100 space-y-4">
+                            <p className="text-xs font-bold text-purple-600 uppercase">ผู้อนุมัติ</p>
+                            <div className="space-y-3">
+                              <div className="space-y-1.5">
+                                <label className="text-xs font-bold text-slate-500 uppercase">ชื่อ-นามสกุล</label>
+                                <input name="signer2.name" value={data.signer2.name} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none bg-white" />
+                              </div>
+                              <div className="space-y-1.5">
+                                <label className="text-xs font-bold text-slate-500 uppercase">ตำแหน่ง</label>
+                                <input name="signer2.position" value={data.signer2.position} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none bg-white" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </section>
 
@@ -576,7 +615,7 @@ export default function App() {
 
           {/* Print Preview - Always visible in print, hidden on screen if not in preview mode */}
           <div className={`print-wrapper-outer p-4 md:p-8 flex justify-center ${isPreview ? 'block' : 'hidden'} print:block`}>
-            <div className="print-container bg-white shadow-2xl border border-stone-200 pt-[0.3in] px-[1.5cm] pb-[1.5cm] min-h-[297mm] w-[210mm] text-[16pt] leading-normal font-serif text-black relative flex flex-col">
+            <div className={`print-container bg-white shadow-2xl border border-stone-200 pt-[0.3in] px-[1.5cm] pb-[1.5cm] min-h-[297mm] w-[210mm] ${currentForm === 'SUMMARY' ? 'text-[14pt]' : 'text-[16pt]'} leading-normal font-serif text-black relative flex flex-col`}>
                 {/* Header */}
                 <div className="flex items-start mb-4">
                   <div className="flex flex-col items-start w-48 shrink-0">
@@ -599,7 +638,7 @@ export default function App() {
                 </div>
 
                 {currentForm !== 'SUMMARY' ? (
-                  <div className="space-y-1 mb-4 text-[16pt]">
+                  <div className="space-y-1 mb-4">
                     <div className="flex gap-2">
                       <span className="font-bold shrink-0">ส่วนราชการ</span>
                       <span className="flex-1 px-2 leading-none">
@@ -627,7 +666,7 @@ export default function App() {
                     </div>
                   </div>
                 ) : (
-                  <div className="text-[16pt] mb-4">
+                  <div className="mb-4">
                     <div className="grid grid-cols-2 gap-x-8 mb-2">
                       <div className="flex gap-2">
                         <span className="font-bold shrink-0">จาก</span>
@@ -662,7 +701,7 @@ export default function App() {
                 )}
 
                 {currentForm !== 'SUMMARY' && (
-                  <div className="text-[16pt] mb-4">
+                  <div className="mb-4">
                     <p><span className="font-bold">เรียน</span> <span className="text-red-600 ml-2">{data.to}</span> {data.through && <span className="ml-2">ผ่าน <span className="text-red-600">{data.through}</span></span>}</p>
                   </div>
                 )}
@@ -670,32 +709,28 @@ export default function App() {
                 {/* Main Content */}
                 <div className="flex-1">
                   {currentForm === 'APPROVAL' && (
-                    <div className="space-y-6 text-[14pt]">
+                    <div className="space-y-6">
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ข้อมูล</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
-                          <span className="text-red-600">{data.infoSection.requester}</span> จัดซื้อตามอนุมัติที่ <span className="text-red-600">{data.infoSection.approvalRef}</span> ลว. <span className="text-red-600">{data.infoSection.approvalDate}</span>
+                          หน่วยปฏิบัติงานสถานีไฟฟ้าที่ <span className="text-red-600">{data.stationCount}</span> (<span className="text-red-600">{data.stationList}</span>) สังกัด <span className="text-red-600">{data.from}</span> <span className="text-red-600">{data.recipient}</span> ตรวจสอบพบว่าบริเวณพื้นที่ภายในบริเวณสถานีไฟฟ้ามีต้นหญ้าและวัชพืชขึ้นเป็นจำนวนมาก
                         </p>
                       </section>
 
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">๒. ข้อพิจารณา</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
-                          <span className="text-red-600">{data.from}</span> ได้พิจารณาแล้ว เพื่อให้มีความพร้อมในการใช้งาน จึงจำเป็นต้องทำการ
-                          จัดซื้อ<span className="text-red-600">{data.item}</span> จึงเห็นควรดำเนินการจัดซื้อดังกล่าว โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการ
-                          จัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ พ.ศ. ๒๕๖๐ จึงขออนุมัติความเห็นชอบดำเนินการจัดซื้ออุปกรณ์ดังกล่าว 
-                          โดยให้เบิกจ่ายจากงบทำการประจำปี <span className="text-red-600">{data.budgetYear}</span> จากงบลงทุน หมายเลขงาน (WBS) 
-                          <span className="text-red-600">{data.wbs}</span> ต่อไป
+                          <span className="text-red-600">{data.from}</span> <span className="text-red-600">{data.recipient}</span> ได้พิจารณาแล้วเพื่อป้องกันการเกิดกระแสไฟฟ้าขัดข้องจากสัตว์เลื้อยคลานต่างๆ จึงเห็นควรดำเนินการ<span className="text-red-600">{data.item}</span>ตัดหญ้าและฉีดยากำจัดวัชพืช โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการจัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ พ.ศ. ๒๕๖๐ จึงขออนุมัติความเห็นชอบดำเนินการจัดซื้อ/จ้างดังกล่าว โดยให้เบิกจ่ายจากงบทำการ ประจำปี <span className="text-red-600">{data.budgetYear}</span> <span className="text-red-600">{data.accountName}</span> รหัสบัญชี <span className="text-red-600">{data.accountCode}</span> ของ <span className="text-red-600">{data.from}</span> ศูนย์ต้นทุน <span className="text-red-600">{data.costCenter}</span> ต่อไป
                         </p>
                         <p className="indent-[2.5cm] mt-6">
-                          จึงเรียนมาเพื่อโปรดพิจารณาหากเห็นชอบและโปรดลงนามให้ต่อไป
+                          จึงเรียนมาเพื่อโปรดพิจารณาหากเห็นชอบโปรดลงนามให้ต่อไป
                         </p>
                       </section>
                     </div>
                   )}
 
                   {currentForm === 'ASSIGNMENT' && (
-                    <div className="space-y-6 text-[14pt]">
+                    <div className="space-y-6">
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ข้อมูล</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
@@ -722,7 +757,7 @@ export default function App() {
                   )}
 
                   {currentForm === 'REPORT' && (
-                    <div className="space-y-6 text-[14pt]">
+                    <div className="space-y-6">
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">๑. ความเป็นมา</h3>
                         <p className="indent-[2.5cm] leading-relaxed text-red-600">
@@ -745,7 +780,7 @@ export default function App() {
                   )}
 
                   {currentForm === 'SUMMARY' && (
-                    <div className="space-y-4 text-[16pt] leading-tight">
+                    <div className="space-y-4 leading-tight">
                       <p className="indent-[2.5cm] mb-4">
                         ตามที่ <span className="text-red-600">{data.from}</span> ดำเนินการจัดซื้อ/จ้าง <span className="text-red-600">{data.item}</span> โดยวิธีเฉพาะเจาะจง ขอรายงานผลการพิจารณาการจัดซื้อ/จ้าง ดังนี้
                       </p>
@@ -851,46 +886,63 @@ export default function App() {
                 {/* Signatures (Hidden for Form 4 as it has custom grid) */}
                 {currentForm !== 'SUMMARY' && (
                   <div className="mt-auto">
-                    <div className="flex justify-end pr-10">
-                      <div className="text-center w-80 space-y-1">
-                        <p className="mb-10">ลงชื่อ..............................................................</p>
-                        <p>( {data.signer1.name} )</p>
-                        <p>ตำแหน่ง {data.signer1.position}</p>
-                      </div>
-                    </div>
-
-                    <div className="mt-12 space-y-8">
-                      <div className="ml-[1cm]">
-                        <p className="font-bold underline">ความเห็นของ {data.signer2.position}</p>
-                        <p className="mt-2">- เห็นชอบและอนุมัติให้ดำเนินการได้</p>
-                      </div>
-                      
-                      <div className="flex justify-end pr-10">
-                        <div className="text-center w-80 space-y-1">
-                          <p className="mb-10">ลงชื่อ..............................................................</p>
-                          <p>( {data.signer2.name} )</p>
-                          <p>ตำแหน่ง {data.signer2.position}</p>
+                    {currentForm === 'APPROVAL' ? (
+                      <div className="grid grid-cols-2 mt-12">
+                        <div className="space-y-8">
+                          <div className="text-center w-80">
+                            <p className="mb-8 font-bold">เห็นชอบ</p>
+                            <div className="space-y-1">
+                              <p className="mb-10">...........................................................</p>
+                              <p>( <span className="text-red-600">{data.signer2.name}</span> )</p>
+                              <p><span className="text-red-600">{data.signer2.position}</span></p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-center ml-auto w-80">
+                          <p className="mb-8">ขอแสดงความนับถือ</p>
+                          <div className="text-center space-y-1">
+                            <p className="mb-10">...........................................................</p>
+                            <p>( <span className="text-red-600">{data.signer1.name}</span> )</p>
+                            <p><span className="text-red-600">{data.signer1.position}</span></p>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    ) : (
+                      <>
+                        <div className="flex justify-end pr-10">
+                          <div className="text-center w-80 space-y-1">
+                            <p className="mb-10">ลงชื่อ..............................................................</p>
+                            <p>( {data.signer1.name} )</p>
+                            <p>ตำแหน่ง {data.signer1.position}</p>
+                          </div>
+                        </div>
+
+                        <div className="mt-12 space-y-8">
+                          <div className="ml-[1cm]">
+                            <p className="font-bold underline">ความเห็นของ {data.signer2.position}</p>
+                            <p className="mt-2">- เห็นชอบและอนุมัติให้ดำเนินการได้</p>
+                          </div>
+                          
+                          <div className="flex justify-end pr-10">
+                            <div className="text-center w-80 space-y-1">
+                              <p className="mb-10">ลงชื่อ..............................................................</p>
+                              <p>( {data.signer2.name} )</p>
+                              <p>ตำแหน่ง {data.signer2.position}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
 
                     {/* Footer */}
-                    <div className="mt-10 pt-10 text-[14pt] text-slate-600 border-t border-stone-100">
+                    <div className="mt-10 pt-10 text-slate-600 border-t border-stone-100">
                       <p>{data.department}</p>
                       <p>เบอร์โทร {data.phone}</p>
                     </div>
                   </div>
                 )}
 
-                {currentForm === 'NOTICE' && (
-                  <div className="mt-auto pt-20">
-                    <div className="flex flex-col items-center ml-[6cm]">
-                      <p className="mb-12">ลงชื่อ..............................................................</p>
-                      <p>( <span className="text-red-600">{data.signer2.name}</span> )</p>
-                      <p><span className="text-red-600">{data.signer2.position}</span></p>
-                    </div>
-                  </div>
-                )}
+                {/* Removed NOTICE block */}
               </div>
 
               <div className="mt-8 max-w-[210mm] w-full bg-blue-50 border border-blue-100 p-4 rounded-xl flex items-start gap-3 text-blue-800 print:hidden instructions-box">

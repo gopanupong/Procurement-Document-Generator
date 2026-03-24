@@ -66,6 +66,7 @@ export interface ProcurementDoc {
   stationCount: string;
   stationList: string;
   accountCode: string;
+  accountName: string;
   costCenter: string;
   signer1Unit: string;
 }
