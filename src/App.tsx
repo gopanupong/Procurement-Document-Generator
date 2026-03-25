@@ -18,39 +18,39 @@ const PEA_LOGO_SVG = `
 
 const initialData: ProcurementDoc = {
   from: 'ผจฟ.1',
-  to: 'กปบ.(ก3)',
+  to: 'อก.ปบ.(ก3)',
   docNumber: 'ก.3 กปบ.(จฟ.1)                /2569',
   docYear: '/2569',
   date: '22 มีนาคม 2569',
-  subjectApproval: 'ขอความเห็นชอบดำเนินการจัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชสถานีไฟฟ้าในหน่วยปฏิบัติงาน สถานีไฟฟ้าที่ 1',
-  subjectAssignment: 'ขออนุมัติแต่งตั้งคณะกรรมการจัดทำคุณลักษณะและกำหนดราคากลาง จ้างเหมาทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
-  subjectReport: 'รายงานขอจ้างทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567 โดยวิธีเฉพาะเจาะจง',
-  subjectSummary: 'รายงานสรุปผลการพิจารณาตรวจรับ และอนุมัติจ่ายเงินจ้างทำความสะอาด กฟส.บางละมุง ประจำเดือน ตุลาคม 2566 - กันยายน 2567',
+  subjectApproval: 'ขอความเห็นชอบดำเนินการจัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ 4 (สถานีไฟฟ้าศาลายา)',
+  subjectAssignment: 'มอบหมายผู้จัดทำรายละเอียดคุณลักษณะเฉพาะของพัสดุ และกำหนดราคากลาง สำหรับงานขอจัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชสถานีไฟฟ้าในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ 4 (สถานีไฟฟ้าศาลายา) ด้วยวิธีเฉพาะเจาะจง',
+  subjectReport: 'รายงานขอจัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชสถานีไฟฟ้าในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ 4 (สถานีไฟฟ้าศาลายา) ด้วยวิธีเฉพาะเจาะจง',
+  subjectSummary: 'รายงานสรุปผลการพิจารณา ตรวจรับ และอนุมัติจ่ายเงิน',
   recipient: 'กปบ.(ก3)',
   through: 'ชก.ปบ.(ก3)',
-  department: 'แผนกจัดการงานสถานีไฟฟ้า 1',
+  department: 'แผนกจัดการสถานีไฟฟ้า 1',
   phone: '10520-21',
   logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/90/Logo_of_the_Provincial_Electricity_Authority_of_Thailand.svg',
   item: 'จัดจ้าง',
-  budgetYear: '2568',
+  budgetYear: '2569',
   wbs: 'WBS-123456',
-  unitName: 'กฟส.บางละมุง',
-  monthStart: 'ตุลาคม 2566',
-  monthEnd: 'กันยายน 2567',
-  parentUnit: 'กฟภ.จ.ชลบุรี',
-  stationCount: '1',
-  stationList: 'สถานีไฟฟ้าท่าทราย 1',
+  unitName: 'หน่วยปฏิบัติงานสถานีไฟฟ้าที่ 4 (สถานีไฟฟ้าศาลายา)',
+  monthStart: 'ตุลาคม 2568',
+  monthEnd: 'กันยายน 2569',
+  parentUnit: 'กปบ.(ก3)',
+  stationCount: '4 (สถานีไฟฟ้าศาลายา)',
+  stationList: 'สถานีไฟฟ้าศาลายา, พุทธมณฑล 2 และพุทธมณฑล 3',
   accountCode: '53034030',
-  accountName: 'บัญชีค่าจ้างบำรุงรักษาสวน',
+  accountName: 'ค่าจ้างบำรุงรักษาสวน',
   costCenter: 'I301031040',
-  signer1Unit: 'กฟส.บางละมุง',
+  signer1Unit: 'ผจฟ.1 กปบ.(ก3)',
   infoSection: {
-    requester: 'แผนกปฏิบัติการและบำรุงรักษา',
-    approvalRef: 'ก.3-001/2567',
-    approvalDate: '22 มีนาคม 2567',
+    requester: 'ผจฟ.1 กปบ.(ก3)',
+    approvalRef: 'ก.3 กปบ.(จฟ.1) /2569',
+    approvalDate: '22 มีนาคม 2569',
   },
   considerationSection: {
-    requester: 'แผนกปฏิบัติการและบำรุงรักษา',
+    requester: 'ผจฟ.1 กปบ.(ก3)',
   },
   committee: [
     { name: 'นายพชริศ กรุงกาญจนา', position: 'ประธานกรรมการ' },
@@ -59,16 +59,16 @@ const initialData: ProcurementDoc = {
   ],
   procurementMethod: 'เฉพาะเจาะจง',
   estimatedPrice: 14744.60,
-  reason: 'เนื่องจากมีความจำเป็นต้องจ้างเหมาทำความสะอาด เพื่อความเป็นระเบียบเรียบร้อยและถูกสุขลักษณะ',
+  reason: 'ตรวจสอบพบว่าบริเวณพื้นที่ภายในบริเวณสถานีไฟฟ้ามีต้นหญ้าและวัชพืชขึ้นเป็นจำนวนมาก หากปล่อยทิ้งไว้อาจเป็นที่อยู่อาศัยของสัตว์เลื้อยคลานต่างๆ ซึ่งอาจส่งผลกระทบต่อระบบการจ่ายกระแสไฟฟ้าได้',
   supplierName: 'บริษัท เอ็นดับเบิ้ลยู วินซ์ จำกัด (สำนักงานใหญ่)',
-  contractNumber: 'จซ.123/2567',
-  deliveryDate: '30 กันยายน 2567',
+  contractNumber: 'จซ.123/2569',
+  deliveryDate: '30 กันยายน 2569',
   priceBeforeVat: 13780.00,
   vatAmount: 964.60,
   totalAmount: 14744.60,
   totalAmountThai: 'หนึ่งหมื่นสี่พันเจ็ดร้อยสี่สิบสี่บาทหกสิบสตางค์',
   receiver: { name: 'นายกฤษณะ ปอยงาม', position: 'ชผ.จศ.กปบ.(ก3)' },
-  signer1: { name: 'นายภานุพงศ์ เจนสุริยะกุล', position: 'หผ.จฟ.1 กปบ.(ก3)' },
+  signer1: { name: 'นายภาณุพงศ์ เจนสุริยะกุล', position: 'หผ.จฟ.1 กปบ.(ก3)' },
   signer2: { name: 'นายเลอพงศ์ แก่นจันทร์', position: 'อก.ปบ.(ก3)' },
 };
 
@@ -80,15 +80,15 @@ export default function App() {
   const printRef = useRef<HTMLDivElement>(null);
 
   const updateSubjects = (type: string, currentData: ProcurementDoc) => {
-    const itemText = type === 'CLEANING' ? 'จ้างทำความสะอาด' : 'จ้างตัดหญ้า';
-    const actionText = type === 'CLEANING' ? 'จัดจ้าง' : 'จัดจ้าง';
+    const itemText = type === 'CLEANING' ? 'จ้างทำความสะอาด' : 'จ้างตัดหญ้าและฉีดยากำจัดวัชพืช';
+    const actionText = 'จัดจ้าง';
     return {
       ...currentData,
       item: actionText,
-      subjectApproval: `ขอความเห็นชอบดำเนินการ${actionText}${itemText}และฉีดยากำจัดวัชพืชสถานีไฟฟ้าในหน่วยปฏิบัติงาน สถานีไฟฟ้าที่ ${currentData.stationCount}`,
-      subjectAssignment: `ขออนุมัติแต่งตั้งคณะกรรมการจัดทำคุณลักษณะและกำหนดราคากลาง ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
-      subjectReport: `รายงานขอ${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd} โดยวิธีเฉพาะเจาะจง`,
-      subjectSummary: `รายงานสรุปผลการพิจารณาตรวจรับ และอนุมัติจ่ายเงิน${itemText} ${currentData.unitName} ประจำเดือน ${currentData.monthStart} - ${currentData.monthEnd}`,
+      subjectApproval: `ขอความเห็นชอบดำเนินการ${actionText}${itemText}ในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ ${currentData.stationCount}`,
+      subjectAssignment: `มอบหมายผู้จัดทำรายละเอียดคุณลักษณะเฉพาะของพัสดุ และกำหนดราคากลาง สำหรับงานขอ${actionText}${itemText}สถานีไฟฟ้าในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ ${currentData.stationCount} ด้วยวิธีเฉพาะเจาะจง`,
+      subjectReport: `รายงานขอ${actionText}${itemText}สถานีไฟฟ้าในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ ${currentData.stationCount} ด้วยวิธีเฉพาะเจาะจง`,
+      subjectSummary: `รายงานสรุปผลการพิจารณา ตรวจรับ และอนุมัติจ่ายเงิน`,
     };
   };
 
@@ -408,8 +408,8 @@ export default function App() {
                       <>
                         <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-red-50/30 rounded-2xl border border-red-100">
                           <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">ประเภทการดำเนินการ (จัดซื้อ/จัดจ้าง)</label>
-                            <input name="item" value={data.item} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                            <label className="text-xs font-bold text-slate-500 uppercase">วันที่</label>
+                            <input name="date" value={data.date} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">ปีงบประมาณ</label>
@@ -736,17 +736,17 @@ export default function App() {
                       <section>
                         <h3 className="font-bold mb-1 ml-[1.2cm]">1. ข้อมูล</h3>
                         <p className="ml-[2.2cm] leading-relaxed">
-                          หน่วยปฏิบัติงานสถานีไฟฟ้าที่ <span className="text-red-600">{data.stationCount}</span> (<span className="text-red-600">{data.stationList}</span>) สังกัด <span>{data.from}</span> <span>{data.recipient}</span> ตรวจสอบพบว่าบริเวณพื้นที่ภายในบริเวณสถานีไฟฟ้ามีต้นหญ้าและวัชพืชขึ้นเป็นจำนวนมาก
+                          หน่วยปฏิบัติงานสถานีไฟฟ้าที่ <span className="text-red-600">{data.stationCount}</span> สังกัด <span className="text-red-600">{data.signer1Unit}</span> ตรวจสอบพบว่าบริเวณพื้นที่ภายในบริเวณสถานีไฟฟ้ามีต้นหญ้าและวัชพืชขึ้นเป็นจำนวนมาก หากปล่อยทิ้งไว้อาจเป็นที่อยู่อาศัยของสัตว์เลื้อยคลานต่างๆ ซึ่งอาจส่งผลกระทบต่อระบบการจ่ายกระแสไฟฟ้าได้
                         </p>
                       </section>
 
                       <section>
                         <h3 className="font-bold mb-1 ml-[1.2cm]">2. ข้อพิจารณา</h3>
                         <p className="ml-[2.2cm] leading-relaxed">
-                          <span>{data.from}</span> <span>{data.recipient}</span> ได้พิจารณาแล้วเพื่อป้องกันการเกิดกระแสไฟฟ้าขัดข้องจากสัตว์เลื้อยคลานต่างๆ จึงเห็นควรดำเนินการ<span className="text-red-600">{data.item}</span>ตัดหญ้าและฉีดยากำจัดวัชพืช โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการจัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ พ.ศ. 2560 จึงขออนุมัติความเห็นชอบดำเนินการจัดซื้อ/จ้างดังกล่าว โดยให้เบิกจ่ายจากงบทำการ ประจำปี <span className="text-red-600">{data.budgetYear}</span> <span className="text-red-600">{data.accountName}</span> รหัสบัญชี <span className="text-red-600">{data.accountCode}</span> ของ <span>{data.from}</span> ศูนย์ต้นทุน <span className="text-red-600">{data.costCenter}</span> ต่อไป
+                          <span className="text-red-600">{data.signer1Unit}</span> ได้พิจารณาแล้ว เพื่อเป็นการบำรุงรักษาสถานีไฟฟ้าให้มีความสะอาด เรียบร้อย และปลอดภัยต่อการปฏิบัติงาน จึงเห็นควรดำเนินการจัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ <span className="text-red-600">{data.stationCount}</span> (<span className="text-red-600">{data.stationList}</span>) โดยวิธีเฉพาะเจาะจง ตามระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 ข้อ 28 (2) (ข) และกฎกระทรวงกำหนดวงเงินการจัดซื้อจัดจ้างพัสดุโดยวิธีเฉพาะเจาะจง วงเงินการจัดซื้อจัดจ้างที่ไม่ทำข้อตกลงเป็นหนังสือ และวงเงินการจัดซื้อจัดจ้างเพื่อแก้ไขปัญหาเร่งด่วน พ.ศ. 2560 ข้อ 1 โดยเบิกจ่ายจากงบทำการ ประจำปี <span className="text-red-600">{data.budgetYear}</span> <span className="text-red-600">{data.accountName}</span> (<span className="text-red-600">{data.accountCode}</span>) ของ <span className="text-red-600">{data.signer1Unit}</span> ศูนย์ต้นทุน <span className="text-red-600">{data.costCenter}</span> ต่อไป
                         </p>
                         <p className="ml-[2.2cm] mt-6">
-                          จึงเรียนมาเพื่อโปรดพิจารณาหากเห็นชอบโปรดลงนามให้ต่อไป
+                          จึงเรียนมาเพื่อโปรดพิจารณา หากเห็นชอบโปรดลงนามในบันทึกที่แนบมาพร้อมนี้
                         </p>
                       </section>
                     </div>
@@ -757,7 +757,7 @@ export default function App() {
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">1. ข้อมูล</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
-                          ตามที่ <span>{data.from}</span> ได้รับอนุมัติให้ดำเนินการจัดซื้อ <span className="text-red-600">{data.item}</span> ตามบันทึกที่ <span>{data.docNumber}</span> ลว. <span className="text-red-600">{data.date}</span> นั้น
+                          ตามที่ <span className="text-red-600">{data.signer1Unit}</span> ได้รับอนุมัติให้ดำเนินการจัดซื้อ <span className="text-red-600">{data.item}</span> ตามบันทึกที่ <span className="text-red-600">{data.docNumber}</span> ลว. <span className="text-red-600">{data.date}</span> นั้น
                         </p>
                       </section>
 
@@ -783,18 +783,89 @@ export default function App() {
                     <div className="space-y-6">
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">1. ความเป็นมา</h3>
-                        <p className="indent-[2.5cm] leading-relaxed text-red-600">
-                          {data.reason}
+                        <p className="indent-[2.5cm] leading-relaxed">
+                          <span className="text-red-600">{data.reason}</span>
                         </p>
                       </section>
 
                       <section>
-                        <h3 className="font-bold mb-1 indent-[2.5cm]">2. รายละเอียดการจัดซื้อ</h3>
-                        <p className="indent-[2.5cm] leading-relaxed">
+                        <h3 className="font-bold mb-1 indent-[2.5cm]">2. รายละเอียดการจัดจ้าง</h3>
+                        <p className="indent-[2.5cm] leading-relaxed mb-4">
                           ดำเนินการจัดซื้อ <span className="text-red-600">{data.item}</span> โดยวิธี <span className="text-red-600">{data.procurementMethod}</span> 
-                          ราคากลางเป็นเงิน <span className="text-red-600">{data.estimatedPrice.toLocaleString()}</span> บาท (รวมภาษีมูลค่าเพิ่ม)
+                          ราคากลางเป็นเงิน <span className="text-red-600">{data.estimatedPrice.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท (รวมภาษีมูลค่าเพิ่ม)
                           โดยใช้เงินงบประมาณปี <span className="text-red-600">{data.budgetYear}</span> หมายเลขงาน <span className="text-red-600">{data.wbs}</span>
                         </p>
+                        
+                        <div className="ml-[1cm] space-y-6">
+                          <div>
+                            <p className="font-bold mb-2">2.1 ตารางจัดจ้างตัดหญ้าสถานีไฟฟ้า (ใช้เครื่องมือผู้รับจ้าง)</p>
+                            <table className="w-full border-collapse border border-black text-center text-[14pt]">
+                              <thead>
+                                <tr>
+                                  <th className="border border-black p-1 w-12">ที่</th>
+                                  <th className="border border-black p-1">รายการ</th>
+                                  <th className="border border-black p-1 w-32">จำนวนเงิน (บาท)</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td className="border border-black p-1">1</td>
+                                  <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าศาลายา</td>
+                                  <td className="border border-black p-1 text-right px-2">1,400.00</td>
+                                </tr>
+                                <tr>
+                                  <td className="border border-black p-1">2</td>
+                                  <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าพุทธมณฑล 2</td>
+                                  <td className="border border-black p-1 text-right px-2">1,400.00</td>
+                                </tr>
+                                <tr>
+                                  <td className="border border-black p-1">3</td>
+                                  <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าพุทธมณฑล 3</td>
+                                  <td className="border border-black p-1 text-right px-2">1,400.00</td>
+                                </tr>
+                                <tr>
+                                  <td colSpan={2} className="border border-black p-1 font-bold">รวม</td>
+                                  <td className="border border-black p-1 text-right px-2 font-bold">4,200.00</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+
+                          <div>
+                            <p className="font-bold mb-2">2.2 ตารางจัดจ้างฉีดยากำจัดวัชพืชสถานีไฟฟ้า (ใช้เครื่องมือผู้รับจ้าง)</p>
+                            <table className="w-full border-collapse border border-black text-center text-[14pt]">
+                              <thead>
+                                <tr>
+                                  <th className="border border-black p-1 w-12">ที่</th>
+                                  <th className="border border-black p-1">รายการ</th>
+                                  <th className="border border-black p-1 w-32">จำนวนเงิน (บาท)</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td className="border border-black p-1">1</td>
+                                  <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าศาลายา</td>
+                                  <td className="border border-black p-1 text-right px-2">3,193.33</td>
+                                </tr>
+                                <tr>
+                                  <td className="border border-black p-1">2</td>
+                                  <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าพุทธมณฑล 2</td>
+                                  <td className="border border-black p-1 text-right px-2">3,193.33</td>
+                                </tr>
+                                <tr>
+                                  <td className="border border-black p-1">3</td>
+                                  <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าพุทธมณฑล 3</td>
+                                  <td className="border border-black p-1 text-right px-2">3,193.34</td>
+                                </tr>
+                                <tr>
+                                  <td colSpan={2} className="border border-black p-1 font-bold">รวม</td>
+                                  <td className="border border-black p-1 text-right px-2 font-bold">9,580.00</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
                         <p className="indent-[2.5cm] mt-8">
                           จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติรายงานขอซื้อ/จ้างดังกล่าว
                         </p>
@@ -805,7 +876,7 @@ export default function App() {
                   {currentForm === 'SUMMARY' && (
                     <div className="space-y-4 leading-tight">
                       <p className="indent-[2.5cm] mb-4">
-                        ตามที่ <span>{data.from}</span> ดำเนินการจัดซื้อ/จ้าง <span className="text-red-600">{data.item}</span> โดยวิธีเฉพาะเจาะจง ขอรายงานผลการพิจารณาการจัดซื้อ/จ้าง ดังนี้
+                        ตามที่ <span className="text-red-600">{data.signer1Unit}</span> ดำเนินการจัดซื้อ/จ้าง <span className="text-red-600">{data.item}</span> โดยวิธีเฉพาะเจาะจง ขอรายงานผลการพิจารณาการจัดซื้อ/จ้าง ดังนี้
                       </p>
 
                       <table className="w-full border-collapse border border-black mb-4 text-center">
@@ -821,22 +892,48 @@ export default function App() {
                         <tbody>
                           <tr>
                             <td className="border border-black p-1">1</td>
-                            <td className="border border-black p-1 text-left px-2">{data.item}</td>
-                            <td className="border border-black p-1">{data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
-                            <td className="border border-black p-1">{data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
-                            <td className="border border-black p-1">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                            <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าศาลายา</td>
+                            <td className="border border-black p-1">4,593.33</td>
+                            <td className="border border-black p-1">-</td>
+                            <td className="border border-black p-1">4,593.33</td>
+                          </tr>
+                          <tr>
+                            <td className="border border-black p-1">2</td>
+                            <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าพุทธมณฑล 2</td>
+                            <td className="border border-black p-1">4,593.33</td>
+                            <td className="border border-black p-1">-</td>
+                            <td className="border border-black p-1">4,593.33</td>
+                          </tr>
+                          <tr>
+                            <td className="border border-black p-1">3</td>
+                            <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าพุทธมณฑล 3</td>
+                            <td className="border border-black p-1">4,593.34</td>
+                            <td className="border border-black p-1">-</td>
+                            <td className="border border-black p-1">4,593.34</td>
                           </tr>
                           <tr>
                             <td colSpan={2} className="border border-black p-1 font-bold">รวม</td>
-                            <td className="border border-black p-1">{data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
-                            <td className="border border-black p-1">{data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
-                            <td className="border border-black p-1 font-bold">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                            <td className="border border-black p-1 font-bold">13,780.00</td>
+                            <td className="border border-black p-1 font-bold">-</td>
+                            <td className="border border-black p-1 font-bold">13,780.00</td>
+                          </tr>
+                          <tr>
+                            <td colSpan={2} className="border border-black p-1 font-bold">ภาษีมูลค่าเพิ่ม 7%</td>
+                            <td className="border border-black p-1 font-bold">-</td>
+                            <td className="border border-black p-1 font-bold">-</td>
+                            <td className="border border-black p-1 font-bold">964.60</td>
+                          </tr>
+                          <tr>
+                            <td colSpan={2} className="border border-black p-1 font-bold">รวมเงินทั้งสิ้น</td>
+                            <td className="border border-black p-1 font-bold">-</td>
+                            <td className="border border-black p-1 font-bold">-</td>
+                            <td className="border border-black p-1 font-bold">14,744.60</td>
                           </tr>
                         </tbody>
                       </table>
 
                       <p className="indent-[1.5cm] mb-2 leading-relaxed">
-                        <span>{data.from}</span> พิจารณาแล้ว เห็นสมควรจัดซื้อ/จ้าง จาก <span className="text-red-600">{data.supplierName}</span> จำนวนเงิน <span className="text-red-600">{data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท ภาษีมูลค่าเพิ่ม <span className="text-red-600">{data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท เป็นเงินทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม
+                        <span className="text-red-600">{data.signer1Unit}</span> พิจารณาแล้ว เห็นสมควรจัดซื้อ/จ้าง จาก <span className="text-red-600">{data.supplierName}</span> จำนวนเงิน <span className="text-red-600">{data.priceBeforeVat.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท ภาษีมูลค่าเพิ่ม <span className="text-red-600">{data.vatAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท เป็นเงินทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม
                       </p>
 
                       <p className="indent-[1.5cm] mb-6">
@@ -938,22 +1035,22 @@ export default function App() {
                         <div className="flex justify-end pr-10">
                           <div className="text-center w-80 space-y-1">
                             <p className="mb-10">ลงชื่อ..............................................................</p>
-                            <p>( {data.signer1.name} )</p>
-                            <p>ตำแหน่ง {data.signer1.position}</p>
+                            <p>( <span className="text-red-600">{data.signer1.name}</span> )</p>
+                            <p>ตำแหน่ง <span className="text-red-600">{data.signer1.position}</span></p>
                           </div>
                         </div>
 
                         <div className="mt-12 space-y-8">
                           <div className="ml-[1cm]">
-                            <p className="font-bold underline">ความเห็นของ {data.signer2.position}</p>
+                            <p className="font-bold underline">ความเห็นของ <span className="text-red-600">{data.signer2.position}</span></p>
                             <p className="mt-2">- เห็นชอบและอนุมัติให้ดำเนินการได้</p>
                           </div>
                           
                           <div className="flex justify-end pr-10">
                             <div className="text-center w-80 space-y-1">
                               <p className="mb-10">ลงชื่อ..............................................................</p>
-                              <p>( {data.signer2.name} )</p>
-                              <p>ตำแหน่ง {data.signer2.position}</p>
+                              <p>( <span className="text-red-600">{data.signer2.name}</span> )</p>
+                              <p>ตำแหน่ง <span className="text-red-600">{data.signer2.position}</span></p>
                             </div>
                           </div>
                         </div>
@@ -961,13 +1058,13 @@ export default function App() {
                     )}
 
                     {/* Footer */}
-                    <div className="mt-6 pt-4 text-slate-600 border-t border-stone-100 flex justify-between items-end">
+                    <div className="mt-6 pt-4 text-black border-t border-black flex justify-between items-end">
                       <div>
                         <p>{data.department}</p>
                         <p>เบอร์โทร {data.phone}</p>
                       </div>
                       {currentForm === 'APPROVAL' && (
-                        <table className="border-collapse border border-black text-[10pt] w-48">
+                        <table className="border-collapse border border-black text-[10pt] w-48 mb-0">
                           <tbody>
                             <tr>
                               <td className="border border-black px-1 py-0.5 w-10 text-center">ชผ.</td>
