@@ -723,7 +723,7 @@ export default function App() {
                   </div>
                 )}
 
-                {currentForm !== 'SUMMARY' && (
+                {currentForm !== 'SUMMARY' && currentForm !== 'APPROVAL' && (
                   <div className="mb-4">
                     <p><span className="font-bold">เรียน</span> <span className="ml-2">{data.to}</span> {data.through && <span className="ml-2">ผ่าน <span className="text-red-600">{data.through}</span></span>}</p>
                   </div>
@@ -734,18 +734,18 @@ export default function App() {
                   {currentForm === 'APPROVAL' && (
                     <div className="space-y-6 mt-4">
                       <section>
-                        <h3 className="font-bold mb-1 ml-[1.2cm]">1. ข้อมูล</h3>
-                        <p className="ml-0 indent-[2.2cm] leading-relaxed">
+                        <h3 className="font-bold mb-1 ml-[1.5cm]">1. ข้อมูล</h3>
+                        <p className="ml-0 indent-[2.5cm] leading-relaxed">
                           หน่วยปฏิบัติงานสถานีไฟฟ้าที่ <span className="text-red-600">{data.stationCount}</span> สังกัด <span className="text-red-600">{data.signer1Unit}</span> มีความประสงค์จัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชที่ <span className="text-red-600">{data.stationList}</span>
                         </p>
                       </section>
 
                       <section>
-                        <h3 className="font-bold mb-1 ml-[1.2cm]">2. ข้อพิจารณา</h3>
-                        <p className="ml-0 indent-[2.2cm] leading-relaxed">
+                        <h3 className="font-bold mb-1 ml-[1.5cm]">2. ข้อพิจารณา</h3>
+                        <p className="ml-0 indent-[2.5cm] leading-relaxed">
                           <span className="text-red-600">{data.signer1Unit}</span> ได้พิจารณาแล้วเพื่อป้องกันการเกิดกระแสไฟฟ้าขัดข้องจากสัตว์เลื้อยคลานต่างๆและปรับปรุงภูมิทัศน์ของสถานีไฟฟ้าให้เป็นระเบียบเรียบร้อย เป็นการสร้างภาพลักษณ์ที่ดีต่อองค์กร โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการจัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ พ.ศ. 2560 และขออนุมัติความเห็นชอบดำเนินการจัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชดังกล่าว โดยให้เบิกจ่ายจากงบทำการ ประจำปี <span className="text-red-600">{data.budgetYear}</span> <span className="text-red-600">{data.accountName}</span> รหัสบัญชี <span className="text-red-600">{data.accountCode}</span> ของ <span className="text-red-600">{data.signer1Unit}</span> ศูนย์ต้นทุน <span className="text-red-600">{data.costCenter}</span> ต่อไป
                         </p>
-                        <p className="ml-0 indent-[2.2cm] mt-6">
+                        <p className="ml-0 indent-[2.5cm] mt-6">
                           จึงเรียนมาเพื่อโปรดพิจารณาหากเห็นชอบและโปรดลงนามให้ต่อไป
                         </p>
                       </section>
