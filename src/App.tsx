@@ -39,7 +39,7 @@ const initialData: ProcurementDoc = {
   monthEnd: 'กันยายน 2569',
   parentUnit: 'กปบ.(ก3)',
   stationCount: '4 (สถานีไฟฟ้าศาลายา)',
-  stationList: 'สถานีไฟฟ้าศาลายา, พุทธมณฑล 2 และพุทธมณฑล 3',
+  stationList: 'สถานีไฟฟ้าศาลายา, พุทธมณฑล 2 และพุทธมณฑล 3 ซึ่งมีพื้นที่ทั้งหมดรวม 11 ไร่ 2 งาน 92.2 ตารางวา ปัจจุบันมีหญ้าและวัชพืชขึ้นปกคลุมพื้นที่เป็นจำนวนมากตามบริเวณลานไกไฟฟ้า ลานหิน พื้นที่ว่างเปล่าและบริเวณหน้าสถานีไฟฟ้า พื้นที่ที่จะดำเนินการในครั้งนี้ประมาณ 7.5 ไร่',
   accountCode: '53034030',
   accountName: 'ค่าจ้างบำรุงรักษาสวน',
   costCenter: 'I301031040',
@@ -259,7 +259,7 @@ export default function App() {
             width: 210mm !important;
             min-height: 297mm !important;
             margin: 0 !important;
-            padding: 20mm 15mm 15mm 25mm !important; /* Top 2cm, Right 1.5cm, Bottom 1.5cm, Left 2.5cm */
+            padding: 10mm 15mm 15mm 25mm !important; /* Top 1cm, Right 1.5cm, Bottom 1.5cm, Left 2.5cm */
             background: white !important;
             color: black !important;
             font-family: 'TH SarabunPSK', 'TH Sarabun New', 'Sarabun', sans-serif !important;
@@ -599,9 +599,9 @@ export default function App() {
 
           {/* Print Preview - Always visible in print, hidden on screen if not in preview mode */}
           <div className={`print-wrapper-outer p-4 md:p-8 flex justify-center ${isPreview ? 'block' : 'hidden'} print:block`}>
-            <div className={`print-container bg-white shadow-2xl border border-stone-200 pt-[0.1in] px-[1.5cm] pb-[1.5cm] min-h-[297mm] w-[210mm] ${currentForm === 'SUMMARY' ? 'text-[14pt]' : 'text-[16pt]'} leading-normal font-serif text-black relative flex flex-col`}>
+            <div className={`print-container bg-white shadow-2xl border border-stone-200 pt-[1cm] px-[1.5cm] pb-[1.5cm] min-h-[297mm] w-[210mm] ${currentForm === 'SUMMARY' ? 'text-[14pt]' : 'text-[16pt]'} leading-normal font-serif text-black relative flex flex-col`}>
                 {/* Header */}
-                <div className="flex items-start mb-4">
+                <div className="flex items-start mb-2">
                   <div className="flex flex-col items-start w-48 shrink-0">
                     {data.logoUrl ? (
                       <img src={data.logoUrl} alt="PEA Logo" className="w-20 h-20 object-contain" referrerPolicy="no-referrer" />
@@ -614,7 +614,7 @@ export default function App() {
                     </div>
                   </div>
                   {currentForm !== 'SUMMARY' && currentForm !== 'APPROVAL' && (
-                    <div className="flex-1 text-center pt-8">
+                    <div className="flex-1 text-center pt-4">
                       <h2 className="text-[29pt] font-bold">บันทึกข้อความ</h2>
                     </div>
                   )}
@@ -622,7 +622,7 @@ export default function App() {
                 </div>
 
                 {currentForm === 'APPROVAL' ? (
-                  <div className="space-y-1 mb-6">
+                  <div className="space-y-1 mb-4">
                     <div className="flex">
                       <div className="w-[8cm] flex gap-2">
                         <span className="font-bold shrink-0 w-[1.2cm]">จาก</span>
@@ -735,18 +735,18 @@ export default function App() {
                     <div className="space-y-6 mt-4">
                       <section>
                         <h3 className="font-bold mb-1 ml-[1.2cm]">1. ข้อมูล</h3>
-                        <p className="ml-[2.2cm] leading-relaxed">
-                          หน่วยปฏิบัติงานสถานีไฟฟ้าที่ <span className="text-red-600">{data.stationCount}</span> สังกัด <span className="text-red-600">{data.signer1Unit}</span> ตรวจสอบพบว่าบริเวณพื้นที่ภายในบริเวณสถานีไฟฟ้ามีต้นหญ้าและวัชพืชขึ้นเป็นจำนวนมาก หากปล่อยทิ้งไว้อาจเป็นที่อยู่อาศัยของสัตว์เลื้อยคลานต่างๆ ซึ่งอาจส่งผลกระทบต่อระบบการจ่ายกระแสไฟฟ้าได้
+                        <p className="ml-0 indent-[2.2cm] leading-relaxed">
+                          หน่วยปฏิบัติงานสถานีไฟฟ้าที่ <span className="text-red-600">{data.stationCount}</span> สังกัด <span className="text-red-600">{data.signer1Unit}</span> มีความประสงค์จัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชที่ <span className="text-red-600">{data.stationList}</span>
                         </p>
                       </section>
 
                       <section>
                         <h3 className="font-bold mb-1 ml-[1.2cm]">2. ข้อพิจารณา</h3>
-                        <p className="ml-[2.2cm] leading-relaxed">
-                          <span className="text-red-600">{data.signer1Unit}</span> ได้พิจารณาแล้ว เพื่อเป็นการบำรุงรักษาสถานีไฟฟ้าให้มีความสะอาด เรียบร้อย และปลอดภัยต่อการปฏิบัติงาน จึงเห็นควรดำเนินการจัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ <span className="text-red-600">{data.stationCount}</span> (<span className="text-red-600">{data.stationList}</span>) โดยวิธีเฉพาะเจาะจง ตามระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 ข้อ 28 (2) (ข) และกฎกระทรวงกำหนดวงเงินการจัดซื้อจัดจ้างพัสดุโดยวิธีเฉพาะเจาะจง วงเงินการจัดซื้อจัดจ้างที่ไม่ทำข้อตกลงเป็นหนังสือ และวงเงินการจัดซื้อจัดจ้างเพื่อแก้ไขปัญหาเร่งด่วน พ.ศ. 2560 ข้อ 1 โดยเบิกจ่ายจากงบทำการ ประจำปี <span className="text-red-600">{data.budgetYear}</span> <span className="text-red-600">{data.accountName}</span> (<span className="text-red-600">{data.accountCode}</span>) ของ <span className="text-red-600">{data.signer1Unit}</span> ศูนย์ต้นทุน <span className="text-red-600">{data.costCenter}</span> ต่อไป
+                        <p className="ml-0 indent-[2.2cm] leading-relaxed">
+                          <span className="text-red-600">{data.signer1Unit}</span> ได้พิจารณาแล้วเพื่อป้องกันการเกิดกระแสไฟฟ้าขัดข้องจากสัตว์เลื้อยคลานต่างๆและปรับปรุงภูมิทัศน์ของสถานีไฟฟ้าให้เป็นระเบียบเรียบร้อย เป็นการสร้างภาพลักษณ์ที่ดีต่อองค์กร โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการจัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ พ.ศ. 2560 และขออนุมัติความเห็นชอบดำเนินการจัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชดังกล่าว โดยให้เบิกจ่ายจากงบทำการ ประจำปี <span className="text-red-600">{data.budgetYear}</span> <span className="text-red-600">{data.accountName}</span> รหัสบัญชี <span className="text-red-600">{data.accountCode}</span> ของ <span className="text-red-600">{data.signer1Unit}</span> ศูนย์ต้นทุน <span className="text-red-600">{data.costCenter}</span> ต่อไป
                         </p>
-                        <p className="ml-[2.2cm] mt-6">
-                          จึงเรียนมาเพื่อโปรดพิจารณา หากเห็นชอบโปรดลงนามในบันทึกที่แนบมาพร้อมนี้
+                        <p className="ml-0 indent-[2.2cm] mt-6">
+                          จึงเรียนมาเพื่อโปรดพิจารณาหากเห็นชอบและโปรดลงนามให้ต่อไป
                         </p>
                       </section>
                     </div>
@@ -1058,20 +1058,22 @@ export default function App() {
                     )}
 
                     {/* Footer */}
-                    <div className="mt-6 pt-4 text-black border-t border-black flex justify-between items-end">
-                      <div>
-                        <p>{data.department}</p>
-                        <p>เบอร์โทร {data.phone}</p>
+                    <div className="mt-auto pt-4 text-black border-t border-black flex justify-between items-end">
+                      <div className="w-[4.5cm] leading-tight text-[12pt]">
+                        <p>แผนกจัดการสถานี</p>
+                        <p>ไฟฟ้า 1</p>
+                        <p>เบอร์โทร 10520-</p>
+                        <p>21</p>
                       </div>
                       {currentForm === 'APPROVAL' && (
-                        <table className="border-collapse border border-black text-[10pt] w-48 mb-0">
+                        <table className="border-collapse border border-black text-[10pt] w-[8cm] mb-0">
                           <tbody>
-                            <tr>
-                              <td className="border border-black px-1 py-0.5 w-10 text-center">ชผ.</td>
-                              <td className="border border-black px-1 py-0.5 w-16"></td>
-                              <td className="border border-black px-1 py-0.5 w-16"></td>
+                            <tr className="h-8">
+                              <td className="border border-black px-1 py-0.5 w-[1.5cm] text-center">ชผ.</td>
+                              <td className="border border-black px-1 py-0.5 w-[3.25cm]"></td>
+                              <td className="border border-black px-1 py-0.5 w-[3.25cm]"></td>
                             </tr>
-                            <tr>
+                            <tr className="h-8">
                               <td className="border border-black px-1 py-0.5 text-center">พชง.</td>
                               <td className="border border-black px-1 py-0.5"></td>
                               <td className="border border-black px-1 py-0.5"></td>
