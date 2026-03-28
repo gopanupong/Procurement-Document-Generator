@@ -5,7 +5,7 @@
 
 import React, { useState, useRef } from 'react';
 import { ProcurementDoc, FormType } from './types';
-import { Printer, Eye, Edit3, Download, ChevronLeft, FileText, CheckCircle2, ClipboardList, FileCheck } from 'lucide-react';
+import { Printer, Eye, Edit3, Download, ChevronLeft, FileText, CheckCircle2, ClipboardList, FileCheck, ShoppingCart, Settings } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 const PEA_LOGO_SVG = `
@@ -68,7 +68,7 @@ const initialData: ProcurementDoc = {
   totalAmount: 14744.60,
   totalAmountThai: 'หนึ่งหมื่นสี่พันเจ็ดร้อยสี่สิบสี่บาทหกสิบสตางค์',
   receiver: { name: 'นายกฤษณะ ปอยงาม', position: 'ชผ.จศ.กปบ.(ก3)' },
-  signer1: { name: 'นายภาณุพงศ์ เจนสุริยะกุล', position: 'หผ.จฟ.1 กปบ.(ก3)' },
+  signer1: { name: 'นายภานุพงค์ เจนสุริยะกุล', position: 'หผ.จฟ.1 กปบ.(ก3)' },
   signer2: { name: 'นายเลอพงศ์ แก่นจันทร์', position: 'อก.ปบ.(ก3)' },
 };
 
@@ -80,14 +80,24 @@ export default function App() {
   const printRef = useRef<HTMLDivElement>(null);
 
   const updateSubjects = (type: string, currentData: ProcurementDoc) => {
-    const itemText = type === 'CLEANING' ? 'จ้างทำความสะอาด' : 'จ้างตัดหญ้าและฉีดยากำจัดวัชพืช';
-    const actionText = 'จัดจ้าง';
+    let itemText = '';
+    
+    if (type === 'CLEANING') {
+      itemText = 'จ้างทำความสะอาดอาคารและสำนักงาน';
+    } else if (type === 'MOWING') {
+      itemText = 'จ้างตัดหญ้าและฉีดยากำจัดวัชพืช';
+    } else if (type === 'PURCHASE_OTHER') {
+      itemText = 'จัดซื้อพัสดุและอุปกรณ์อื่นๆ';
+    } else if (type === 'SERVICE_OTHER') {
+      itemText = 'จัดจ้างบริการและงานซ่อมแซมอื่นๆ';
+    }
+
     return {
       ...currentData,
-      item: actionText,
-      subjectApproval: `ขอความเห็นชอบดำเนินการ${actionText}${itemText}ในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ ${currentData.stationCount}`,
-      subjectAssignment: `มอบหมายผู้จัดทำรายละเอียดคุณลักษณะเฉพาะของพัสดุ และกำหนดราคากลาง สำหรับงานขอ${actionText}${itemText}สถานีไฟฟ้าในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ ${currentData.stationCount} ด้วยวิธีเฉพาะเจาะจง`,
-      subjectReport: `รายงานขอ${actionText}${itemText}สถานีไฟฟ้าในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ ${currentData.stationCount} ด้วยวิธีเฉพาะเจาะจง`,
+      item: itemText,
+      subjectApproval: `ขอความเห็นชอบดำเนินการ${itemText}ในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ ${currentData.stationCount}`,
+      subjectAssignment: `มอบหมายผู้จัดทำรายละเอียดคุณลักษณะเฉพาะของพัสดุ และกำหนดราคากลาง สำหรับงานขอ${itemText}สถานีไฟฟ้าในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ ${currentData.stationCount} ด้วยวิธีเฉพาะเจาะจง`,
+      subjectReport: `รายงานขอ${itemText}สถานีไฟฟ้าในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ ${currentData.stationCount} ด้วยวิธีเฉพาะเจาะจง`,
       subjectSummary: `รายงานสรุปผลการพิจารณา ตรวจรับ และอนุมัติจ่ายเงิน`,
     };
   };
@@ -189,6 +199,34 @@ export default function App() {
                     </div>
                     <h3 className="text-xl font-bold text-slate-800 mb-2">จ้างตัดหญ้า</h3>
                     <p className="text-sm text-slate-500 leading-relaxed">จัดทำเอกสารเกี่ยวกับการจ้างเหมาตัดหญ้าและดูแลสวนบริเวณสถานีไฟฟ้า</p>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => handleSelectProcurement('PURCHASE_OTHER')}
+                  className="group relative overflow-hidden bg-white border-2 border-stone-100 hover:border-blue-500 p-8 rounded-[2rem] transition-all duration-300 text-left shadow-sm hover:shadow-xl active:scale-[0.98]"
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
+                  <div className="relative z-10">
+                    <div className="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                      <ShoppingCart size={28} />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-800 mb-2">จัดซื้ออื่นๆ</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed">จัดทำเอกสารเกี่ยวกับการจัดซื้อพัสดุและอุปกรณ์อื่นๆ</p>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => handleSelectProcurement('SERVICE_OTHER')}
+                  className="group relative overflow-hidden bg-white border-2 border-stone-100 hover:border-orange-500 p-8 rounded-[2rem] transition-all duration-300 text-left shadow-sm hover:shadow-xl active:scale-[0.98]"
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
+                  <div className="relative z-10">
+                    <div className="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-600 mb-6 group-hover:bg-orange-600 group-hover:text-white transition-colors duration-300">
+                      <Settings size={28} />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-800 mb-2">จัดจ้างอื่นๆ</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed">จัดทำเอกสารเกี่ยวกับการจัดจ้างบริการและงานซ่อมแซมอื่นๆ</p>
                   </div>
                 </button>
               </div>
@@ -522,39 +560,7 @@ export default function App() {
                           </div>
                         </div>
 
-                        {/* Signers */}
-                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100 space-y-4">
-                            <p className="text-xs font-bold text-purple-600 uppercase">ผู้เสนอ</p>
-                            <div className="space-y-3">
-                              <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-slate-500 uppercase">ชื่อ-นามสกุล</label>
-                                <input name="signer1.name" value={data.signer1.name} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none bg-white" />
-                              </div>
-                              <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-slate-500 uppercase">ตำแหน่ง</label>
-                                <input name="signer1.position" value={data.signer1.position} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none bg-white" />
-                              </div>
-                              <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-slate-500 uppercase">หน่วยงาน</label>
-                                <input name="signer1Unit" value={data.signer1Unit} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none bg-white" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100 space-y-4">
-                            <p className="text-xs font-bold text-purple-600 uppercase">ผู้อนุมัติ</p>
-                            <div className="space-y-3">
-                              <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-slate-500 uppercase">ชื่อ-นามสกุล</label>
-                                <input name="signer2.name" value={data.signer2.name} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none bg-white" />
-                              </div>
-                              <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-slate-500 uppercase">ตำแหน่ง</label>
-                                <input name="signer2.position" value={data.signer2.position} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none bg-white" />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        {/* Signers are now fixed and hidden from editing as per request */}
                       </>
                     )}
                   </div>
@@ -622,9 +628,9 @@ export default function App() {
                 </div>
 
                 {currentForm === 'APPROVAL' ? (
-                  <div className="space-y-1 mb-4">
+                  <div className="space-y-0.5 mb-2">
                     <div className="flex">
-                      <div className="w-[8cm] flex gap-2">
+                      <div className="w-[9cm] flex gap-2">
                         <span className="font-bold shrink-0 w-[1.2cm]">จาก</span>
                         <span className="px-1">{data.from}</span>
                       </div>
@@ -634,7 +640,7 @@ export default function App() {
                       </div>
                     </div>
                     <div className="flex">
-                      <div className="w-[8cm] flex gap-2">
+                      <div className="w-[9cm] flex gap-2">
                         <span className="font-bold shrink-0 w-[1.2cm]">เลขที่</span>
                         <span className="px-1">{data.docNumber}</span>
                       </div>
@@ -646,12 +652,9 @@ export default function App() {
                     <div className="flex flex-col">
                       <div className="flex gap-2">
                         <span className="font-bold shrink-0 w-[1.2cm]">เรื่อง</span>
-                        <span className="px-1 font-bold">
-                          ขอความเห็นชอบดำเนินการ<span className="text-red-600">{data.item}</span>ตัดหญ้าและฉีดยากำจัดวัชพืชสถานีไฟฟ้าในหน่วยปฏิบัติงาน
+                        <span className="px-1 font-bold text-red-600">
+                          {data.subjectApproval}
                         </span>
-                      </div>
-                      <div className="ml-[1.2cm] px-1 font-bold">
-                        สถานีไฟฟ้าที่ <span className="text-red-600">{data.stationCount}</span>
                       </div>
                     </div>
                     <div className="flex gap-2">
@@ -743,9 +746,9 @@ export default function App() {
                       <section>
                         <h3 className="font-bold mb-1">2. ข้อพิจารณา</h3>
                         <p className="ml-0 indent-[2.5cm] leading-relaxed">
-                          <span className="text-red-600">{data.signer1Unit}</span> ได้พิจารณาแล้วเพื่อป้องกันการเกิดกระแสไฟฟ้าขัดข้องจากสัตว์เลื้อยคลานต่างๆและปรับปรุงภูมิทัศน์ของสถานีไฟฟ้าให้เป็นระเบียบเรียบร้อย เป็นการสร้างภาพลักษณ์ที่ดีต่อองค์กร โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการจัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ พ.ศ. 2560 และขออนุมัติความเห็นชอบดำเนินการจัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชดังกล่าว โดยให้เบิกจ่ายจากงบทำการ ประจำปี <span className="text-red-600">{data.budgetYear}</span> <span className="text-red-600">{data.accountName}</span> รหัสบัญชี <span className="text-red-600">{data.accountCode}</span> ของ <span className="text-red-600">{data.signer1Unit}</span> ศูนย์ต้นทุน <span className="text-red-600">{data.costCenter}</span> ต่อไป
+                          <span className="text-red-600">{data.signer1Unit}</span> ได้พิจารณาแล้วเพื่อความเรียบร้อยและปรับปรุงภูมิทัศน์ของสถานีไฟฟ้าให้เป็นระเบียบ เป็นการสร้างภาพลักษณ์ที่ดีต่อองค์กร โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการจัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ พ.ศ. 2560 และขออนุมัติความเห็นชอบดำเนินการ<span className="text-red-600">{data.item}</span>ดังกล่าว โดยให้เบิกจ่ายจากงบทำการ ประจำปี <span className="text-red-600">{data.budgetYear}</span> <span className="text-red-600">{data.accountName}</span> รหัสบัญชี <span className="text-red-600">{data.accountCode}</span> ของ <span className="text-red-600">{data.signer1Unit}</span> ศูนย์ต้นทุน <span className="text-red-600">{data.costCenter}</span> ต่อไป
                         </p>
-                        <p className="ml-0 indent-[2.5cm] mt-6">
+                        <p className="ml-0 indent-[4cm] mt-8">
                           จึงเรียนมาเพื่อโปรดพิจารณาหากเห็นชอบและโปรดลงนามให้ต่อไป
                         </p>
                       </section>
@@ -757,7 +760,7 @@ export default function App() {
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">1. ข้อมูล</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
-                          ตามที่ <span className="text-red-600">{data.signer1Unit}</span> ได้รับอนุมัติให้ดำเนินการจัดซื้อ <span className="text-red-600">{data.item}</span> ตามบันทึกที่ <span className="text-red-600">{data.docNumber}</span> ลว. <span className="text-red-600">{data.date}</span> นั้น
+                          ตามที่ <span className="text-red-600">{data.signer1Unit}</span> ได้รับอนุมัติให้ดำเนินการ<span className="text-red-600">{data.item}</span> ตามบันทึกที่ <span className="text-red-600">{data.docNumber}</span> ลว. <span className="text-red-600">{data.date}</span> นั้น
                         </p>
                       </section>
 
@@ -791,7 +794,7 @@ export default function App() {
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">2. รายละเอียดการจัดจ้าง</h3>
                         <p className="indent-[2.5cm] leading-relaxed mb-4">
-                          ดำเนินการจัดซื้อ <span className="text-red-600">{data.item}</span> โดยวิธี <span className="text-red-600">{data.procurementMethod}</span> 
+                          ดำเนินการ<span className="text-red-600">{data.item}</span> โดยวิธี <span className="text-red-600">{data.procurementMethod}</span> 
                           ราคากลางเป็นเงิน <span className="text-red-600">{data.estimatedPrice.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (รวมภาษีมูลค่าเพิ่ม)
                           โดยใช้เงินงบประมาณปี <span className="text-red-600">{data.budgetYear}</span> หมายเลขงาน <span className="text-red-600">{data.wbs}</span>
                         </p>
@@ -876,7 +879,7 @@ export default function App() {
                   {currentForm === 'SUMMARY' && (
                     <div className="space-y-4 leading-tight">
                       <p className="indent-[2.5cm] mb-4">
-                        ตามที่ <span className="text-red-600">{data.signer1Unit}</span> ดำเนินการจัดซื้อ/จ้าง <span className="text-red-600">{data.item}</span> โดยวิธีเฉพาะเจาะจง ขอรายงานผลการพิจารณาการจัดซื้อ/จ้าง ดังนี้
+                        ตามที่ <span className="text-red-600">{data.signer1Unit}</span> ดำเนินการ<span className="text-red-600">{data.item}</span> โดยวิธีเฉพาะเจาะจง ขอรายงานผลการพิจารณาการจัดซื้อ/จ้าง ดังนี้
                       </p>
 
                       <table className="w-[14cm] ml-auto border-collapse border border-black mb-4 text-center">
@@ -933,7 +936,7 @@ export default function App() {
                       </table>
 
                       <p className="indent-[1.5cm] mb-2 leading-relaxed">
-                        <span className="text-red-600">{data.signer1Unit}</span> พิจารณาแล้ว เห็นสมควรจัดซื้อ/จ้าง จาก <span className="text-red-600">{data.supplierName}</span> จำนวนเงิน <span className="text-red-600">{data.priceBeforeVat.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท ภาษีมูลค่าเพิ่ม <span className="text-red-600">{data.vatAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท เป็นเงินทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม
+                        <span className="text-red-600">{data.signer1Unit}</span> พิจารณาแล้ว เห็นสมควรดำเนินการ จาก <span className="text-red-600">{data.supplierName}</span> จำนวนเงิน <span className="text-red-600">{data.priceBeforeVat.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท ภาษีมูลค่าเพิ่ม <span className="text-red-600">{data.vatAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท เป็นเงินทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม
                       </p>
 
                       <p className="indent-[1.5cm] mb-6">
@@ -1007,11 +1010,11 @@ export default function App() {
                 {currentForm !== 'SUMMARY' && (
                   <div className="mt-auto">
                     {currentForm === 'APPROVAL' ? (
-                      <div className="mt-12 space-y-12">
+                      <div className="mt-8 space-y-8">
                         {/* Signer 1 on the right */}
-                        <div className="flex justify-end">
-                          <div className="text-center w-80 space-y-1">
-                            <p className="mb-10">( <span className="text-red-600">{data.signer1.name}</span> )</p>
+                        <div className="flex justify-end pr-10">
+                          <div className="text-center w-[8cm] space-y-4">
+                            <p>( <span className="text-red-600">{data.signer1.name}</span> )</p>
                             <p><span className="text-red-600">{data.signer1.position}</span></p>
                           </div>
                         </div>
@@ -1022,9 +1025,9 @@ export default function App() {
                             <p>เห็นชอบดำเนินการต่อไป</p>
                           </div>
                           
-                          <div className="flex justify-start ml-[1.2cm]">
-                            <div className="text-center w-80 space-y-1">
-                              <p className="mb-10">( <span className="text-red-600">{data.signer2.name}</span> )</p>
+                          <div className="flex justify-start ml-[2.5cm]">
+                            <div className="text-center w-[8cm] space-y-4">
+                              <p>( <span className="text-red-600">{data.signer2.name}</span> )</p>
                               <p><span className="text-red-600">{data.signer2.position}</span></p>
                             </div>
                           </div>
@@ -1058,20 +1061,18 @@ export default function App() {
                     )}
 
                     {/* Footer */}
-                    <div className="mt-auto pt-4 text-black border-t border-black flex justify-between items-end">
-                      <div className="w-[4.5cm] leading-tight text-[12pt]">
-                        <p>แผนกจัดการสถานี</p>
-                        <p>ไฟฟ้า 1</p>
-                        <p>เบอร์โทร 10520-</p>
-                        <p>21</p>
+                    <div className="mt-auto pt-2 text-black border-t border-black flex justify-between items-end">
+                      <div className="flex-1 leading-tight text-[12pt]">
+                        <p>แผนกจัดการงานสถานีไฟฟ้า 1</p>
+                        <p>เบอร์โทร 10520-21</p>
                       </div>
                       {currentForm === 'APPROVAL' && (
-                        <table className="border-collapse border border-black text-[10pt] w-[8cm] mb-0">
+                        <table className="border-collapse border border-black text-[10pt] w-[10cm] mb-0">
                           <tbody>
                             <tr className="h-8">
-                              <td className="border border-black px-1 py-0.5 w-[1.5cm] text-center">ชผ.</td>
-                              <td className="border border-black px-1 py-0.5 w-[3.25cm]"></td>
-                              <td className="border border-black px-1 py-0.5 w-[3.25cm]"></td>
+                              <td className="border border-black px-1 py-0.5 w-[2.5cm] text-center">หผ./ชผ.</td>
+                              <td className="border border-black px-1 py-0.5 w-[3.75cm]"></td>
+                              <td className="border border-black px-1 py-0.5 w-[3.75cm]"></td>
                             </tr>
                             <tr className="h-8">
                               <td className="border border-black px-1 py-0.5 text-center">พชง.</td>
