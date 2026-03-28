@@ -1059,23 +1059,23 @@ export default function App() {
                     )}
 
                     {/* Footer */}
-                    <div className="mt-auto pt-4 text-black border-t border-black flex justify-between items-end">
-                      <div className="flex-1 leading-tight text-[12pt]">
+                    <div className="mt-auto pt-1 text-black border-t border-black flex justify-between items-end w-full">
+                      <div className="leading-tight text-[11pt]">
                         <p>แผนกจัดการงานสถานีไฟฟ้า 1</p>
                         <p>เบอร์โทร 10520-21</p>
                       </div>
                       {currentForm === 'APPROVAL' && (
-                        <table className="border-collapse border border-black text-[10pt] w-[7.5cm] mb-0">
+                        <table className="border-collapse border border-black text-[9pt] w-[4.5cm] mb-0">
                           <tbody>
-                            <tr className="h-8">
-                              <td className="border border-black px-1 py-0.5 w-[1.5cm] text-center">หผ./ชผ.</td>
-                              <td className="border border-black px-1 py-0.5 w-[3cm]"></td>
-                              <td className="border border-black px-1 py-0.5 w-[3cm]"></td>
+                            <tr className="h-6">
+                              <td className="border border-black px-1 py-0 w-[1.2cm] text-center">หผ./ชผ.</td>
+                              <td className="border border-black px-1 py-0 w-[1.65cm]"></td>
+                              <td className="border border-black px-1 py-0 w-[1.65cm]"></td>
                             </tr>
-                            <tr className="h-8">
-                              <td className="border border-black px-1 py-0.5 text-center">พชง.</td>
-                              <td className="border border-black px-1 py-0.5"></td>
-                              <td className="border border-black px-1 py-0.5"></td>
+                            <tr className="h-6">
+                              <td className="border border-black px-1 py-0 text-center">พชง.</td>
+                              <td className="border border-black px-1 py-0"></td>
+                              <td className="border border-black px-1 py-0"></td>
                             </tr>
                           </tbody>
                         </table>
