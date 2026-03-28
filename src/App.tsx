@@ -607,28 +607,26 @@ export default function App() {
           <div className={`print-wrapper-outer p-4 md:p-8 flex justify-center ${isPreview ? 'block' : 'hidden'} print:block`}>
             <div className={`print-container bg-white shadow-2xl border border-stone-200 pt-[0.25cm] px-[1.5cm] pb-[0.2cm] min-h-[297mm] w-[210mm] ${currentForm === 'SUMMARY' ? 'text-[14pt]' : 'text-[16pt]'} leading-normal font-serif text-black relative flex flex-col`}>
                 {/* Header */}
-                <div className="flex items-start mb-2">
-                  <div className="flex flex-col items-start w-48 shrink-0">
-                    {data.logoUrl ? (
-                      <img src={data.logoUrl} alt="PEA Logo" className="w-20 h-20 object-contain" referrerPolicy="no-referrer" />
-                    ) : (
-                      <div dangerouslySetInnerHTML={{ __html: PEA_LOGO_SVG }} className="w-20 h-20" />
-                    )}
-                    <div className="text-left mt-1 leading-tight">
-                      <p className="text-[12pt] font-bold">การไฟฟ้าส่วนภูมิภาค</p>
-                      <p className="text-[8pt] font-bold">PROVINCIAL ELECTRICITY AUTHORITY</p>
-                    </div>
-                  </div>
-                  {currentForm !== 'SUMMARY' && currentForm !== 'APPROVAL' && (
-                    <div className="flex-1 text-center pt-0">
-                      <h2 className="text-[29pt] font-bold">บันทึกข้อความ</h2>
-                    </div>
+                <div className="flex flex-col items-center mb-4">
+                  {data.logoUrl ? (
+                    <img src={data.logoUrl} alt="PEA Logo" className="w-20 h-20 object-contain" referrerPolicy="no-referrer" />
+                  ) : (
+                    <div dangerouslySetInnerHTML={{ __html: PEA_LOGO_SVG }} className="w-20 h-20" />
                   )}
-                  <div className="w-40 shrink-0"></div>
+                  <div className="text-center mt-1 leading-tight">
+                    <p className="text-[14pt] font-bold">การไฟฟ้าส่วนภูมิภาค</p>
+                    <p className="text-[10pt] font-bold">PROVINCIAL ELECTRICITY AUTHORITY</p>
+                  </div>
                 </div>
 
+                {currentForm !== 'SUMMARY' && currentForm !== 'APPROVAL' && (
+                  <div className="text-center mb-4">
+                    <h2 className="text-[29pt] font-bold">บันทึกข้อความ</h2>
+                  </div>
+                )}
+
                 {currentForm === 'APPROVAL' ? (
-                  <div className="space-y-0.5 mb-2">
+                  <div className="space-y-1 mb-4">
                     <div className="flex">
                       <div className="w-[9cm] flex gap-2">
                         <span className="font-bold shrink-0 w-[1.2cm]">จาก</span>
@@ -652,7 +650,7 @@ export default function App() {
                     <div className="flex flex-col">
                       <div className="flex gap-2">
                         <span className="font-bold shrink-0 w-[1.2cm]">เรื่อง</span>
-                        <span className="px-1 font-bold text-red-600">
+                        <span className="px-1 font-bold">
                           {data.subjectApproval}
                         </span>
                       </div>
@@ -735,20 +733,20 @@ export default function App() {
                 {/* Main Content */}
                 <div className="flex-1">
                   {currentForm === 'APPROVAL' && (
-                    <div className="space-y-2 mt-1">
+                    <div className="space-y-4 mt-4">
                       <section>
-                        <h3 className="font-bold mb-0.5">1. ข้อมูล</h3>
-                        <p className="ml-0 indent-[2.5cm] leading-snug">
+                        <h3 className="font-bold mb-1 ml-[1.5cm]">1. ข้อมูล</h3>
+                        <p className="ml-0 indent-[2.5cm] leading-relaxed">
                           หน่วยปฏิบัติงานสถานีไฟฟ้าที่ <span className="text-red-600">{data.stationCount}</span> สังกัด <span className="text-red-600">{data.signer1Unit}</span> มีความประสงค์จัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชที่ <span className="text-red-600">{data.stationList}</span>
                         </p>
                       </section>
 
                       <section>
-                        <h3 className="font-bold mb-0.5">2. ข้อพิจารณา</h3>
-                        <p className="ml-0 indent-[2.5cm] leading-snug">
+                        <h3 className="font-bold mb-1 ml-[1.5cm]">2. ข้อพิจารณา</h3>
+                        <p className="ml-0 indent-[2.5cm] leading-relaxed">
                           <span className="text-red-600">{data.signer1Unit}</span> ได้พิจารณาแล้วเพื่อความเรียบร้อยและปรับปรุงภูมิทัศน์ของสถานีไฟฟ้าให้เป็นระเบียบ เป็นการสร้างภาพลักษณ์ที่ดีต่อองค์กร โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการจัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ พ.ศ. 2560 และขออนุมัติความเห็นชอบดำเนินการ<span className="text-red-600">{data.item}</span>ดังกล่าว โดยให้เบิกจ่ายจากงบทำการ ประจำปี <span className="text-red-600">{data.budgetYear}</span> <span className="text-red-600">{data.accountName}</span> รหัสบัญชี <span className="text-red-600">{data.accountCode}</span> ของ <span className="text-red-600">{data.signer1Unit}</span> ศูนย์ต้นทุน <span className="text-red-600">{data.costCenter}</span> ต่อไป
                         </p>
-                        <p className="ml-0 indent-[4cm] mt-2">
+                        <p className="ml-0 indent-[4cm] mt-6">
                           จึงเรียนมาเพื่อโปรดพิจารณาหากเห็นชอบและโปรดลงนามให้ต่อไป
                         </p>
                       </section>
@@ -1010,24 +1008,24 @@ export default function App() {
                 {currentForm !== 'SUMMARY' && (
                   <div className="mt-auto">
                     {currentForm === 'APPROVAL' ? (
-                      <div className="mt-1 space-y-1">
+                      <div className="mt-12 space-y-12">
                         {/* Signer 1 on the right */}
                         <div className="flex justify-end pr-10">
-                          <div className="text-center w-[8cm] space-y-0">
-                            <p>( <span className="text-red-600">{data.signer1.name}</span> )</p>
+                          <div className="text-center w-[8cm] space-y-1">
+                            <p className="mb-10">( <span className="text-red-600">{data.signer1.name}</span> )</p>
                             <p><span className="text-red-600">{data.signer1.position}</span></p>
                           </div>
                         </div>
 
                         {/* Signer 2 on the left */}
-                        <div className="space-y-1">
-                          <div className="ml-[1.2cm]">
+                        <div className="space-y-12">
+                          <div className="ml-[2.5cm]">
                             <p>เห็นชอบดำเนินการต่อไป</p>
                           </div>
                           
                           <div className="flex justify-start ml-[2.5cm]">
-                            <div className="text-center w-[8cm] space-y-0">
-                              <p>( <span className="text-red-600">{data.signer2.name}</span> )</p>
+                            <div className="text-center w-[8cm] space-y-1">
+                              <p className="mb-10">( <span className="text-red-600">{data.signer2.name}</span> )</p>
                               <p><span className="text-red-600">{data.signer2.position}</span></p>
                             </div>
                           </div>
@@ -1061,7 +1059,7 @@ export default function App() {
                     )}
 
                     {/* Footer */}
-                    <div className="mt-auto pt-1 text-black border-t border-black flex justify-between items-end">
+                    <div className="mt-auto pt-4 text-black border-t border-black flex justify-between items-end">
                       <div className="flex-1 leading-tight text-[12pt]">
                         <p>แผนกจัดการงานสถานีไฟฟ้า 1</p>
                         <p>เบอร์โทร 10520-21</p>
@@ -1069,15 +1067,15 @@ export default function App() {
                       {currentForm === 'APPROVAL' && (
                         <table className="border-collapse border border-black text-[10pt] w-[7.5cm] mb-0">
                           <tbody>
-                            <tr className="h-7">
-                              <td className="border border-black px-1 py-0 w-[1.5cm] text-center">หผ./ชผ.</td>
-                              <td className="border border-black px-1 py-0 w-[3cm]"></td>
-                              <td className="border border-black px-1 py-0 w-[3cm]"></td>
+                            <tr className="h-8">
+                              <td className="border border-black px-1 py-0.5 w-[1.5cm] text-center">หผ./ชผ.</td>
+                              <td className="border border-black px-1 py-0.5 w-[3cm]"></td>
+                              <td className="border border-black px-1 py-0.5 w-[3cm]"></td>
                             </tr>
-                            <tr className="h-7">
-                              <td className="border border-black px-1 py-0 text-center">พชง.</td>
-                              <td className="border border-black px-1 py-0"></td>
-                              <td className="border border-black px-1 py-0"></td>
+                            <tr className="h-8">
+                              <td className="border border-black px-1 py-0.5 text-center">พชง.</td>
+                              <td className="border border-black px-1 py-0.5"></td>
+                              <td className="border border-black px-1 py-0.5"></td>
                             </tr>
                           </tbody>
                         </table>
