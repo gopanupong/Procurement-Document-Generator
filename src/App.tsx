@@ -115,9 +115,15 @@ export default function App() {
     });
   };
 
+  const thaiToArabic = (str: string) => {
+    if (typeof str !== 'string') return str;
+    return str.replace(/[๐-๙]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 2400 + 48));
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
-    const finalValue = type === 'number' ? parseFloat(value) || 0 : value;
+    const arabicValue = thaiToArabic(value);
+    const finalValue = type === 'number' ? parseFloat(arabicValue) || 0 : arabicValue;
 
     if (name.includes('.')) {
       const [parent, child] = name.split('.');
@@ -320,10 +326,6 @@ export default function App() {
             visibility: visible !important;
           }
 
-          .print-container .text-red-600 {
-            color: black !important;
-          }
-
           .print-container table {
             width: 100% !important;
             border-collapse: collapse !important;
@@ -436,52 +438,52 @@ export default function App() {
               <div className="p-8 space-y-10">
                 {/* Editable Red Fields */}
                 <section className="space-y-6">
-                  <h3 className="text-sm font-bold text-red-600 uppercase tracking-widest border-b border-red-100 pb-2 flex items-center gap-2">
-                    <span className="w-2 h-2 bg-red-600 rounded-full animate-pulse"></span>
-                    ส่วนที่แก้ไขได้ (ตัวอักษรสีแดงในแบบฟอร์ม)
+                  <h3 className="text-sm font-bold text-black uppercase tracking-widest border-b border-stone-100 pb-2 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-black rounded-full animate-pulse"></span>
+                    ส่วนที่แก้ไขได้ (ตัวอักษรสีดำในแบบฟอร์ม)
                   </h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {currentForm === 'APPROVAL' ? (
                       <>
-                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-red-50/30 rounded-2xl border border-red-100">
+                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-stone-50/30 rounded-2xl border border-stone-100">
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">วันที่</label>
-                            <input name="date" value={data.date} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                            <input name="date" value={data.date} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">ปีงบประมาณ</label>
-                            <input name="budgetYear" value={data.budgetYear} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                            <input name="budgetYear" value={data.budgetYear} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">จำนวนสถานีไฟฟ้า (ตัวเลข)</label>
-                            <input name="stationCount" value={data.stationCount} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                            <input name="stationCount" value={data.stationCount} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">รายชื่อสถานีไฟฟ้า</label>
-                            <input name="stationList" value={data.stationList} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                            <input name="stationList" value={data.stationList} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                           </div>
                           <div className="md:col-span-2 space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">ชื่อบัญชี</label>
-                            <input name="accountName" value={data.accountName} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                            <input name="accountName" value={data.accountName} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">รหัสบัญชี</label>
-                            <input name="accountCode" value={data.accountCode} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                            <input name="accountCode" value={data.accountCode} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">รหัสศูนย์ต้นทุน</label>
-                            <input name="costCenter" value={data.costCenter} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                            <input name="costCenter" value={data.costCenter} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                           </div>
                         </div>
                       </>
                     ) : (
                       <>
                         {/* Header Info */}
-                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-red-50/30 rounded-2xl border border-red-100">
+                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-stone-50/30 rounded-2xl border border-stone-100">
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">วันที่</label>
-                            <input name="date" value={data.date} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                            <input name="date" value={data.date} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">เรื่อง</label>
@@ -499,7 +501,7 @@ export default function App() {
                                 data.subjectSummary
                               } 
                               onChange={handleChange} 
-                              className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" 
+                              className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" 
                             />
                           </div>
                         </div>
@@ -507,56 +509,56 @@ export default function App() {
                         {/* Content Info */}
                         <div className="md:col-span-2 space-y-1.5">
                           <label className="text-xs font-bold text-slate-500 uppercase">ชื่อหน่วยปฏิบัติงาน / สถานีไฟฟ้า</label>
-                          <input name="unitName" value={data.unitName} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none font-medium" />
+                          <input name="unitName" value={data.unitName} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none font-medium" />
                         </div>
 
                         <div className="space-y-1.5">
                           <label className="text-xs font-bold text-slate-500 uppercase">เดือนเริ่มต้น</label>
-                          <input name="monthStart" value={data.monthStart} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          <input name="monthStart" value={data.monthStart} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                         </div>
                         <div className="space-y-1.5">
                           <label className="text-xs font-bold text-slate-500 uppercase">เดือนสิ้นสุด</label>
-                          <input name="monthEnd" value={data.monthEnd} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          <input name="monthEnd" value={data.monthEnd} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                         </div>
 
                         <div className="space-y-1.5">
                           <label className="text-xs font-bold text-slate-500 uppercase">จำนวนสถานีไฟฟ้า (ตัวเลข)</label>
-                          <input name="stationCount" value={data.stationCount} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          <input name="stationCount" value={data.stationCount} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                         </div>
                         <div className="space-y-1.5">
                           <label className="text-xs font-bold text-slate-500 uppercase">รายชื่อสถานีไฟฟ้าที่รับผิดชอบ</label>
-                          <input name="stationList" value={data.stationList} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                          <input name="stationList" value={data.stationList} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                         </div>
 
                         {/* Financial Info */}
-                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-red-50/30 rounded-2xl border border-red-100">
+                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-stone-50/30 rounded-2xl border border-stone-100">
                           <div className="md:col-span-2 space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">ชื่อผู้รับจ้าง (Supplier)</label>
-                            <input name="supplierName" value={data.supplierName} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                            <input name="supplierName" value={data.supplierName} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">ราคาไม่รวม VAT</label>
-                            <input type="number" name="priceBeforeVat" value={data.priceBeforeVat} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                            <input type="number" name="priceBeforeVat" value={data.priceBeforeVat} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">ภาษีมูลค่าเพิ่ม (VAT)</label>
-                            <input type="number" name="vatAmount" value={data.vatAmount} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                            <input type="number" name="vatAmount" value={data.vatAmount} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">ราคาสุทธิ (รวม VAT)</label>
-                            <input type="number" name="totalAmount" value={data.totalAmount} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                            <input type="number" name="totalAmount" value={data.totalAmount} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">ราคาสุทธิ (ตัวอักษร)</label>
-                            <input name="totalAmountThai" value={data.totalAmountThai} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                            <input name="totalAmountThai" value={data.totalAmountThai} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">รหัสบัญชี</label>
-                            <input name="accountCode" value={data.accountCode} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                            <input name="accountCode" value={data.accountCode} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-slate-500 uppercase">รหัสศูนย์ต้นทุน</label>
-                            <input name="costCenter" value={data.costCenter} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-red-200 focus:ring-2 focus:ring-red-500 outline-none" />
+                            <input name="costCenter" value={data.costCenter} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
                           </div>
                         </div>
 
@@ -644,7 +646,7 @@ export default function App() {
                       </div>
                       <div className="flex gap-2">
                         <span className="font-bold shrink-0 w-[1cm]">วันที่</span>
-                        <span className="px-1 text-red-600">{data.date}</span>
+                        <span className="px-1">{data.date}</span>
                       </div>
                     </div>
                     <div className="flex flex-col">
@@ -677,12 +679,12 @@ export default function App() {
                       </div>
                       <div className="flex gap-2 flex-1">
                         <span className="font-bold shrink-0">วันที่</span>
-                        <span className="flex-1 px-2 text-red-600 leading-none">{data.date}</span>
+                        <span className="flex-1 px-2 leading-none">{data.date}</span>
                       </div>
                     </div>
                     <div className="flex gap-2">
                       <span className="font-bold shrink-0">เรื่อง</span>
-                      <span className="flex-1 px-2 text-red-600 font-bold leading-none">
+                      <span className="flex-1 px-2 font-bold leading-none">
                         {currentForm === 'ASSIGNMENT' ? data.subjectAssignment :
                          currentForm === 'REPORT' ? data.subjectReport :
                          data.subjectSummary}
@@ -708,12 +710,12 @@ export default function App() {
                       </div>
                       <div className="flex gap-2">
                         <span className="font-bold shrink-0">วันที่</span>
-                        <span className="flex-1 px-1 text-red-600">{data.date}</span>
+                        <span className="flex-1 px-1">{data.date}</span>
                       </div>
                     </div>
                     <div className="flex gap-2 mb-2">
                       <span className="font-bold shrink-0">เรื่อง</span>
-                      <span className="flex-1 px-1 text-red-600 font-bold">{data.subjectSummary}</span>
+                      <span className="flex-1 px-1 font-bold">{data.subjectSummary}</span>
                     </div>
                     <div className="flex gap-2">
                       <span className="font-bold shrink-0">เรียน</span>
@@ -726,7 +728,7 @@ export default function App() {
 
                 {currentForm !== 'SUMMARY' && currentForm !== 'APPROVAL' && (
                   <div className="mb-4">
-                    <p><span className="font-bold">เรียน</span> <span className="ml-2">{data.to}</span> {data.through && <span className="ml-2">ผ่าน <span className="text-red-600">{data.through}</span></span>}</p>
+                    <p><span className="font-bold">เรียน</span> <span className="ml-2">{data.to}</span> {data.through && <span className="ml-2">ผ่าน <span>{data.through}</span></span>}</p>
                   </div>
                 )}
 
@@ -737,14 +739,14 @@ export default function App() {
                       <section>
                         <h3 className="font-bold mb-1 ml-[1.5cm]">1. ข้อมูล</h3>
                         <p className="ml-0 indent-[2.5cm] leading-relaxed">
-                          หน่วยปฏิบัติงานสถานีไฟฟ้าที่ <span className="text-red-600">{data.stationCount}</span> สังกัด <span className="text-red-600">{data.signer1Unit}</span> มีความประสงค์จัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชที่ <span className="text-red-600">{data.stationList}</span>
+                          หน่วยปฏิบัติงานสถานีไฟฟ้าที่ <span>{data.stationCount}</span> สังกัด <span>{data.signer1Unit}</span> มีความประสงค์จัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชที่ <span>{data.stationList}</span>
                         </p>
                       </section>
 
                       <section>
                         <h3 className="font-bold mb-1 ml-[1.5cm]">2. ข้อพิจารณา</h3>
                         <p className="ml-0 indent-[2.5cm] leading-relaxed">
-                          <span className="text-red-600">{data.signer1Unit}</span> ได้พิจารณาแล้วเพื่อความเรียบร้อยและปรับปรุงภูมิทัศน์ของสถานีไฟฟ้าให้เป็นระเบียบ เป็นการสร้างภาพลักษณ์ที่ดีต่อองค์กร โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการจัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ พ.ศ. 2560 และขออนุมัติความเห็นชอบดำเนินการ<span className="text-red-600">{data.item}</span>ดังกล่าว โดยให้เบิกจ่ายจากงบทำการ ประจำปี <span className="text-red-600">{data.budgetYear}</span> <span className="text-red-600">{data.accountName}</span> รหัสบัญชี <span className="text-red-600">{data.accountCode}</span> ของ <span className="text-red-600">{data.signer1Unit}</span> ศูนย์ต้นทุน <span className="text-red-600">{data.costCenter}</span> ต่อไป
+                          <span>{data.signer1Unit}</span> ได้พิจารณาแล้วเพื่อความเรียบร้อยและปรับปรุงภูมิทัศน์ของสถานีไฟฟ้าให้เป็นระเบียบ เป็นการสร้างภาพลักษณ์ที่ดีต่อองค์กร โดยใช้ราคากลางอ้างอิงตามพระราชบัญญัติการจัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ พ.ศ. 2560 และขออนุมัติความเห็นชอบดำเนินการ<span>{data.item}</span>ดังกล่าว โดยให้เบิกจ่ายจากงบทำการ ประจำปี <span>{data.budgetYear}</span> <span>{data.accountName}</span> รหัสบัญชี <span>{data.accountCode}</span> ของ <span>{data.signer1Unit}</span> ศูนย์ต้นทุน <span>{data.costCenter}</span> ต่อไป
                         </p>
                         <p className="ml-0 indent-[4cm] mt-6">
                           จึงเรียนมาเพื่อโปรดพิจารณาหากเห็นชอบและโปรดลงนามให้ต่อไป
@@ -758,7 +760,7 @@ export default function App() {
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">1. ข้อมูล</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
-                          ตามที่ <span className="text-red-600">{data.signer1Unit}</span> ได้รับอนุมัติให้ดำเนินการ<span className="text-red-600">{data.item}</span> ตามบันทึกที่ <span className="text-red-600">{data.docNumber}</span> ลว. <span className="text-red-600">{data.date}</span> นั้น
+                          ตามที่ <span>{data.signer1Unit}</span> ได้รับอนุมัติให้ดำเนินการ<span>{data.item}</span> ตามบันทึกที่ <span>{data.docNumber}</span> ลว. <span>{data.date}</span> นั้น
                         </p>
                       </section>
 
@@ -770,7 +772,7 @@ export default function App() {
                         </p>
                         <div className="ml-[3.5cm] mt-4 space-y-2">
                           {data.committee.map((member, index) => (
-                            <p key={index}>{index + 1}. <span className="text-red-600">{member.name}</span> ตำแหน่ง <span className="text-red-600">{member.position}</span></p>
+                            <p key={index}>{index + 1}. <span>{member.name}</span> ตำแหน่ง <span>{member.position}</span></p>
                           ))}
                         </div>
                         <p className="indent-[2.5cm] mt-8">
@@ -785,16 +787,16 @@ export default function App() {
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">1. ความเป็นมา</h3>
                         <p className="indent-[2.5cm] leading-relaxed">
-                          <span className="text-red-600">{data.reason}</span>
+                          <span>{data.reason}</span>
                         </p>
                       </section>
 
                       <section>
                         <h3 className="font-bold mb-1 indent-[2.5cm]">2. รายละเอียดการจัดจ้าง</h3>
                         <p className="indent-[2.5cm] leading-relaxed mb-4">
-                          ดำเนินการ<span className="text-red-600">{data.item}</span> โดยวิธี <span className="text-red-600">{data.procurementMethod}</span> 
-                          ราคากลางเป็นเงิน <span className="text-red-600">{data.estimatedPrice.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (รวมภาษีมูลค่าเพิ่ม)
-                          โดยใช้เงินงบประมาณปี <span className="text-red-600">{data.budgetYear}</span> หมายเลขงาน <span className="text-red-600">{data.wbs}</span>
+                          ดำเนินการ<span>{data.item}</span> โดยวิธี <span>{data.procurementMethod}</span> 
+                          ราคากลางเป็นเงิน <span>{data.estimatedPrice.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (รวมภาษีมูลค่าเพิ่ม)
+                          โดยใช้เงินงบประมาณปี <span>{data.budgetYear}</span> หมายเลขงาน <span>{data.wbs}</span>
                         </p>
                         
                         <div className="ml-[1cm] space-y-6">
@@ -877,7 +879,7 @@ export default function App() {
                   {currentForm === 'SUMMARY' && (
                     <div className="space-y-4 leading-tight">
                       <p className="indent-[2.5cm] mb-4">
-                        ตามที่ <span className="text-red-600">{data.signer1Unit}</span> ดำเนินการ<span className="text-red-600">{data.item}</span> โดยวิธีเฉพาะเจาะจง ขอรายงานผลการพิจารณาการจัดซื้อ/จ้าง ดังนี้
+                        ตามที่ <span>{data.signer1Unit}</span> ดำเนินการ<span>{data.item}</span> โดยวิธีเฉพาะเจาะจง ขอรายงานผลการพิจารณาการจัดซื้อ/จ้าง ดังนี้
                       </p>
 
                       <table className="w-[14cm] ml-auto border-collapse border border-black mb-4 text-center">
@@ -934,7 +936,7 @@ export default function App() {
                       </table>
 
                       <p className="indent-[1.5cm] mb-2 leading-relaxed">
-                        <span className="text-red-600">{data.signer1Unit}</span> พิจารณาแล้ว เห็นสมควรดำเนินการ จาก <span className="text-red-600">{data.supplierName}</span> จำนวนเงิน <span className="text-red-600">{data.priceBeforeVat.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท ภาษีมูลค่าเพิ่ม <span className="text-red-600">{data.vatAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท เป็นเงินทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม
+                        <span>{data.signer1Unit}</span> พิจารณาแล้ว เห็นสมควรดำเนินการ จาก <span>{data.supplierName}</span> จำนวนเงิน <span>{data.priceBeforeVat.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท ภาษีมูลค่าเพิ่ม <span>{data.vatAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท เป็นเงินทั้งสิ้น <span>{data.totalAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (<span>{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม
                       </p>
 
                       <p className="indent-[1.5cm] mb-6">
@@ -947,15 +949,15 @@ export default function App() {
                           <div className="border-r border-black p-4 min-h-[140px] flex flex-col">
                             <p className="text-center font-bold mb-4 leading-tight">เห็นชอบและอนุมัติสั่งซื้อ/สั่งจ้างดำเนินการได้ โดยปฏิบัติให้ถูกต้องตามระเบียบ</p>
                             <div className="text-center mt-auto">
-                              <p className="mb-1">( <span className="text-red-600">{data.signer2.name}</span> )</p>
-                              <p><span className="text-red-600">{data.signer2.position}</span></p>
+                              <p className="mb-1">( <span>{data.signer2.name}</span> )</p>
+                              <p><span>{data.signer2.position}</span></p>
                             </div>
                           </div>
                           <div className="p-4 flex flex-col items-center justify-center">
                             <div className="text-center">
                               <p className="mb-6">ลงชื่อ..............................................................</p>
-                              <p>( <span className="text-red-600">{data.signer1.name}</span> )</p>
-                              <p>ตำแหน่ง <span className="text-red-600">{data.signer1.position}</span></p>
+                              <p>( <span>{data.signer1.name}</span> )</p>
+                              <p>ตำแหน่ง <span>{data.signer1.position}</span></p>
                               <p>วันที่........./........../..........</p>
                             </div>
                           </div>
@@ -964,22 +966,22 @@ export default function App() {
                         <div className="grid grid-cols-2 border-b border-black">
                           <div className="border-r border-black p-4">
                             <p className="mb-2 font-bold">เรียน {data.to}</p>
-                            <p className="indent-[0.8cm] mb-4 leading-tight">คณะกรรมการตรวจรับได้ทำการตรวจรับ <span className="text-red-600">{data.item}</span> จำนวน 1 รายการ เมื่อวันที่................................เห็นว่าถูกต้องครบถ้วน เห็นควรรับไว้ใช้งานและเบิกจ่ายเงิน ให้แก่ผู้ขาย/ผู้รับจ้างต่อไป</p>
+                            <p className="indent-[0.8cm] mb-4 leading-tight">คณะกรรมการตรวจรับได้ทำการตรวจรับ <span>{data.item}</span> จำนวน 1 รายการ เมื่อวันที่................................เห็นว่าถูกต้องครบถ้วน เห็นควรรับไว้ใช้งานและเบิกจ่ายเงิน ให้แก่ผู้ขาย/ผู้รับจ้างต่อไป</p>
                             <div className="space-y-4">
                               {data.committee.map((member, idx) => (
                                 <div key={idx} className="flex flex-col items-center">
                                   <p className="mb-1">ลงชื่อ..............................................................{idx === 0 ? 'ประธานกรรมการ' : 'กรรมการ'}</p>
-                                  <p>( <span className="text-red-600">{member.name}</span> )</p>
+                                  <p>( <span>{member.name}</span> )</p>
                                 </div>
                               ))}
                             </div>
                           </div>
                           <div className="p-4 flex flex-col">
-                            <p className="mb-4 leading-tight">ข้าพเจ้าได้รับมอบ<span className="text-red-600">{data.item}</span>จำนวน 1 รายการ ดังกล่าว เพื่อนำไปใช้งานแล้วตั้งแต่วันที่............................</p>
+                            <p className="mb-4 leading-tight">ข้าพเจ้าได้รับมอบ<span>{data.item}</span>จำนวน 1 รายการ ดังกล่าว เพื่อนำไปใช้งานแล้วตั้งแต่วันที่............................</p>
                             <div className="text-center mt-auto">
                               <p className="mb-6">ลงชื่อ..............................................................(ผู้รับของ)</p>
-                              <p>( <span className="text-red-600">{data.receiver.name}</span> )</p>
-                              <p>ตำแหน่ง <span className="text-red-600">{data.receiver.position}</span></p>
+                              <p>( <span>{data.receiver.name}</span> )</p>
+                              <p>ตำแหน่ง <span>{data.receiver.position}</span></p>
                               <p>วันที่........./........../..........</p>
                             </div>
                           </div>
@@ -990,10 +992,10 @@ export default function App() {
                             <p>จซ.(ฉ) 001 – ป.60</p>
                           </div>
                           <div className="p-4 text-center">
-                             <p className="mb-4 font-bold">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น <span className="text-red-600">{data.totalAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (<span className="text-red-600">{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม</p>
+                             <p className="mb-4 font-bold">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น <span>{data.totalAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (<span>{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม</p>
                              <div className="mt-4">
-                               <p className="mb-1">( <span className="text-red-600">{data.signer2.name}</span> )</p>
-                               <p><span className="text-red-600">{data.signer2.position}</span></p>
+                               <p className="mb-1">( <span>{data.signer2.name}</span> )</p>
+                               <p><span>{data.signer2.position}</span></p>
                              </div>
                           </div>
                         </div>
@@ -1012,8 +1014,8 @@ export default function App() {
                         {/* Signer 1 on the right */}
                         <div className="flex justify-end pr-10">
                           <div className="text-center w-[8cm] space-y-1">
-                            <p className="mb-10">( <span className="text-red-600">{data.signer1.name}</span> )</p>
-                            <p><span className="text-red-600">{data.signer1.position}</span></p>
+                            <p className="mb-10">( <span>{data.signer1.name}</span> )</p>
+                            <p><span>{data.signer1.position}</span></p>
                           </div>
                         </div>
 
@@ -1025,8 +1027,8 @@ export default function App() {
                           
                           <div className="flex justify-start ml-[2.5cm]">
                             <div className="text-center w-[8cm] space-y-1">
-                              <p className="mb-10">( <span className="text-red-600">{data.signer2.name}</span> )</p>
-                              <p><span className="text-red-600">{data.signer2.position}</span></p>
+                              <p className="mb-10">( <span>{data.signer2.name}</span> )</p>
+                              <p><span>{data.signer2.position}</span></p>
                             </div>
                           </div>
                         </div>
@@ -1036,22 +1038,22 @@ export default function App() {
                         <div className="flex justify-end pr-10">
                           <div className="text-center w-80 space-y-1">
                             <p className="mb-10">ลงชื่อ..............................................................</p>
-                            <p>( <span className="text-red-600">{data.signer1.name}</span> )</p>
-                            <p>ตำแหน่ง <span className="text-red-600">{data.signer1.position}</span></p>
+                            <p>( <span>{data.signer1.name}</span> )</p>
+                            <p>ตำแหน่ง <span>{data.signer1.position}</span></p>
                           </div>
                         </div>
 
                         <div className="mt-12 space-y-8">
                           <div className="ml-[1cm]">
-                            <p className="font-bold underline">ความเห็นของ <span className="text-red-600">{data.signer2.position}</span></p>
+                            <p className="font-bold underline">ความเห็นของ <span>{data.signer2.position}</span></p>
                             <p className="mt-2">- เห็นชอบและอนุมัติให้ดำเนินการได้</p>
                           </div>
                           
                           <div className="flex justify-end pr-10">
                             <div className="text-center w-80 space-y-1">
                               <p className="mb-10">ลงชื่อ..............................................................</p>
-                              <p>( <span className="text-red-600">{data.signer2.name}</span> )</p>
-                              <p>ตำแหน่ง <span className="text-red-600">{data.signer2.position}</span></p>
+                              <p>( <span>{data.signer2.name}</span> )</p>
+                              <p>ตำแหน่ง <span>{data.signer2.position}</span></p>
                             </div>
                           </div>
                         </div>
@@ -1059,26 +1061,28 @@ export default function App() {
                     )}
 
                     {/* Footer */}
-                    <div className="mt-auto pt-1 text-black border-t border-black flex justify-between items-end w-full">
-                      <div className="leading-tight text-[11pt]">
+                    <div className="mt-auto pt-1 text-black border-t border-black flex justify-between items-end w-full flex-nowrap">
+                      <div className="leading-tight text-[11pt] flex-shrink-0">
                         <p>แผนกจัดการงานสถานีไฟฟ้า 1</p>
                         <p>เบอร์โทร 10520-21</p>
                       </div>
                       {currentForm === 'APPROVAL' && (
-                        <table className="border-collapse border border-black text-[9pt] w-[4.5cm] mb-0">
-                          <tbody>
-                            <tr className="h-6">
-                              <td className="border border-black px-1 py-0 w-[1.2cm] text-center">หผ./ชผ.</td>
-                              <td className="border border-black px-1 py-0 w-[1.65cm]"></td>
-                              <td className="border border-black px-1 py-0 w-[1.65cm]"></td>
-                            </tr>
-                            <tr className="h-6">
-                              <td className="border border-black px-1 py-0 text-center">พชง.</td>
-                              <td className="border border-black px-1 py-0"></td>
-                              <td className="border border-black px-1 py-0"></td>
-                            </tr>
-                          </tbody>
-                        </table>
+                        <div className="flex justify-end flex-1">
+                          <table className="border-collapse border border-black text-[9pt] w-[4.5cm] mb-0">
+                            <tbody>
+                              <tr className="h-6">
+                                <td className="border border-black px-1 py-0 w-[1.2cm] text-center">หผ./ชผ.</td>
+                                <td className="border border-black px-1 py-0 w-[1.65cm]"></td>
+                                <td className="border border-black px-1 py-0 w-[1.65cm]"></td>
+                              </tr>
+                              <tr className="h-6">
+                                <td className="border border-black px-1 py-0 text-center">พชง.</td>
+                                <td className="border border-black px-1 py-0"></td>
+                                <td className="border border-black px-1 py-0"></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       )}
                     </div>
                   </div>
