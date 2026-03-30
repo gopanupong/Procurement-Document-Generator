@@ -1,4 +1,4 @@
-export type FormType = 'APPROVAL' | 'ASSIGNMENT' | 'REPORT' | 'SUMMARY';
+export type FormType = 'APPROVAL' | 'ASSIGNMENT' | 'REPORT' | 'PURCHASE_ORDER' | 'SUMMARY';
 
 export interface Signer {
   name: string;
@@ -69,4 +69,23 @@ export interface ProcurementDoc {
   accountName: string;
   costCenter: string;
   signer1Unit: string;
+  procurementType?: string;
+
+  // Detailed Tables for Report
+  grassItems: { station: string; area: string; price: number; subtotal: number; description?: string; amt?: number }[];
+  sprayItems: { station: string; area: string; price: number; subtotal: number; description?: string; amt?: number }[];
+
+  // Purchase Order specific
+  vendorAddress: string;
+  vendorPhone: string;
+  bankAccount: string;
+  bankName: string;
+  bankBranch: string;
+  poItems: { item: string; quantity: number; unit: string; price: number; subtotal: number }[];
+  poVat: number;
+  poTotal: number;
+  warrantyYears: number;
+  penaltyRate: string;
+  deliveryPlace: string;
+  poDate: string;
 }

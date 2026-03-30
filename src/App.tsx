@@ -70,6 +70,37 @@ const initialData: ProcurementDoc = {
   receiver: { name: 'นายกฤษณะ ปอยงาม', position: 'ชผ.จศ.กปบ.(ก3)' },
   signer1: { name: 'นายภานุพงค์ เจนสุริยะกุล', position: 'หผ.จฟ.1 กปบ.(ก3)' },
   signer2: { name: 'นายเลอพงศ์ แก่นจันทร์', position: 'อก.ปบ.(ก3)' },
+  procurementType: 'MOWING',
+
+  // Detailed Tables for Report
+  grassItems: [
+    { station: 'ศาลายา', area: '3', price: 2600, subtotal: 7800, description: 'จ้างตัดหญ้าสถานีไฟฟ้าศาลายา พื้นที่ 3 ไร่', amt: 7800 },
+    { station: 'พุทธมณฑล 2', area: '2', price: 2600, subtotal: 5200, description: 'จ้างตัดหญ้าสถานีไฟฟ้าพุทธมณฑล 2 พื้นที่ 2 ไร่', amt: 5200 },
+    { station: 'พุทธมณฑล 3', area: '2.5', price: 2600, subtotal: 6500, description: 'จ้างตัดหญ้าสถานีไฟฟ้าพุทธมณฑล 3 พื้นที่ 2.5 ไร่', amt: 6500 },
+  ],
+  sprayItems: [
+    { station: 'ศาลายา', area: '3', price: 1500, subtotal: 4500, description: 'จ้างฉีดยากำจัดวัชพืชสถานีไฟฟ้าศาลายา พื้นที่ 3 ไร่', amt: 4500 },
+    { station: 'พุทธมณฑล 2', area: '2', price: 1500, subtotal: 3000, description: 'จ้างฉีดยากำจัดวัชพืชสถานีไฟฟ้าพุทธมณฑล 2 พื้นที่ 2 ไร่', amt: 3000 },
+    { station: 'พุทธมณฑล 3', area: '2.5', price: 1500, subtotal: 3750, description: 'จ้างฉีดยากำจัดวัชพืชสถานีไฟฟ้าพุทธมณฑล 3 พื้นที่ 2.5 ไร่', amt: 3750 },
+  ],
+
+  // Purchase Order specific
+  vendorAddress: 'เลขที่ 68 หมู่ที่ 2 ต.คลองโยง อ.พุทธมณฑล จ.นครปฐม 73170',
+  vendorPhone: '080-8545-4545',
+  bankAccount: '',
+  bankName: 'นางธนภรณ์ เกื้อผล',
+  bankBranch: '',
+  poItems: [
+    { item: 'จ้างตัดหญ้าและฉีดยากำจัดวัชพีช สถานีไฟฟ้าศาลายา', quantity: 1, unit: 'สถานี', price: 2080, subtotal: 2080 },
+    { item: 'จ้างตัดหญ้าและฉีดยากำจัดวัชพีช สถานีไฟฟ้าพุทธมณฑล 2', quantity: 1, unit: 'สถานี', price: 1580, subtotal: 1580 },
+    { item: 'จ้างตัดหญ้าและฉีดยากำจัดวัชพีช สถานีไฟฟ้าพุทธมณฑล 3', quantity: 1, unit: 'สถานี', price: 1564, subtotal: 1564 },
+  ],
+  poVat: 0,
+  poTotal: 5224,
+  warrantyYears: 2,
+  penaltyRate: '0.20',
+  deliveryPlace: 'สถานีไฟฟ้าศาลายา, สถานีไฟฟ้าพุทธมณฑล 2 และสถานีไฟฟ้าพุทธมณฑล 3',
+  poDate: '22 มีนาคม 2569',
 };
 
 export default function App() {
@@ -156,478 +187,517 @@ export default function App() {
     window.print();
   };
 
+  const numberToThaiText = (num: number) => {
+    if (num === 0) return 'ศูนย์บาทถ้วน';
+    const thaiNumbers = ['ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];
+    const thaiUnits = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน'];
+    
+    const [baht, satang] = num.toFixed(2).split('.');
+    
+    const convert = (n: string) => {
+      let res = '';
+      const len = n.length;
+      for (let i = 0; i < len; i++) {
+        const digit = parseInt(n[i]);
+        if (digit !== 0) {
+          if (i === len - 1 && digit === 1 && len > 1) {
+            res += 'เอ็ด';
+          } else if (i === len - 2 && digit === 2) {
+            res += 'ยี่';
+          } else if (i === len - 2 && digit === 1) {
+            res += '';
+          } else {
+            res += thaiNumbers[digit];
+          }
+          res += thaiUnits[len - i - 1];
+        }
+      }
+      return res;
+    };
+
+    let result = convert(baht) + 'บาท';
+    if (satang === '00') {
+      result += 'ถ้วน';
+    } else {
+      result += convert(satang) + 'สตางค์';
+    }
+    return result;
+  };
+
+  const updateGrassItem = (index: number, field: string, value: any) => {
+    setData(prev => {
+      const newItems = [...prev.grassItems];
+      newItems[index] = { ...newItems[index], [field]: value };
+      if (field === 'price') {
+        newItems[index].subtotal = value;
+      }
+      return { ...prev, grassItems: newItems };
+    });
+  };
+
+  const updateSprayItem = (index: number, field: string, value: any) => {
+    setData(prev => {
+      const newItems = [...prev.sprayItems];
+      newItems[index] = { ...newItems[index], [field]: value };
+      if (field === 'price') {
+        newItems[index].subtotal = value;
+      }
+      return { ...prev, sprayItems: newItems };
+    });
+  };
+
+  const updatePOItem = (index: number, field: string, value: any) => {
+    setData(prev => {
+      const newItems = [...prev.poItems];
+      newItems[index] = { ...newItems[index], [field]: value };
+      if (field === 'price' || field === 'quantity') {
+        newItems[index].subtotal = newItems[index].price * newItems[index].quantity;
+      }
+      const newSubtotal = newItems.reduce((sum, item) => sum + item.subtotal, 0);
+      return { ...prev, poItems: newItems, poTotal: newSubtotal + prev.poVat };
+    });
+  };
+
+  const grassTotalArea = data.grassItems.reduce((sum, item) => sum + parseFloat(item.area || '0'), 0);
+  const grassTotalAmt = data.grassItems.reduce((sum, item) => sum + (item.subtotal || 0), 0);
+  const sprayTotalArea = data.sprayItems.reduce((sum, item) => sum + parseFloat(item.area || '0'), 0);
+  const sprayTotalAmt = data.sprayItems.reduce((sum, item) => sum + (item.subtotal || 0), 0);
+  const poSubtotal = data.poItems.reduce((sum, item) => sum + item.subtotal, 0);
+
+  // Derived values for Summary and Report
+  const summaryPriceBeforeVat = procurementType === 'MOWING' ? (grassTotalAmt + sprayTotalAmt) : data.priceBeforeVat;
+  const summaryVatAmount = procurementType === 'MOWING' ? (summaryPriceBeforeVat * 0.07) : data.vatAmount;
+  const summaryTotalAmount = procurementType === 'MOWING' ? (summaryPriceBeforeVat + summaryVatAmount) : data.totalAmount;
+
   return (
-    <div className="min-h-screen bg-stone-100 font-sans text-slate-900">
-      <AnimatePresence>
-        {!procurementType && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-stone-900/40 backdrop-blur-xl flex items-center justify-center p-6"
+    <div className="min-h-screen bg-[#e8edf2] font-sans text-[#1a1a2e]">
+      {/* App Header */}
+      <header className="bg-gradient-to-br from-[#003087] via-[#0052cc] to-[#0073e6] text-white px-8 py-4 flex items-center gap-4 shadow-lg sticky top-0 z-[100] print:hidden">
+        <div className="w-12 h-12 bg-white/15 border-2 border-white/50 rounded-full flex items-center justify-center text-2xl">
+          ⚡
+        </div>
+        <div>
+          <h1 className="text-xl font-bold leading-tight">การไฟฟ้าส่วนภูมิภาค</h1>
+          <p className="text-sm opacity-80">ระบบแบบฟอร์มจัดจ้าง — หน่วยปฏิบัติงานสถานีไฟฟ้าที่ 4 (สถานีไฟฟ้าศาลายา)</p>
+        </div>
+      </header>
+
+      {/* Tab Navigation */}
+      <nav className="bg-white border-b-[3px] border-[#003087] flex overflow-x-auto px-6 gap-0.5 shadow-md sticky top-[80px] z-[90] print:hidden">
+        {[
+          { id: 'APPROVAL', label: 'บันทึกขอความเห็นชอบ', num: 1 },
+          { id: 'ASSIGNMENT', label: 'มอบหมายจัดทำคุณลักษณะ', num: 2 },
+          { id: 'REPORT', label: 'รายงานขอจัดจ้าง', num: 3 },
+          { id: 'PURCHASE_ORDER', label: 'ใบสั่งจ้าง', num: 4 },
+          { id: 'SUMMARY', label: 'สรุปผลพิจารณาและตรวจรับ', num: 5 },
+        ].map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setCurrentForm(tab.id as FormType)}
+            className={`px-5 py-3 border-b-[3px] transition-all whitespace-nowrap font-medium text-sm flex items-center gap-1.5 ${
+              currentForm === tab.id
+                ? 'text-[#003087] border-[#003087] font-bold bg-[#f0f4ff]'
+                : 'text-[#555] border-transparent hover:text-[#003087] hover:bg-[#f0f4ff]'
+            }`}
           >
-            <motion.div 
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              className="bg-white rounded-[2.5rem] shadow-2xl p-10 max-w-2xl w-full border border-white/20"
-            >
-              <div className="text-center mb-10">
-                <div className="w-20 h-20 bg-purple-700 rounded-3xl mx-auto flex items-center justify-center text-white shadow-xl mb-6 rotate-3">
-                  <FileText size={40} />
-                </div>
-                <h2 className="text-3xl font-black text-slate-800 mb-3">ยินดีต้อนรับสู่ระบบจัดทำเอกสาร</h2>
-                <p className="text-slate-500 font-medium">กรุณาเลือกหัวข้อการจัดซื้อจัดจ้างเพื่อเริ่มต้น</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <button
-                  onClick={() => handleSelectProcurement('CLEANING')}
-                  className="group relative overflow-hidden bg-white border-2 border-stone-100 hover:border-purple-500 p-8 rounded-[2rem] transition-all duration-300 text-left shadow-sm hover:shadow-xl active:scale-[0.98]"
-                >
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
-                  <div className="relative z-10">
-                    <div className="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center text-purple-600 mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
-                      <CheckCircle2 size={28} />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-800 mb-2">จ้างทำความสะอาด</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed">จัดทำเอกสารเกี่ยวกับการจ้างเหมาทำความสะอาดอาคารและสำนักงาน</p>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => handleSelectProcurement('MOWING')}
-                  className="group relative overflow-hidden bg-white border-2 border-stone-100 hover:border-emerald-500 p-8 rounded-[2rem] transition-all duration-300 text-left shadow-sm hover:shadow-xl active:scale-[0.98]"
-                >
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
-                  <div className="relative z-10">
-                    <div className="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300">
-                      <ClipboardList size={28} />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-800 mb-2">จ้างตัดหญ้า</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed">จัดทำเอกสารเกี่ยวกับการจ้างเหมาตัดหญ้าและดูแลสวนบริเวณสถานีไฟฟ้า</p>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => handleSelectProcurement('PURCHASE_OTHER')}
-                  className="group relative overflow-hidden bg-white border-2 border-stone-100 hover:border-blue-500 p-8 rounded-[2rem] transition-all duration-300 text-left shadow-sm hover:shadow-xl active:scale-[0.98]"
-                >
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
-                  <div className="relative z-10">
-                    <div className="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
-                      <ShoppingCart size={28} />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-800 mb-2">จัดซื้ออื่นๆ</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed">จัดทำเอกสารเกี่ยวกับการจัดซื้อพัสดุและอุปกรณ์อื่นๆ</p>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => handleSelectProcurement('SERVICE_OTHER')}
-                  className="group relative overflow-hidden bg-white border-2 border-stone-100 hover:border-orange-500 p-8 rounded-[2rem] transition-all duration-300 text-left shadow-sm hover:shadow-xl active:scale-[0.98]"
-                >
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500"></div>
-                  <div className="relative z-10">
-                    <div className="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-600 mb-6 group-hover:bg-orange-600 group-hover:text-white transition-colors duration-300">
-                      <Settings size={28} />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-800 mb-2">จัดจ้างอื่นๆ</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed">จัดทำเอกสารเกี่ยวกับการจัดจ้างบริการและงานซ่อมแซมอื่นๆ</p>
-                  </div>
-                </button>
-              </div>
-              
-              <div className="mt-10 pt-8 border-t border-stone-100 text-center">
-                <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Provincial Electricity Authority • Procurement System</p>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Global Print Styles */}
-      <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
-        
-        body {
-          font-family: 'TH SarabunPSK', 'TH Sarabun New', 'Sarabun', sans-serif;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-          text-rendering: optimizeLegibility;
-        }
-
-        @media print {
-          @page {
-            size: A4;
-            margin: 0;
-          }
-          
-          html, body {
-            width: 210mm;
-            height: auto !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            background: white !important;
-            overflow: visible !important;
-          }
-
-          /* Hide UI elements but NOT the main container */
-          nav, 
-          .form-selector, 
-          .instructions-box, 
-          button,
-          .print\:hidden {
-            display: none !important;
-          }
-
-          /* Reset background and layout for print */
-          .bg-stone-100,
-          main,
-          .content-container,
-          .print-wrapper-outer {
-            background: white !important;
-            min-height: 0 !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            display: block !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-            transform: none !important;
-            width: 210mm !important;
-            max-width: none !important;
-            overflow: visible !important;
-          }
-
-          .print-container {
-            display: block !important;
-            width: 210mm !important;
-            min-height: 297mm !important;
-            margin: 0 !important;
-            padding: 10mm 15mm 15mm 25mm !important; /* Top 1cm, Right 1.5cm, Bottom 1.5cm, Left 2.5cm */
-            background: white !important;
-            color: black !important;
-            font-family: 'TH SarabunPSK', 'TH Sarabun New', 'Sarabun', sans-serif !important;
-            font-size: 16pt !important;
-            line-height: 1.1 !important;
-            position: relative !important;
-            box-sizing: border-box !important;
-            box-shadow: none !important;
-            border: none !important;
-            visibility: visible !important;
-            overflow: visible !important;
-          }
-
-          /* Force all text to black and remove red highlights for official print */
-          .print-container * {
-            color: black !important;
-            border-color: black !important;
-            background: transparent !important;
-            box-shadow: none !important;
-            visibility: visible !important;
-          }
-
-          .print-container table {
-            width: 100% !important;
-            border-collapse: collapse !important;
-            margin-top: 10pt !important;
-          }
-          
-          .print-container td, .print-container th {
-            border: 1px solid black !important;
-            padding: 4pt !important;
-          }
-
-          /* Ensure dots are visible but clean */
-          .border-dotted {
-            border-style: solid !important;
-            border-bottom-width: 0.5pt !important;
-          }
-        }
-      `}} />
-      {/* Navigation Bar */}
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200 px-6 py-4 flex justify-between items-center print:hidden">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-purple-700 rounded-lg flex items-center justify-center text-white shadow-lg">
-            <Edit3 size={24} />
-          </div>
-          <div>
-            <h1 className="font-bold text-lg leading-tight">ระบบจัดทำหนังสือขอความเห็นชอบ</h1>
-            <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold">Procurement Document Generator</p>
-          </div>
-        </div>
-        <div className="flex gap-2">
-          {procurementType && (
-            <button
-              onClick={() => setProcurementType(null)}
-              className="flex items-center gap-2 bg-white border border-stone-200 hover:bg-stone-50 text-slate-700 px-4 py-2.5 rounded-xl transition-all shadow-sm active:scale-95 font-medium mr-2"
-            >
-              <FileText size={18} />
-              เปลี่ยนหัวข้อจัดซื้อ
-            </button>
-          )}
-          {!isPreview ? (
-            <button
-              onClick={() => setIsPreview(true)}
-              className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-xl transition-all shadow-md active:scale-95 font-medium"
-            >
-              <Eye size={18} />
-              ดูตัวอย่างก่อนพิมพ์
-            </button>
-          ) : (
-            <>
-              <button
-                onClick={() => setIsPreview(false)}
-                className="flex items-center gap-2 bg-white border border-stone-200 hover:bg-stone-50 text-slate-700 px-5 py-2.5 rounded-xl transition-all shadow-sm active:scale-95 font-medium"
-              >
-                <ChevronLeft size={18} />
-                กลับไปแก้ไข
-              </button>
-              <button
-                onClick={handlePrint}
-                className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-xl transition-all shadow-md active:scale-95 font-medium"
-              >
-                <Printer size={18} />
-                พิมพ์เอกสาร / บันทึกเป็น PDF
-              </button>
-            </>
-          )}
-        </div>
+            <span className={`w-[22px] h-[22px] rounded-full text-[12px] flex items-center justify-center ${
+              currentForm === tab.id ? 'bg-[#0052cc] text-white' : 'bg-[#003087] text-white'
+            }`}>
+              {tab.num}
+            </span>
+            {tab.label}
+          </button>
+        ))}
       </nav>
 
-      <main className="max-w-5xl mx-auto p-6 md:p-10">
-        {/* Form Selector */}
-        <div className="flex flex-col gap-2 mb-8 print:hidden form-selector">
-          <p className="text-sm font-bold text-slate-500 uppercase tracking-wider ml-1">เลือกหัวข้อที่ต้องการพิมพ์:</p>
-          <div className="flex flex-wrap gap-2">
-            {[
-              { id: 'APPROVAL', label: '1. ขอความเห็นชอบ', icon: FileText },
-              { id: 'ASSIGNMENT', label: '2. มอบหมายคุณลักษณะ', icon: ClipboardList },
-              { id: 'REPORT', label: '3. รายงานขอซื้อ/จ้าง', icon: FileCheck },
-              { id: 'SUMMARY', label: '4. สรุปผล/ตรวจรับ', icon: CheckCircle2 },
-            ].map((form) => (
-              <button
-                key={form.id}
-                onClick={() => setCurrentForm(form.id as FormType)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all font-medium text-sm ${
-                  currentForm === form.id
-                    ? 'bg-purple-600 text-white shadow-md'
-                    : 'bg-white text-slate-600 border border-stone-200 hover:bg-stone-50'
-                }`}
-              >
-                <form.icon size={16} />
-                {form.label}
-              </button>
-            ))}
-          </div>
-        </div>
+      <main className="max-w-[960px] mx-auto p-7">
+        <AnimatePresence mode="wait">
+          {!procurementType && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="bg-white rounded-3xl shadow-2xl p-10 border border-white/20"
+          >
+            <div className="text-center mb-10">
+              <div className="w-20 h-20 bg-gradient-to-br from-[#003087] to-[#0052cc] rounded-3xl mx-auto flex items-center justify-center text-white shadow-xl mb-6 rotate-3">
+                <FileText size={40} />
+              </div>
+              <h2 className="text-3xl font-black text-[#1a1a2e] mb-3">ยินดีต้อนรับสู่ระบบจัดทำเอกสาร</h2>
+              <p className="text-slate-500 font-medium">กรุณาเลือกหัวข้อการจัดซื้อจัดจ้างเพื่อเริ่มต้น</p>
+            </div>
 
-        <div className="content-container">
-          {/* Form Editor - Hidden in print, hidden on screen if in preview mode */}
-          <div className={`${isPreview ? 'hidden' : 'block'} print:hidden`}>
-            <div className="bg-white rounded-3xl shadow-xl border border-stone-200 overflow-hidden">
-              <div className="p-8 border-b border-stone-100 bg-stone-50/50">
-                <h2 className="text-2xl font-bold text-slate-800">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                { id: 'CLEANING', label: 'จ้างทำความสะอาด', icon: CheckCircle2, color: 'blue', desc: 'จัดทำเอกสารเกี่ยวกับการจ้างเหมาทำความสะอาดอาคารและสำนักงาน' },
+                { id: 'MOWING', label: 'จ้างตัดหญ้า', icon: ClipboardList, color: 'emerald', desc: 'จัดทำเอกสารเกี่ยวกับการจ้างเหมาตัดหญ้าและดูแลสวนบริเวณสถานีไฟฟ้า' },
+                { id: 'PURCHASE_OTHER', label: 'จัดซื้ออื่นๆ', icon: ShoppingCart, color: 'purple', desc: 'จัดทำเอกสารเกี่ยวกับการจัดซื้อพัสดุและอุปกรณ์อื่นๆ' },
+                { id: 'SERVICE_OTHER', label: 'จัดจ้างอื่นๆ', icon: Settings, color: 'orange', desc: 'จัดทำเอกสารเกี่ยวกับการจัดจ้างบริการและงานซ่อมแซมอื่นๆ' },
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => handleSelectProcurement(item.id as any)}
+                  className="group relative overflow-hidden bg-white border-2 border-slate-100 hover:border-[#003087] p-8 rounded-3xl transition-all duration-300 text-left shadow-sm hover:shadow-xl active:scale-[0.98]"
+                >
+                  <div className="relative z-10">
+                    <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-[#003087] mb-6 group-hover:bg-[#003087] group-hover:text-white transition-colors duration-300">
+                      <item.icon size={28} />
+                    </div>
+                    <h3 className="text-xl font-bold text-[#1a1a2e] mb-2">{item.label}</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+            
+            <div className="mt-10 pt-8 border-t border-slate-100 text-center">
+              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Provincial Electricity Authority • Procurement System</p>
+            </div>
+          </motion.div>
+        )}
+
+        {procurementType && !isPreview && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden"
+          >
+            <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+              <div>
+                <h2 className="text-2xl font-bold text-[#1a1a2e]">
                   {currentForm === 'APPROVAL' && '1. บันทึกขอความเห็นชอบดำเนินการ'}
                   {currentForm === 'ASSIGNMENT' && '2. มอบหมายจัดทำคุณลักษณะ'}
-                  {currentForm === 'REPORT' && '3. รายงานขอจัดซื้อหรือจัดจ้าง'}
-                  {currentForm === 'SUMMARY' && '4. รายงานสรุปผลพิจารณาและตรวจรับ'}
+                  {currentForm === 'REPORT' && '3. รายงานขอจัดจ้าง'}
+                  {currentForm === 'PURCHASE_ORDER' && '4. ใบสั่งจ้าง (Purchase Order)'}
+                  {currentForm === 'SUMMARY' && '5. สรุปผลพิจารณาและตรวจรับ'}
                 </h2>
-                <p className="text-slate-500 mt-1">กรุณากรอกข้อมูลที่เปลี่ยนแปลงในส่วนนี้ ข้อมูลพื้นฐานจะถูกเชื่อมโยงกันอัตโนมัติ</p>
+                <p className="text-slate-500 mt-1">แก้ไขข้อมูลในส่วนต่างๆ เพื่อปรับปรุงเอกสารของคุณ</p>
               </div>
-
-              <div className="p-8 space-y-10">
-                {/* Editable Red Fields */}
-                <section className="space-y-6">
-                  <h3 className="text-sm font-bold text-black uppercase tracking-widest border-b border-stone-100 pb-2 flex items-center gap-2">
-                    <span className="w-2 h-2 bg-black rounded-full animate-pulse"></span>
-                    ส่วนที่แก้ไขได้ (ตัวอักษรสีดำในแบบฟอร์ม)
-                  </h3>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {currentForm === 'APPROVAL' ? (
-                      <>
-                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-stone-50/30 rounded-2xl border border-stone-100">
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">วันที่</label>
-                            <input name="date" value={data.date} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">ปีงบประมาณ</label>
-                            <input name="budgetYear" value={data.budgetYear} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">จำนวนสถานีไฟฟ้า (ตัวเลข)</label>
-                            <input name="stationCount" value={data.stationCount} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">รายชื่อสถานีไฟฟ้า</label>
-                            <input name="stationList" value={data.stationList} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                          </div>
-                          <div className="md:col-span-2 space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">ชื่อบัญชี</label>
-                            <input name="accountName" value={data.accountName} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">รหัสบัญชี</label>
-                            <input name="accountCode" value={data.accountCode} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">รหัสศูนย์ต้นทุน</label>
-                            <input name="costCenter" value={data.costCenter} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        {/* Header Info */}
-                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-stone-50/30 rounded-2xl border border-stone-100">
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">วันที่</label>
-                            <input name="date" value={data.date} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">เรื่อง</label>
-                            <input 
-                              name={
-                                currentForm === 'APPROVAL' ? 'subjectApproval' :
-                                currentForm === 'ASSIGNMENT' ? 'subjectAssignment' :
-                                currentForm === 'REPORT' ? 'subjectReport' :
-                                'subjectSummary'
-                              } 
-                              value={
-                                currentForm === 'APPROVAL' ? data.subjectApproval :
-                                currentForm === 'ASSIGNMENT' ? data.subjectAssignment :
-                                currentForm === 'REPORT' ? data.subjectReport :
-                                data.subjectSummary
-                              } 
-                              onChange={handleChange} 
-                              className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" 
-                            />
-                          </div>
-                        </div>
-
-                        {/* Content Info */}
-                        <div className="md:col-span-2 space-y-1.5">
-                          <label className="text-xs font-bold text-slate-500 uppercase">ชื่อหน่วยปฏิบัติงาน / สถานีไฟฟ้า</label>
-                          <input name="unitName" value={data.unitName} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none font-medium" />
-                        </div>
-
-                        <div className="space-y-1.5">
-                          <label className="text-xs font-bold text-slate-500 uppercase">เดือนเริ่มต้น</label>
-                          <input name="monthStart" value={data.monthStart} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                        </div>
-                        <div className="space-y-1.5">
-                          <label className="text-xs font-bold text-slate-500 uppercase">เดือนสิ้นสุด</label>
-                          <input name="monthEnd" value={data.monthEnd} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                        </div>
-
-                        <div className="space-y-1.5">
-                          <label className="text-xs font-bold text-slate-500 uppercase">จำนวนสถานีไฟฟ้า (ตัวเลข)</label>
-                          <input name="stationCount" value={data.stationCount} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                        </div>
-                        <div className="space-y-1.5">
-                          <label className="text-xs font-bold text-slate-500 uppercase">รายชื่อสถานีไฟฟ้าที่รับผิดชอบ</label>
-                          <input name="stationList" value={data.stationList} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                        </div>
-
-                        {/* Financial Info */}
-                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-stone-50/30 rounded-2xl border border-stone-100">
-                          <div className="md:col-span-2 space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">ชื่อผู้รับจ้าง (Supplier)</label>
-                            <input name="supplierName" value={data.supplierName} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">ราคาไม่รวม VAT</label>
-                            <input type="number" name="priceBeforeVat" value={data.priceBeforeVat} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">ภาษีมูลค่าเพิ่ม (VAT)</label>
-                            <input type="number" name="vatAmount" value={data.vatAmount} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">ราคาสุทธิ (รวม VAT)</label>
-                            <input type="number" name="totalAmount" value={data.totalAmount} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">ราคาสุทธิ (ตัวอักษร)</label>
-                            <input name="totalAmountThai" value={data.totalAmountThai} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">รหัสบัญชี</label>
-                            <input name="accountCode" value={data.accountCode} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                          </div>
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-slate-500 uppercase">รหัสศูนย์ต้นทุน</label>
-                            <input name="costCenter" value={data.costCenter} onChange={handleChange} className="w-full px-4 py-2 rounded-xl border border-stone-200 focus:ring-2 focus:ring-purple-500 outline-none" />
-                          </div>
-                        </div>
-
-                        {/* Signers are now fixed and hidden from editing as per request */}
-                      </>
-                    )}
-                  </div>
-                </section>
-
-                <div className="md:col-span-2 flex justify-between items-center pt-8 border-t border-stone-100">
-                  <div className="text-sm text-slate-500 italic">
-                    * ข้อมูลจะถูกบันทึกและเชื่อมโยงไปยังฟอร์มถัดไปโดยอัตโนมัติ
-                  </div>
-                  <div className="flex gap-3">
-                    {currentForm !== 'APPROVAL' && (
-                      <button
-                        onClick={() => {
-                          const forms: FormType[] = ['APPROVAL', 'ASSIGNMENT', 'REPORT', 'SUMMARY'];
-                          const idx = forms.indexOf(currentForm);
-                          setCurrentForm(forms[idx - 1]);
-                        }}
-                        className="px-6 py-2.5 rounded-xl border border-stone-200 text-slate-600 hover:bg-stone-50 transition-all font-medium"
-                      >
-                        ย้อนกลับ
-                      </button>
-                    )}
-                    {currentForm !== 'SUMMARY' && (
-                      <button
-                        onClick={() => {
-                          const forms: FormType[] = ['APPROVAL', 'ASSIGNMENT', 'REPORT', 'SUMMARY'];
-                          const idx = forms.indexOf(currentForm);
-                          setCurrentForm(forms[idx + 1]);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                        className="px-8 py-2.5 rounded-xl bg-purple-600 text-white hover:bg-purple-700 shadow-md transition-all font-medium flex items-center gap-2"
-                      >
-                        ถัดไป
-                        <ChevronLeft size={18} className="rotate-180" />
-                      </button>
-                    )}
-                  </div>
-                </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setProcurementType(null)}
+                  className="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-white transition-all text-sm font-medium flex items-center gap-2"
+                >
+                  <ChevronLeft size={16} />
+                  เปลี่ยนหัวข้อ
+                </button>
+                <button
+                  onClick={() => setIsPreview(true)}
+                  className="px-6 py-2 rounded-xl bg-[#003087] text-white hover:bg-[#0052cc] shadow-lg transition-all text-sm font-bold flex items-center gap-2"
+                >
+                  <Eye size={16} />
+                  ดูตัวอย่าง & พิมพ์
+                </button>
               </div>
             </div>
-          </div>
 
-          {/* Print Preview - Always visible in print, hidden on screen if not in preview mode */}
-          <div className={`print-wrapper-outer p-4 md:p-8 flex justify-center ${isPreview ? 'block' : 'hidden'} print:block`}>
-            <div className={`print-container bg-white shadow-2xl border border-stone-200 pt-[0.25cm] px-[1.5cm] pb-[0.2cm] min-h-[297mm] w-[210mm] ${currentForm === 'SUMMARY' ? 'text-[14pt]' : 'text-[16pt]'} leading-normal font-serif text-black relative flex flex-col`}>
-                {/* Header */}
-                <div className="flex flex-col items-center mb-4">
-                  {data.logoUrl ? (
-                    <img src={data.logoUrl} alt="PEA Logo" className="w-20 h-20 object-contain" referrerPolicy="no-referrer" />
-                  ) : (
-                    <div dangerouslySetInnerHTML={{ __html: PEA_LOGO_SVG }} className="w-20 h-20" />
-                  )}
-                  <div className="text-center mt-1 leading-tight">
-                    <p className="text-[14pt] font-bold">การไฟฟ้าส่วนภูมิภาค</p>
-                    <p className="text-[10pt] font-bold">PROVINCIAL ELECTRICITY AUTHORITY</p>
+            <div className="p-8 space-y-8">
+              {/* Common Fields */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 bg-[#f8fafc] rounded-2xl border border-slate-100">
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">วันที่เอกสาร</label>
+                  <input name="date" value={data.date} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ปีงบประมาณ</label>
+                  <input name="budgetYear" value={data.budgetYear} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">หน่วยงาน</label>
+                  <input name="unitName" value={data.unitName} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                </div>
+              </div>
+
+              {/* Form Specific Fields */}
+              {currentForm === 'APPROVAL' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">จำนวนสถานีไฟฟ้า</label>
+                    <input name="stationCount" value={data.stationCount} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">รายชื่อสถานี</label>
+                    <input name="stationList" value={data.stationList} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ชื่อบัญชี</label>
+                    <input name="accountName" value={data.accountName} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">รหัสบัญชี</label>
+                    <input name="accountCode" value={data.accountCode} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
                   </div>
                 </div>
+              )}
 
-                {currentForm !== 'SUMMARY' && currentForm !== 'APPROVAL' && (
-                  <div className="text-center mb-4">
-                    <h2 className="text-[29pt] font-bold">บันทึกข้อความ</h2>
+              {currentForm === 'REPORT' && (
+                <div className="space-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">เหตุผลความจำเป็น</label>
+                      <textarea name="reason" value={data.reason} onChange={handleChange} rows={3} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">วิธีจัดจ้าง</label>
+                      <input name="procurementMethod" value={data.procurementMethod} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                    </div>
+                  </div>
+                  
+                  {procurementType === 'MOWING' && (
+                    <div className="space-y-6">
+                      <h3 className="font-bold text-sm text-[#003087] border-b pb-2">ตารางรายละเอียดพื้นที่ (หญ้า)</h3>
+                      <div className="overflow-x-auto border rounded-xl">
+                        <table className="w-full text-sm">
+                          <thead className="bg-slate-50">
+                            <tr>
+                              <th className="p-3 text-left">ลำดับ</th>
+                              <th className="p-3 text-left">สถานีไฟฟ้า</th>
+                              <th className="p-3 text-left">พื้นที่ (ตร.ม.)</th>
+                              <th className="p-3 text-left">จำนวนเงิน</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {data.grassItems.map((item, idx) => (
+                              <tr key={idx} className="border-t">
+                                <td className="p-3">{idx + 1}</td>
+                                <td className="p-3"><input value={item.station} onChange={(e) => updateGrassItem(idx, 'station', e.target.value)} className="w-full bg-transparent outline-none" /></td>
+                                <td className="p-3"><input value={item.area} onChange={(e) => updateGrassItem(idx, 'area', e.target.value)} className="w-full bg-transparent outline-none" /></td>
+                                <td className="p-3"><input type="number" value={item.price} onChange={(e) => updateGrassItem(idx, 'price', parseFloat(e.target.value))} className="w-full bg-transparent outline-none" /></td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {currentForm === 'PURCHASE_ORDER' && (
+                <div className="space-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ชื่อผู้รับจ้าง</label>
+                      <input name="supplierName" value={data.supplierName} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ที่อยู่ผู้รับจ้าง</label>
+                      <input name="vendorAddress" value={data.vendorAddress} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                    </div>
+                  </div>
+
+                  <div className="space-y-6">
+                    <h3 className="font-bold text-sm text-[#003087] border-b pb-2">รายการสั่งจ้าง</h3>
+                    <div className="overflow-x-auto border rounded-xl">
+                      <table className="w-full text-sm">
+                        <thead className="bg-slate-50">
+                          <tr>
+                            <th className="p-3 text-left">รายการ</th>
+                            <th className="p-3 text-right">จำนวน</th>
+                            <th className="p-3 text-left">หน่วย</th>
+                            <th className="p-3 text-right">ราคา/หน่วย</th>
+                            <th className="p-3 text-right">รวม</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {data.poItems.map((item, idx) => (
+                            <tr key={idx} className="border-t">
+                              <td className="p-3"><input value={item.description} onChange={(e) => updatePOItem(idx, 'description', e.target.value)} className="w-full bg-transparent outline-none" /></td>
+                              <td className="p-3 text-right"><input type="number" value={item.quantity} onChange={(e) => updatePOItem(idx, 'quantity', parseFloat(e.target.value))} className="w-16 text-right bg-transparent outline-none" /></td>
+                              <td className="p-3"><input value={item.unit} onChange={(e) => updatePOItem(idx, 'unit', e.target.value)} className="w-16 bg-transparent outline-none" /></td>
+                              <td className="p-3 text-right"><input type="number" value={item.price} onChange={(e) => updatePOItem(idx, 'price', parseFloat(e.target.value))} className="w-24 text-right bg-transparent outline-none" /></td>
+                              <td className="p-3 text-right">{item.subtotal.toLocaleString()}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                        <tfoot className="bg-slate-50 font-bold">
+                          <tr>
+                            <td colSpan={4} className="p-3 text-right">รวมเงิน</td>
+                            <td className="p-3 text-right">{poSubtotal.toLocaleString()}</td>
+                          </tr>
+                          <tr>
+                            <td colSpan={4} className="p-3 text-right">ภาษีมูลค่าเพิ่ม (7%)</td>
+                            <td className="p-3 text-right"><input type="number" value={data.poVat} onChange={(e) => setData(prev => ({ ...prev, poVat: parseFloat(e.target.value), poTotal: poSubtotal + parseFloat(e.target.value) }))} className="w-24 text-right bg-transparent outline-none" /></td>
+                          </tr>
+                          <tr className="text-[#003087]">
+                            <td colSpan={4} className="p-3 text-right">รวมเป็นเงินทั้งสิ้น</td>
+                            <td className="p-3 text-right">{data.poTotal.toLocaleString()}</td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Navigation Buttons */}
+              <div className="flex justify-between pt-8 border-t">
+                <button
+                  disabled={currentForm === 'APPROVAL'}
+                  onClick={() => {
+                    const forms: FormType[] = ['APPROVAL', 'ASSIGNMENT', 'REPORT', 'PURCHASE_ORDER', 'SUMMARY'];
+                    const idx = forms.indexOf(currentForm);
+                    setCurrentForm(forms[idx - 1]);
+                  }}
+                  className="px-6 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-30 font-medium"
+                >
+                  ย้อนกลับ
+                </button>
+                <button
+                  disabled={currentForm === 'SUMMARY'}
+                  onClick={() => {
+                    const forms: FormType[] = ['APPROVAL', 'ASSIGNMENT', 'REPORT', 'PURCHASE_ORDER', 'SUMMARY'];
+                    const idx = forms.indexOf(currentForm);
+                    setCurrentForm(forms[idx + 1]);
+                  }}
+                  className="px-8 py-2.5 rounded-xl bg-[#003087] text-white hover:bg-[#0052cc] shadow-lg font-bold flex items-center gap-2"
+                >
+                  ถัดไป
+                  <ChevronLeft size={18} className="rotate-180" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+        </AnimatePresence>
+        
+        {isPreview && (
+          <>
+            <div className={`print-container bg-white shadow-2xl border border-stone-200 pt-[0.25cm] px-[1.5cm] pb-[0.2cm] min-h-[297mm] w-[210mm] ${currentForm === 'SUMMARY' ? 'text-[14pt]' : 'text-[16pt]'} leading-normal font-serif text-black relative flex flex-col`}>
+                {/* Header */}
+                {currentForm !== 'PURCHASE_ORDER' && (
+                  <div className="flex flex-col items-center mb-4">
+                    {data.logoUrl ? (
+                      <img src={data.logoUrl} alt="PEA Logo" className="w-20 h-20 object-contain" referrerPolicy="no-referrer" />
+                    ) : (
+                      <div dangerouslySetInnerHTML={{ __html: PEA_LOGO_SVG }} className="w-20 h-20" />
+                    )}
+                    <div className="text-center mt-1 leading-tight">
+                      <p className="text-[14pt] font-bold">การไฟฟ้าส่วนภูมิภาค</p>
+                      <p className="text-[10pt] font-bold">PROVINCIAL ELECTRICITY AUTHORITY</p>
+                    </div>
                   </div>
                 )}
 
-                {currentForm === 'APPROVAL' ? (
+                {currentForm === 'PURCHASE_ORDER' && (
+                  <div className="flex-1 flex flex-col">
+                    <div className="flex justify-between items-start mb-8">
+                      {data.logoUrl ? (
+                        <img src={data.logoUrl} alt="PEA Logo" className="w-24 h-24 object-contain" referrerPolicy="no-referrer" />
+                      ) : (
+                        <div dangerouslySetInnerHTML={{ __html: PEA_LOGO_SVG }} className="w-24 h-24" />
+                      )}
+                      <div className="text-right">
+                        <h2 className="text-[24pt] font-bold text-[#003087]">ใบสั่งจ้าง</h2>
+                        <p className="text-[16pt] font-bold">Purchase Order</p>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-8 mb-6 text-[14pt]">
+                      <div className="border border-black p-4 rounded-lg">
+                        <p className="font-bold border-b border-black mb-2 pb-1">ผู้รับจ้าง / Vendor:</p>
+                        <p className="font-bold text-[16pt]">{data.supplierName}</p>
+                        <p className="mt-1">{data.vendorAddress}</p>
+                      </div>
+                      <div className="border border-black p-4 rounded-lg space-y-2">
+                        <div className="flex justify-between border-b border-dotted border-black pb-1">
+                          <span className="font-bold">เลขที่ / PO No.:</span>
+                          <span>{data.docNumber}</span>
+                        </div>
+                        <div className="flex justify-between border-b border-dotted border-black pb-1">
+                          <span className="font-bold">วันที่ / Date:</span>
+                          <span>{data.date}</span>
+                        </div>
+                        <div className="flex justify-between border-b border-dotted border-black pb-1">
+                          <span className="font-bold">หน่วยงาน / Unit:</span>
+                          <span>{data.unitName}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <table className="w-full border-collapse border border-black mb-6 text-[14pt]">
+                      <thead>
+                        <tr className="bg-slate-50">
+                          <th className="border border-black p-2 text-center w-12">ลำดับ</th>
+                          <th className="border border-black p-2 text-center">รายการ / Description</th>
+                          <th className="border border-black p-2 text-center w-20">จำนวน</th>
+                          <th className="border border-black p-2 text-center w-20">หน่วย</th>
+                          <th className="border border-black p-2 text-center w-28">ราคา/หน่วย</th>
+                          <th className="border border-black p-2 text-center w-32">จำนวนเงิน</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {data.poItems.map((item, idx) => (
+                          <tr key={idx} className="h-10">
+                            <td className="border border-black p-2 text-center">{idx + 1}</td>
+                            <td className="border border-black p-2">{item.description}</td>
+                            <td className="border border-black p-2 text-center">{item.quantity}</td>
+                            <td className="border border-black p-2 text-center">{item.unit}</td>
+                            <td className="border border-black p-2 text-right">{item.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                            <td className="border border-black p-2 text-right">{item.subtotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                          </tr>
+                        ))}
+                        {[...Array(Math.max(0, 10 - data.poItems.length))].map((_, i) => (
+                          <tr key={`empty-${i}`} className="h-10">
+                            <td className="border border-black p-2"></td>
+                            <td className="border border-black p-2"></td>
+                            <td className="border border-black p-2"></td>
+                            <td className="border border-black p-2"></td>
+                            <td className="border border-black p-2"></td>
+                            <td className="border border-black p-2"></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                      <tfoot className="font-bold">
+                        <tr>
+                          <td colSpan={4} rowSpan={3} className="border border-black p-3 align-top italic text-[12pt]">
+                            <p className="font-bold not-italic underline mb-1">เงื่อนไขการจ้าง:</p>
+                            <p>1. ผู้รับจ้างต้องดำเนินการให้แล้วเสร็จภายในกำหนดเวลาที่ระบุไว้</p>
+                            <p>2. การจ่ายเงินจะกระทำเมื่อคณะกรรมการตรวจรับพัสดุได้ตรวจรับงานงวดนั้นๆ เรียบร้อยแล้ว</p>
+                            <p>3. หากส่งมอบงานเกินกำหนด จะต้องชำระค่าปรับตามระเบียบของ กฟภ.</p>
+                          </td>
+                          <td className="border border-black p-2 text-right">รวมเงิน / Subtotal</td>
+                          <td className="border border-black p-2 text-right">{poSubtotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                        </tr>
+                        <tr>
+                          <td className="border border-black p-2 text-right">ภาษีมูลค่าเพิ่ม / VAT 7%</td>
+                          <td className="border border-black p-2 text-right">{data.poVat.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                        </tr>
+                        <tr className="bg-slate-50">
+                          <td className="border border-black p-2 text-right text-[16pt]">รวมทั้งสิ้น / Total</td>
+                          <td className="border border-black p-2 text-right text-[16pt]">{data.poTotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                        </tr>
+                      </tfoot>
+                    </table>
+
+                    <div className="mt-auto grid grid-cols-2 gap-12 pt-12 text-[14pt]">
+                      <div className="text-center space-y-20">
+                        <p>ลงชื่อ..........................................................ผู้สั่งจ้าง</p>
+                        <div>
+                          <p className="font-bold">( {data.signer2.name} )</p>
+                          <p>{data.signer2.position}</p>
+                        </div>
+                      </div>
+                      <div className="text-center space-y-20">
+                        <p>ลงชื่อ..........................................................ผู้รับใบสั่งจ้าง</p>
+                        <div>
+                          <p>(..........................................................)</p>
+                          <p>วันที่........./........./.........</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {currentForm !== 'PURCHASE_ORDER' && (
+                  <React.Fragment>
+                    {currentForm !== 'SUMMARY' && currentForm !== 'APPROVAL' && (
+                      <div className="text-center mb-4">
+                        <h2 className="text-[29pt] font-bold">บันทึกข้อความ</h2>
+                      </div>
+                    )}
+
+                    {currentForm === 'APPROVAL' ? (
                   <div className="space-y-1 mb-4">
                     <div className="flex">
                       <div className="w-[9cm] flex gap-2">
@@ -795,78 +865,66 @@ export default function App() {
                         <h3 className="font-bold mb-1 indent-[2.5cm]">2. รายละเอียดการจัดจ้าง</h3>
                         <p className="indent-[2.5cm] leading-relaxed mb-4">
                           ดำเนินการ<span>{data.item}</span> โดยวิธี <span>{data.procurementMethod}</span> 
-                          ราคากลางเป็นเงิน <span>{data.estimatedPrice.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (รวมภาษีมูลค่าเพิ่ม)
+                          ราคากลางเป็นเงิน <span>{summaryTotalAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (รวมภาษีมูลค่าเพิ่ม)
                           โดยใช้เงินงบประมาณปี <span>{data.budgetYear}</span> หมายเลขงาน <span>{data.wbs}</span>
                         </p>
                         
                         <div className="ml-[1cm] space-y-6">
-                          <div>
-                            <p className="font-bold mb-2">2.1 ตารางจัดจ้างตัดหญ้าสถานีไฟฟ้า (ใช้เครื่องมือผู้รับจ้าง)</p>
-                            <table className="w-[12cm] ml-auto border-collapse border border-black text-center text-[14pt]">
-                              <thead>
-                                <tr>
-                                  <th className="border border-black p-1 w-12">ที่</th>
-                                  <th className="border border-black p-1">รายการ</th>
-                                  <th className="border border-black p-1 w-32">จำนวนเงิน (บาท)</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td className="border border-black p-1">1</td>
-                                  <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าศาลายา</td>
-                                  <td className="border border-black p-1 text-right px-2">1,400.00</td>
-                                </tr>
-                                <tr>
-                                  <td className="border border-black p-1">2</td>
-                                  <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าพุทธมณฑล 2</td>
-                                  <td className="border border-black p-1 text-right px-2">1,400.00</td>
-                                </tr>
-                                <tr>
-                                  <td className="border border-black p-1">3</td>
-                                  <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าพุทธมณฑล 3</td>
-                                  <td className="border border-black p-1 text-right px-2">1,400.00</td>
-                                </tr>
-                                <tr>
-                                  <td colSpan={2} className="border border-black p-1 font-bold">รวม</td>
-                                  <td className="border border-black p-1 text-right px-2 font-bold">4,200.00</td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
+                          {procurementType === 'MOWING' && (
+                            <>
+                              <div>
+                                <p className="font-bold mb-2">2.1 ตารางจัดจ้างตัดหญ้าสถานีไฟฟ้า (ใช้เครื่องมือผู้รับจ้าง)</p>
+                                <table className="w-[12cm] ml-auto border-collapse border border-black text-center text-[14pt]">
+                                  <thead>
+                                    <tr>
+                                      <th className="border border-black p-1 w-12">ที่</th>
+                                      <th className="border border-black p-1">รายการ</th>
+                                      <th className="border border-black p-1 w-32">จำนวนเงิน (บาท)</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {data.grassItems.map((item, idx) => (
+                                      <tr key={idx}>
+                                        <td className="border border-black p-1">{idx + 1}</td>
+                                        <td className="border border-black p-1 text-left px-2">{item.description}</td>
+                                        <td className="border border-black p-1 text-right px-2">{item.amt.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                      </tr>
+                                    ))}
+                                    <tr>
+                                      <td colSpan={2} className="border border-black p-1 font-bold">รวม</td>
+                                      <td className="border border-black p-1 text-right px-2 font-bold">{grassTotalAmt.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
 
-                          <div>
-                            <p className="font-bold mb-2">2.2 ตารางจัดจ้างฉีดยากำจัดวัชพืชสถานีไฟฟ้า (ใช้เครื่องมือผู้รับจ้าง)</p>
-                            <table className="w-[12cm] ml-auto border-collapse border border-black text-center text-[14pt]">
-                              <thead>
-                                <tr>
-                                  <th className="border border-black p-1 w-12">ที่</th>
-                                  <th className="border border-black p-1">รายการ</th>
-                                  <th className="border border-black p-1 w-32">จำนวนเงิน (บาท)</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td className="border border-black p-1">1</td>
-                                  <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าศาลายา</td>
-                                  <td className="border border-black p-1 text-right px-2">3,193.33</td>
-                                </tr>
-                                <tr>
-                                  <td className="border border-black p-1">2</td>
-                                  <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าพุทธมณฑล 2</td>
-                                  <td className="border border-black p-1 text-right px-2">3,193.33</td>
-                                </tr>
-                                <tr>
-                                  <td className="border border-black p-1">3</td>
-                                  <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าพุทธมณฑล 3</td>
-                                  <td className="border border-black p-1 text-right px-2">3,193.34</td>
-                                </tr>
-                                <tr>
-                                  <td colSpan={2} className="border border-black p-1 font-bold">รวม</td>
-                                  <td className="border border-black p-1 text-right px-2 font-bold">9,580.00</td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
+                              <div>
+                                <p className="font-bold mb-2">2.2 ตารางจัดจ้างฉีดยากำจัดวัชพืชสถานีไฟฟ้า (ใช้เครื่องมือผู้รับจ้าง)</p>
+                                <table className="w-[12cm] ml-auto border-collapse border border-black text-center text-[14pt]">
+                                  <thead>
+                                    <tr>
+                                      <th className="border border-black p-1 w-12">ที่</th>
+                                      <th className="border border-black p-1">รายการ</th>
+                                      <th className="border border-black p-1 w-32">จำนวนเงิน (บาท)</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {data.sprayItems.map((item, idx) => (
+                                      <tr key={idx}>
+                                        <td className="border border-black p-1">{idx + 1}</td>
+                                        <td className="border border-black p-1 text-left px-2">{item.description}</td>
+                                        <td className="border border-black p-1 text-right px-2">{item.amt.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                      </tr>
+                                    ))}
+                                    <tr>
+                                      <td colSpan={2} className="border border-black p-1 font-bold">รวม</td>
+                                      <td className="border border-black p-1 text-right px-2 font-bold">{sprayTotalAmt.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </>
+                          )}
                         </div>
 
                         <p className="indent-[2.5cm] mt-8">
@@ -893,50 +951,59 @@ export default function App() {
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td className="border border-black p-1">1</td>
-                            <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าศาลายา</td>
-                            <td className="border border-black p-1">4,593.33</td>
-                            <td className="border border-black p-1">-</td>
-                            <td className="border border-black p-1">4,593.33</td>
-                          </tr>
-                          <tr>
-                            <td className="border border-black p-1">2</td>
-                            <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าพุทธมณฑล 2</td>
-                            <td className="border border-black p-1">4,593.33</td>
-                            <td className="border border-black p-1">-</td>
-                            <td className="border border-black p-1">4,593.33</td>
-                          </tr>
-                          <tr>
-                            <td className="border border-black p-1">3</td>
-                            <td className="border border-black p-1 text-left px-2">สถานีไฟฟ้าพุทธมณฑล 3</td>
-                            <td className="border border-black p-1">4,593.34</td>
-                            <td className="border border-black p-1">-</td>
-                            <td className="border border-black p-1">4,593.34</td>
-                          </tr>
-                          <tr>
-                            <td colSpan={2} className="border border-black p-1 font-bold">รวม</td>
-                            <td className="border border-black p-1 font-bold">13,780.00</td>
-                            <td className="border border-black p-1 font-bold">-</td>
-                            <td className="border border-black p-1 font-bold">13,780.00</td>
-                          </tr>
+                          {procurementType === 'MOWING' ? (
+                            <>
+                              {data.grassItems.map((item, idx) => (
+                                <tr key={`grass-${idx}`}>
+                                  <td className="border border-black p-1">{idx + 1}</td>
+                                  <td className="border border-black p-1 text-left px-2">{item.description || `จ้างตัดหญ้าสถานีไฟฟ้า${item.station}`}</td>
+                                  <td className="border border-black p-1 text-right px-2">{(item.amt || item.subtotal).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                  <td className="border border-black p-1">-</td>
+                                  <td className="border border-black p-1 text-right px-2">{(item.amt || item.subtotal).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                </tr>
+                              ))}
+                              {data.sprayItems.map((item, idx) => (
+                                <tr key={`spray-${idx}`}>
+                                  <td className="border border-black p-1">{data.grassItems.length + idx + 1}</td>
+                                  <td className="border border-black p-1 text-left px-2">{item.description || `จ้างฉีดยากำจัดวัชพืชสถานีไฟฟ้า${item.station}`}</td>
+                                  <td className="border border-black p-1 text-right px-2">{(item.amt || item.subtotal).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                  <td className="border border-black p-1">-</td>
+                                  <td className="border border-black p-1 text-right px-2">{(item.amt || item.subtotal).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                </tr>
+                              ))}
+                              <tr>
+                                <td colSpan={2} className="border border-black p-1 font-bold">รวม</td>
+                                <td className="border border-black p-1 text-right px-2 font-bold">{(grassTotalAmt + sprayTotalAmt).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                <td className="border border-black p-1 font-bold">-</td>
+                                <td className="border border-black p-1 text-right px-2 font-bold">{(grassTotalAmt + sprayTotalAmt).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                              </tr>
+                            </>
+                          ) : (
+                            <tr>
+                              <td className="border border-black p-1">1</td>
+                              <td className="border border-black p-1 text-left px-2">{data.item}</td>
+                              <td className="border border-black p-1 text-right px-2">{data.priceBeforeVat.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                              <td className="border border-black p-1 text-right px-2">{data.vatAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                              <td className="border border-black p-1 text-right px-2">{data.totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                            </tr>
+                          )}
                           <tr>
                             <td colSpan={2} className="border border-black p-1 font-bold">ภาษีมูลค่าเพิ่ม 7%</td>
                             <td className="border border-black p-1 font-bold">-</td>
                             <td className="border border-black p-1 font-bold">-</td>
-                            <td className="border border-black p-1 font-bold">964.60</td>
+                            <td className="border border-black p-1 text-right px-2 font-bold">{summaryVatAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                           </tr>
-                          <tr>
+                          <tr className="bg-slate-50">
                             <td colSpan={2} className="border border-black p-1 font-bold">รวมเงินทั้งสิ้น</td>
                             <td className="border border-black p-1 font-bold">-</td>
                             <td className="border border-black p-1 font-bold">-</td>
-                            <td className="border border-black p-1 font-bold">14,744.60</td>
+                            <td className="border border-black p-1 text-right px-2 font-bold">{summaryTotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                           </tr>
                         </tbody>
                       </table>
 
                       <p className="indent-[1.5cm] mb-2 leading-relaxed">
-                        <span>{data.signer1Unit}</span> พิจารณาแล้ว เห็นสมควรดำเนินการ จาก <span>{data.supplierName}</span> จำนวนเงิน <span>{data.priceBeforeVat.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท ภาษีมูลค่าเพิ่ม <span>{data.vatAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท เป็นเงินทั้งสิ้น <span>{data.totalAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (<span>{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม
+                        <span>{data.signer1Unit}</span> พิจารณาแล้ว เห็นสมควรดำเนินการ จาก <span>{data.supplierName}</span> จำนวนเงิน <span>{summaryPriceBeforeVat.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท ภาษีมูลค่าเพิ่ม <span>{summaryVatAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท เป็นเงินทั้งสิ้น <span>{summaryTotalAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (<span>{numberToThaiText(summaryTotalAmount)}</span>) รวมภาษีมูลค่าเพิ่ม
                       </p>
 
                       <p className="indent-[1.5cm] mb-6">
@@ -992,7 +1059,7 @@ export default function App() {
                             <p>จซ.(ฉ) 001 – ป.60</p>
                           </div>
                           <div className="p-4 text-center">
-                             <p className="mb-4 font-bold">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น <span>{data.totalAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (<span>{data.totalAmountThai}</span>) รวมภาษีมูลค่าเพิ่ม</p>
+                             <p className="mb-4 font-bold">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น <span>{summaryTotalAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (<span>{numberToThaiText(summaryTotalAmount)}</span>) รวมภาษีมูลค่าเพิ่ม</p>
                              <div className="mt-4">
                                <p className="mb-1">( <span>{data.signer2.name}</span> )</p>
                                <p><span>{data.signer2.position}</span></p>
@@ -1003,11 +1070,12 @@ export default function App() {
                       <p className="text-[10pt] mt-2 font-bold">**หมายเหตุ กรณีผู้ขาย/ผู้จ้าง ไม่ได้อยู่ในระบบ VAT ให้ระบุจำนวนเงินไม่รวมภาษีมูลค่าเพิ่ม (ปรับปรุงแบบฟอร์ม วันที่ 18 ก.ย.2561)</p>
                     </div>
                   )}
-
                 </div>
+              </React.Fragment>
+            )}
 
                 {/* Signatures (Hidden for Form 4 as it has custom grid) */}
-                {currentForm !== 'SUMMARY' && (
+                {currentForm !== 'SUMMARY' && currentForm !== 'PURCHASE_ORDER' && (
                   <div className="mt-auto">
                     {currentForm === 'APPROVAL' ? (
                       <div className="mt-12 space-y-12">
@@ -1100,8 +1168,8 @@ export default function App() {
                   <p className="text-sm opacity-90">เมื่อกดปุ่มพิมพ์ ให้เลือก "ปลายทาง" (Destination) เป็น <strong>"บันทึกเป็น PDF" (Save as PDF)</strong> เพื่อดาวน์โหลดไฟล์ลงเครื่องครับ</p>
                 </div>
               </div>
-            </div>
-          </div>
+            </>
+          )}
         </main>
       </div>
     );
