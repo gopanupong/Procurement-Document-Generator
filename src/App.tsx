@@ -754,13 +754,13 @@ export default function App() {
             <div className={`print-container bg-white shadow-2xl border border-stone-200 pt-[0.25cm] px-[1.5cm] pb-[0.2cm] min-h-[297mm] w-[210mm] ${currentForm === 'SUMMARY' ? 'text-[14pt]' : 'text-[16pt]'} leading-normal font-serif text-black relative flex flex-col`}>
                 {/* Header */}
                 {currentForm !== 'PURCHASE_ORDER' && (
-                  <div className="flex flex-col items-center mb-4">
+                  <div className="flex flex-col items-start mb-4">
                     {data.logoUrl ? (
                       <img src={data.logoUrl} alt="PEA Logo" className="w-20 h-20 object-contain" referrerPolicy="no-referrer" />
                     ) : (
                       <div dangerouslySetInnerHTML={{ __html: PEA_LOGO_SVG }} className="w-20 h-20" />
                     )}
-                    <div className="text-center mt-1 leading-tight">
+                    <div className="text-left mt-1 leading-tight">
                       <p className="text-[14pt] font-bold">การไฟฟ้าส่วนภูมิภาค</p>
                       <p className="text-[10pt] font-bold">PROVINCIAL ELECTRICITY AUTHORITY</p>
                     </div>
@@ -880,8 +880,8 @@ export default function App() {
                 {currentForm !== 'PURCHASE_ORDER' && (
                   <React.Fragment>
                     {currentForm !== 'SUMMARY' && currentForm !== 'APPROVAL' && (
-                      <div className="text-center mb-4">
-                        <h2 className="text-[29pt] font-bold">บันทึกข้อความ</h2>
+                      <div className="text-center mb-4 h-8">
+                        {/* Removed บันทึกข้อความ */}
                       </div>
                     )}
 
@@ -924,12 +924,6 @@ export default function App() {
                   </div>
                 ) : currentForm !== 'SUMMARY' ? (
                   <div className="space-y-1 mb-4">
-                    <div className="flex gap-2">
-                      <span className="font-bold shrink-0">ส่วนราชการ</span>
-                      <span className="flex-1 px-2 leading-none">
-                        <span>{data.from}</span> <span className="ml-4">โทร</span> <span>{data.phone}</span>
-                      </span>
-                    </div>
                     <div className="flex gap-4">
                       <div className="flex gap-2 flex-1">
                         <span className="font-bold shrink-0">ที่</span>
