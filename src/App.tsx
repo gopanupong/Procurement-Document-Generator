@@ -108,6 +108,7 @@ export default function App() {
   const [isPreview, setIsPreview] = useState(false);
   const [currentForm, setCurrentForm] = useState<FormType>('SUMMARY');
   const [procurementType, setProcurementType] = useState<string | null>(null);
+  const [activeStep, setActiveStep] = useState(0); // 0: Type, 1: Common, 2: Specific
   const printRef = useRef<HTMLDivElement>(null);
 
   const updateSubjects = (type: string, currentData: ProcurementDoc) => {
@@ -136,6 +137,7 @@ export default function App() {
   const handleSelectProcurement = (type: string) => {
     setProcurementType(type);
     setData(prev => updateSubjects(type, prev));
+    setActiveStep(1);
   };
 
   const handleCommitteeChange = (index: number, field: 'name' | 'position', value: string) => {
@@ -269,6 +271,20 @@ export default function App() {
   const summaryVatAmount = procurementType === 'MOWING' ? (summaryPriceBeforeVat * 0.07) : data.vatAmount;
   const summaryTotalAmount = procurementType === 'MOWING' ? (summaryPriceBeforeVat + summaryVatAmount) : data.totalAmount;
 
+  const fillSampleData = () => {
+    setData(prev => ({
+      ...prev,
+      unitName: 'หน่วยปฏิบัติงานสถานีไฟฟ้าที่ 4 (สถานีไฟฟ้าศาลายา)',
+      budgetYear: '2569',
+      date: '22 มีนาคม 2569',
+      docNumber: 'ก.3 กปบ.(จฟ.1)                /2569',
+      department: 'แผนกจัดการสถานีไฟฟ้า 1',
+      phone: '10520-21',
+      signer1: { name: 'นายภานุพงค์ เจนสุริยะกุล', position: 'หผ.จฟ.1 กปบ.(ก3)' },
+      signer2: { name: 'นายเลอพงศ์ แก่นจันทร์', position: 'อก.ปบ.(ก3)' },
+    }));
+  };
+
   return (
     <div className="min-h-screen bg-[#e8edf2] font-sans text-[#1a1a2e]">
       {/* App Header */}
@@ -310,9 +326,42 @@ export default function App() {
         ))}
       </nav>
 
+      {/* Progress Stepper */}
+      {!isPreview && (
+        <div className="max-w-[960px] mx-auto px-7 pt-8 print:hidden">
+          <div className="flex items-center justify-between relative">
+            <div className="absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 -z-10" />
+            {[
+              { step: 0, label: 'เลือกประเภทงาน', icon: ClipboardList },
+              { step: 1, label: 'ข้อมูลส่วนกลาง', icon: ClipboardList },
+              { step: 2, label: 'ข้อมูลเฉพาะฟอร์ม', icon: FileText },
+            ].map((s) => (
+              <div key={s.step} className="flex flex-col items-center gap-2">
+                <div 
+                  className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-500 ${
+                    activeStep === s.step 
+                      ? 'bg-[#003087] border-[#003087] text-white shadow-lg scale-110' 
+                      : activeStep > s.step 
+                        ? 'bg-emerald-500 border-emerald-500 text-white' 
+                        : 'bg-white border-slate-200 text-slate-400'
+                  }`}
+                >
+                  {activeStep > s.step ? <CheckCircle2 size={20} /> : <s.icon size={20} />}
+                </div>
+                <span className={`text-[10px] font-bold uppercase tracking-wider ${
+                  activeStep === s.step ? 'text-[#003087]' : 'text-slate-400'
+                }`}>
+                  {s.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <main className="max-w-[960px] mx-auto p-7">
         <AnimatePresence mode="wait">
-          {!procurementType && (
+          {activeStep === 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -323,7 +372,7 @@ export default function App() {
               <div className="w-20 h-20 bg-gradient-to-br from-[#003087] to-[#0052cc] rounded-3xl mx-auto flex items-center justify-center text-white shadow-xl mb-6 rotate-3">
                 <FileText size={40} />
               </div>
-              <h2 className="text-3xl font-black text-[#1a1a2e] mb-3">ยินดีต้อนรับสู่ระบบจัดทำเอกสาร</h2>
+              <h2 className="text-3xl font-black text-[#1a1a2e] mb-3">ยินดีต้อนรับสู่ระบบจัดทำเอกสารอัจฉริยะ</h2>
               <p className="text-slate-500 font-medium">กรุณาเลือกหัวข้อการจัดซื้อจัดจ้างเพื่อเริ่มต้น</p>
             </div>
 
@@ -351,12 +400,102 @@ export default function App() {
             </div>
             
             <div className="mt-10 pt-8 border-t border-slate-100 text-center">
-              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Provincial Electricity Authority • Procurement System</p>
+              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Provincial Electricity Authority • Smart Procurement System</p>
             </div>
           </motion.div>
         )}
 
-        {procurementType && !isPreview && (
+        {activeStep === 1 && (
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden"
+          >
+            <div className="p-8 border-b border-slate-100 bg-[#003087]/5 flex justify-between items-center">
+              <div>
+                <h2 className="text-2xl font-bold text-[#003087]">ข้อมูลส่วนกลาง (Common Data)</h2>
+                <p className="text-slate-500 mt-1">กรอกข้อมูลที่ใช้ร่วมกันในทุกฟอร์มเพียงครั้งเดียว</p>
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={fillSampleData}
+                  className="px-4 py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-100 hover:bg-emerald-100 transition-all text-sm font-bold flex items-center gap-2"
+                >
+                  <ShoppingCart size={16} />
+                  เติมข้อมูลตัวอย่าง
+                </button>
+                <button
+                  onClick={() => setActiveStep(0)}
+                  className="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-white transition-all text-sm font-medium flex items-center gap-2"
+                >
+                  <ChevronLeft size={16} />
+                  ย้อนกลับ
+                </button>
+              </div>
+            </div>
+
+            <div className="p-8 space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ชื่อหน่วยงาน</label>
+                  <input name="unitName" value={data.unitName} onChange={handleChange} placeholder="เช่น หน่วยปฏิบัติงานสถานีไฟฟ้าที่ 4" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ปีงบประมาณ</label>
+                  <input name="budgetYear" value={data.budgetYear} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">วันที่ในเอกสาร</label>
+                  <input name="date" value={data.date} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">เลขที่หนังสือ (ส่วนหน้า)</label>
+                  <input name="docNumber" value={data.docNumber} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">แผนก</label>
+                  <input name="department" value={data.department} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">เบอร์โทรศัพท์</label>
+                  <input name="phone" value={data.phone} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-slate-100">
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ผู้ลงนาม 1 (หผ.)</label>
+                  <input name="signer1.name" value={data.signer1.name} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ตำแหน่งผู้ลงนาม 1</label>
+                  <input name="signer1.position" value={data.signer1.position} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ผู้ลงนาม 2 (อก.)</label>
+                  <input name="signer2.name" value={data.signer2.name} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ตำแหน่งผู้ลงนาม 2</label>
+                  <input name="signer2.position" value={data.signer2.position} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                </div>
+              </div>
+
+              <div className="flex justify-end pt-8 border-t">
+                <button
+                  onClick={() => setActiveStep(2)}
+                  className="px-10 py-3 rounded-xl bg-[#003087] text-white hover:bg-[#0052cc] shadow-lg font-bold flex items-center gap-2 transition-all active:scale-95"
+                >
+                  ถัดไป: กรอกข้อมูลเฉพาะฟอร์ม
+                  <ChevronLeft size={20} className="rotate-180" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {activeStep === 2 && !isPreview && (
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -371,15 +510,15 @@ export default function App() {
                   {currentForm === 'PURCHASE_ORDER' && '4. ใบสั่งจ้าง (Purchase Order)'}
                   {currentForm === 'SUMMARY' && '5. สรุปผลพิจารณาและตรวจรับ'}
                 </h2>
-                <p className="text-slate-500 mt-1">แก้ไขข้อมูลในส่วนต่างๆ เพื่อปรับปรุงเอกสารของคุณ</p>
+                <p className="text-slate-500 mt-1">กรอกเฉพาะข้อมูลที่แตกต่างในฟอร์มนี้</p>
               </div>
               <div className="flex gap-3">
                 <button
-                  onClick={() => setProcurementType(null)}
+                  onClick={() => setActiveStep(1)}
                   className="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-white transition-all text-sm font-medium flex items-center gap-2"
                 >
-                  <ChevronLeft size={16} />
-                  เปลี่ยนหัวข้อ
+                  <Edit3 size={16} />
+                  แก้ไขข้อมูลส่วนกลาง
                 </button>
                 <button
                   onClick={() => setIsPreview(true)}
@@ -392,19 +531,19 @@ export default function App() {
             </div>
 
             <div className="p-8 space-y-8">
-              {/* Common Fields */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 bg-[#f8fafc] rounded-2xl border border-slate-100">
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">วันที่เอกสาร</label>
-                  <input name="date" value={data.date} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+              {/* Common Fields Summary (Read Only) */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-[#f8fafc] rounded-2xl border border-slate-100 text-xs">
+                <div className="flex flex-col">
+                  <span className="font-bold text-slate-400 uppercase tracking-wider mb-1">หน่วยงาน</span>
+                  <span className="text-slate-700 font-medium">{data.unitName}</span>
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ปีงบประมาณ</label>
-                  <input name="budgetYear" value={data.budgetYear} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                <div className="flex flex-col">
+                  <span className="font-bold text-slate-400 uppercase tracking-wider mb-1">วันที่</span>
+                  <span className="text-slate-700 font-medium">{data.date}</span>
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">หน่วยงาน</label>
-                  <input name="unitName" value={data.unitName} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                <div className="flex flex-col">
+                  <span className="font-bold text-slate-400 uppercase tracking-wider mb-1">ปีงบประมาณ</span>
+                  <span className="text-slate-700 font-medium">{data.budgetYear}</span>
                 </div>
               </div>
 
@@ -426,6 +565,55 @@ export default function App() {
                   <div className="space-y-1.5">
                     <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">รหัสบัญชี</label>
                     <input name="accountCode" value={data.accountCode} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                  </div>
+                </div>
+              )}
+
+              {currentForm === 'ASSIGNMENT' && (
+                <div className="space-y-6">
+                  <h3 className="font-bold text-sm text-[#003087] border-b pb-2">คณะกรรมการจัดทำคุณลักษณะและกำหนดราคากลาง</h3>
+                  <div className="grid grid-cols-1 gap-4">
+                    {data.committee.map((member, idx) => (
+                      <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                        <div className="space-y-1.5">
+                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">ชื่อ-นามสกุล</label>
+                          <input 
+                            value={member.name} 
+                            onChange={(e) => handleCommitteeChange(idx, 'name', e.target.value)} 
+                            className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" 
+                          />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">ตำแหน่งในคณะกรรมการ</label>
+                          <input 
+                            value={member.position} 
+                            onChange={(e) => handleCommitteeChange(idx, 'position', e.target.value)} 
+                            className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" 
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {currentForm === 'SUMMARY' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">เลขที่สัญญา/ใบสั่งจ้าง</label>
+                    <input name="contractNumber" value={data.contractNumber} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">กำหนดส่งมอบ</label>
+                    <input name="deliveryDate" value={data.deliveryDate} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ผู้ตรวจรับ (ชื่อ)</label>
+                    <input name="receiver.name" value={data.receiver.name} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ผู้ตรวจรับ (ตำแหน่ง)</label>
+                    <input name="receiver.position" value={data.receiver.position} onChange={handleChange} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003087] outline-none text-sm" />
                   </div>
                 </div>
               )}
