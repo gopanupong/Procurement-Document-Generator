@@ -861,16 +861,16 @@ export default function App() {
                     <div className="mt-auto grid grid-cols-2 gap-12 pt-12 text-[14pt]">
                       <div className="text-center space-y-20">
                         <p>ลงชื่อ..........................................................ผู้สั่งจ้าง</p>
-                        <div>
-                          <p className="font-bold">( {data.signer2.name} )</p>
-                          <p>{data.signer2.position}</p>
+                        <div className="leading-tight">
+                          <p className="font-bold m-0">( {data.signer2.name} )</p>
+                          <p className="m-0">{data.signer2.position}</p>
                         </div>
                       </div>
                       <div className="text-center space-y-20">
                         <p>ลงชื่อ..........................................................ผู้รับใบสั่งจ้าง</p>
-                        <div>
-                          <p>(..........................................................)</p>
-                          <p>วันที่........./........./.........</p>
+                        <div className="leading-tight">
+                          <p className="m-0">(..........................................................)</p>
+                          <p className="m-0">วันที่........./........./.........</p>
                         </div>
                       </div>
                     </div>
@@ -1203,17 +1203,17 @@ export default function App() {
                         <div className="grid grid-cols-2 border-b border-black">
                           <div className="border-r border-black p-4 min-h-[140px] flex flex-col">
                             <p className="text-center font-bold mb-4 leading-tight">เห็นชอบและอนุมัติสั่งซื้อ/สั่งจ้างดำเนินการได้ โดยปฏิบัติให้ถูกต้องตามระเบียบ</p>
-                            <div className="text-center mt-auto">
-                              <p className="mb-1">( <span>{data.signer2.name}</span> )</p>
-                              <p><span>{data.signer2.position}</span></p>
+                            <div className="text-center mt-auto leading-tight">
+                              <p className="m-0">( <span>{data.signer2.name}</span> )</p>
+                              <p className="m-0"><span>{data.signer2.position}</span></p>
                             </div>
                           </div>
                           <div className="p-4 flex flex-col items-center justify-center">
-                            <div className="text-center">
+                            <div className="text-center leading-tight">
                               <p className="mb-6">ลงชื่อ..............................................................</p>
-                              <p>( <span>{data.signer1.name}</span> )</p>
-                              <p>ตำแหน่ง <span>{data.signer1.position}</span></p>
-                              <p>วันที่........./........../..........</p>
+                              <p className="m-0">( <span>{data.signer1.name}</span> )</p>
+                              <p className="m-0">ตำแหน่ง <span>{data.signer1.position}</span></p>
+                              <p className="mt-4">วันที่........./........../..........</p>
                             </div>
                           </div>
                         </div>
@@ -1224,20 +1224,20 @@ export default function App() {
                             <p className="indent-[0.8cm] mb-4 leading-tight">คณะกรรมการตรวจรับได้ทำการตรวจรับ <span>{data.item}</span> จำนวน 1 รายการ เมื่อวันที่................................เห็นว่าถูกต้องครบถ้วน เห็นควรรับไว้ใช้งานและเบิกจ่ายเงิน ให้แก่ผู้ขาย/ผู้รับจ้างต่อไป</p>
                             <div className="space-y-4">
                               {data.committee.map((member, idx) => (
-                                <div key={idx} className="flex flex-col items-center">
+                                <div key={idx} className="flex flex-col items-center leading-tight">
                                   <p className="mb-1">ลงชื่อ..............................................................{idx === 0 ? 'ประธานกรรมการ' : 'กรรมการ'}</p>
-                                  <p>( <span>{member.name}</span> )</p>
+                                  <p className="m-0">( <span>{member.name}</span> )</p>
                                 </div>
                               ))}
                             </div>
                           </div>
                           <div className="p-4 flex flex-col">
                             <p className="mb-4 leading-tight">ข้าพเจ้าได้รับมอบ<span>{data.item}</span>จำนวน 1 รายการ ดังกล่าว เพื่อนำไปใช้งานแล้วตั้งแต่วันที่............................</p>
-                            <div className="text-center mt-auto">
+                            <div className="text-center mt-auto leading-tight">
                               <p className="mb-6">ลงชื่อ..............................................................(ผู้รับของ)</p>
-                              <p>( <span>{data.receiver.name}</span> )</p>
-                              <p>ตำแหน่ง <span>{data.receiver.position}</span></p>
-                              <p>วันที่........./........../..........</p>
+                              <p className="m-0">( <span>{data.receiver.name}</span> )</p>
+                              <p className="m-0">ตำแหน่ง <span>{data.receiver.position}</span></p>
+                              <p className="mt-4">วันที่........./........../..........</p>
                             </div>
                           </div>
                         </div>
@@ -1248,9 +1248,9 @@ export default function App() {
                           </div>
                           <div className="p-4 text-center">
                              <p className="mb-4 font-bold">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น <span>{summaryTotalAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (<span>{numberToThaiText(summaryTotalAmount)}</span>) รวมภาษีมูลค่าเพิ่ม</p>
-                             <div className="mt-4">
-                               <p className="mb-1">( <span>{data.signer2.name}</span> )</p>
-                               <p><span>{data.signer2.position}</span></p>
+                             <div className="mt-4 leading-tight">
+                               <p className="m-0">( <span>{data.signer2.name}</span> )</p>
+                               <p className="m-0"><span>{data.signer2.position}</span></p>
                              </div>
                           </div>
                         </div>
@@ -1269,9 +1269,9 @@ export default function App() {
                       <div className="mt-12 space-y-12">
                         {/* Signer 1 on the right */}
                         <div className="flex justify-end pr-10">
-                          <div className="text-center w-[8cm] space-y-1">
+                          <div className="text-center w-[8cm] leading-tight">
                             <p className="mb-10">( <span>{data.signer1.name}</span> )</p>
-                            <p><span>{data.signer1.position}</span></p>
+                            <p className="m-0"><span>{data.signer1.position}</span></p>
                           </div>
                         </div>
 
@@ -1282,9 +1282,9 @@ export default function App() {
                           </div>
                           
                           <div className="flex justify-start ml-[2.5cm]">
-                            <div className="text-center w-[8cm] space-y-1">
+                            <div className="text-center w-[8cm] leading-tight">
                               <p className="mb-10">( <span>{data.signer2.name}</span> )</p>
-                              <p><span>{data.signer2.position}</span></p>
+                              <p className="m-0"><span>{data.signer2.position}</span></p>
                             </div>
                           </div>
                         </div>
@@ -1292,10 +1292,10 @@ export default function App() {
                     ) : (
                       <>
                         <div className="flex justify-end pr-10">
-                          <div className="text-center w-80 space-y-1">
+                          <div className="text-center w-80 leading-tight">
                             <p className="mb-10">ลงชื่อ..............................................................</p>
-                            <p>( <span>{data.signer1.name}</span> )</p>
-                            <p>ตำแหน่ง <span>{data.signer1.position}</span></p>
+                            <p className="m-0">( <span>{data.signer1.name}</span> )</p>
+                            <p className="m-0">ตำแหน่ง <span>{data.signer1.position}</span></p>
                           </div>
                         </div>
 
@@ -1306,10 +1306,10 @@ export default function App() {
                           </div>
                           
                           <div className="flex justify-end pr-10">
-                            <div className="text-center w-80 space-y-1">
+                            <div className="text-center w-80 leading-tight">
                               <p className="mb-10">ลงชื่อ..............................................................</p>
-                              <p>( <span>{data.signer2.name}</span> )</p>
-                              <p>ตำแหน่ง <span>{data.signer2.position}</span></p>
+                              <p className="m-0">( <span>{data.signer2.name}</span> )</p>
+                              <p className="m-0">ตำแหน่ง <span>{data.signer2.position}</span></p>
                             </div>
                           </div>
                         </div>
