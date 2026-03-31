@@ -8,25 +8,29 @@
 @layer base {
   @font-face {
     font-family: 'TH SarabunPSK';
-    src: url('https://cdn.jsdelivr.net/gh/Sarabun-Font/Sarabun/fonts/Sarabun-Regular.ttf') format('truetype');
+    src: local('TH SarabunPSK'),
+         url('https://cdn.jsdelivr.net/gh/Sarabun-Font/Sarabun/fonts/Sarabun-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
   @font-face {
     font-family: 'TH SarabunPSK';
-    src: url('https://cdn.jsdelivr.net/gh/Sarabun-Font/Sarabun/fonts/Sarabun-Bold.ttf') format('truetype');
+    src: local('TH SarabunPSK Bold'),
+         url('https://cdn.jsdelivr.net/gh/Sarabun-Font/Sarabun/fonts/Sarabun-Bold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
   }
   @font-face {
     font-family: 'TH SarabunPSK';
-    src: url('https://cdn.jsdelivr.net/gh/Sarabun-Font/Sarabun/fonts/Sarabun-Italic.ttf') format('truetype');
+    src: local('TH SarabunPSK Italic'),
+         url('https://cdn.jsdelivr.net/gh/Sarabun-Font/Sarabun/fonts/Sarabun-Italic.ttf') format('truetype');
     font-weight: normal;
     font-style: italic;
   }
   @font-face {
     font-family: 'TH SarabunPSK';
-    src: url('https://cdn.jsdelivr.net/gh/Sarabun-Font/Sarabun/fonts/Sarabun-BoldItalic.ttf') format('truetype');
+    src: local('TH SarabunPSK Bold Italic'),
+         url('https://cdn.jsdelivr.net/gh/Sarabun-Font/Sarabun/fonts/Sarabun-BoldItalic.ttf') format('truetype');
     font-weight: bold;
     font-style: italic;
   }
@@ -37,15 +41,16 @@
 
   @media print {
     @page {
-      size: A4 portrait;
-      margin: 0;
+      size: A4 portrait !important;
+      margin: 0 !important;
     }
     html, body {
-      background: white;
-      padding: 0;
-      margin: 0;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
+      background: white !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      font-family: "TH SarabunPSK", "Sarabun", serif !important;
     }
     .print-container {
       box-sizing: border-box !important;
@@ -59,7 +64,21 @@
       width: 210mm !important;
       height: 297mm !important;
       overflow: hidden !important;
-      page-break-after: always;
+      page-break-after: always !important;
+      font-size: 16pt !important;
+    }
+    .print-container * {
+      font-family: "TH SarabunPSK", "Sarabun", serif !important;
+      font-size: 16pt !important;
+    }
+    .print-container h1, 
+    .print-container h2, 
+    .print-container .text-header {
+      font-size: 18pt !important;
+      font-weight: bold !important;
+    }
+    .print-container .text-small {
+      font-size: 14pt !important;
     }
     .print\:hidden {
       display: none !important;

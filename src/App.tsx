@@ -150,7 +150,12 @@ export default function App() {
 
   const thaiToArabic = (str: string) => {
     if (typeof str !== 'string') return str;
-    return str.replace(/[๐-๙]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 2400 + 48));
+    const thaiDigits = '๐๑๒๓๔๕๖๗๘๙';
+    const arabicDigits = '0123456789';
+    return str.split('').map(char => {
+      const index = thaiDigits.indexOf(char);
+      return index !== -1 ? arabicDigits[index] : char;
+    }).join('');
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -850,7 +855,7 @@ export default function App() {
 
         {isPreview && (
           <>
-            <div className={`print-container bg-white shadow-2xl border border-stone-200 pt-[0.25cm] px-[1.5cm] pb-[0.2cm] h-[297mm] w-[210mm] ${currentForm === 'SUMMARY' ? 'text-[14pt]' : 'text-[16pt]'} leading-normal font-serif text-black relative flex flex-col mx-auto`}>
+            <div className={`print-container bg-white shadow-2xl border border-stone-200 pt-[0.25cm] px-[1.5cm] pb-[0.2cm] h-[297mm] w-[210mm] text-[16pt] leading-normal font-serif text-black relative flex flex-col mx-auto`}>
                 {/* Header */}
                 {currentForm !== 'PURCHASE_ORDER' && (
                   <div className="flex flex-col items-start mb-4">
@@ -860,7 +865,7 @@ export default function App() {
                       <div dangerouslySetInnerHTML={{ __html: PEA_LOGO_SVG }} className="w-20 h-20" />
                     )}
                     <div className="text-left mt-1 leading-tight">
-                      <p className="text-[14pt] font-bold">การไฟฟ้าส่วนภูมิภาค</p>
+                      <p className="text-[16pt] font-bold">การไฟฟ้าส่วนภูมิภาค</p>
                       <p className="text-[10pt] font-bold">PROVINCIAL ELECTRICITY AUTHORITY</p>
                     </div>
                   </div>
@@ -880,7 +885,7 @@ export default function App() {
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-8 mb-6 text-[14pt]">
+                    <div className="grid grid-cols-2 gap-8 mb-6 text-[16pt]">
                       <div className="border border-black p-4 rounded-lg">
                         <p className="font-bold border-b border-black mb-2 pb-1">ผู้รับจ้าง / Vendor:</p>
                         <p className="font-bold text-[16pt]">{data.supplierName}</p>
@@ -902,7 +907,7 @@ export default function App() {
                       </div>
                     </div>
 
-                    <table className="w-full border-collapse border border-black mb-6 text-[14pt]">
+                    <table className="w-full border-collapse border border-black mb-6 text-[16pt]">
                       <thead>
                         <tr className="bg-slate-50">
                           <th className="border border-black p-2 text-center w-12">ลำดับ</th>
@@ -920,8 +925,8 @@ export default function App() {
                             <td className="border border-black p-2">{item.description}</td>
                             <td className="border border-black p-2 text-center">{item.quantity}</td>
                             <td className="border border-black p-2 text-center">{item.unit}</td>
-                            <td className="border border-black p-2 text-right">{item.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-                            <td className="border border-black p-2 text-right">{item.subtotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                            <td className="border border-black p-2 text-right">{item.price.toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
+                            <td className="border border-black p-2 text-right">{item.subtotal.toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                           </tr>
                         ))}
                         {[...Array(Math.max(0, 10 - data.poItems.length))].map((_, i) => (
@@ -944,20 +949,20 @@ export default function App() {
                             <p>3. หากส่งมอบงานเกินกำหนด จะต้องชำระค่าปรับตามระเบียบของ กฟภ.</p>
                           </td>
                           <td className="border border-black p-2 text-right">รวมเงิน / Subtotal</td>
-                          <td className="border border-black p-2 text-right">{poSubtotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                          <td className="border border-black p-2 text-right">{poSubtotal.toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                         </tr>
                         <tr>
                           <td className="border border-black p-2 text-right">ภาษีมูลค่าเพิ่ม / VAT 7%</td>
-                          <td className="border border-black p-2 text-right">{data.poVat.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                          <td className="border border-black p-2 text-right">{data.poVat.toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                         </tr>
                         <tr className="bg-slate-50">
                           <td className="border border-black p-2 text-right text-[16pt]">รวมทั้งสิ้น / Total</td>
-                          <td className="border border-black p-2 text-right text-[16pt]">{data.poTotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                          <td className="border border-black p-2 text-right text-[16pt]">{data.poTotal.toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                         </tr>
                       </tfoot>
                     </table>
 
-                    <div className="mt-auto grid grid-cols-2 gap-12 pt-12 text-[14pt]">
+                    <div className="mt-auto grid grid-cols-2 gap-12 pt-12 text-[16pt]">
                       <div className="text-center space-y-20">
                         <p>ลงชื่อ..........................................................ผู้สั่งจ้าง</p>
                         <div className="leading-none">
@@ -1155,7 +1160,7 @@ export default function App() {
                             <>
                               <div>
                                 <p className="font-bold mb-2">2.1 ตารางจัดจ้างตัดหญ้าสถานีไฟฟ้า (ใช้เครื่องมือผู้รับจ้าง)</p>
-                                <table className="w-[12cm] ml-auto border-collapse border border-black text-center text-[14pt]">
+                                <table className="w-[12cm] ml-auto border-collapse border border-black text-center text-[16pt]">
                                   <thead>
                                     <tr>
                                       <th className="border border-black p-1 w-12">ที่</th>
@@ -1168,12 +1173,12 @@ export default function App() {
                                       <tr key={idx}>
                                         <td className="border border-black p-1">{idx + 1}</td>
                                         <td className="border border-black p-1 text-left px-2">{item.description}</td>
-                                        <td className="border border-black p-1 text-right px-2">{item.amt.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                        <td className="border border-black p-1 text-right px-2">{item.amt.toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                                       </tr>
                                     ))}
                                     <tr>
                                       <td colSpan={2} className="border border-black p-1 font-bold">รวม</td>
-                                      <td className="border border-black p-1 text-right px-2 font-bold">{grassTotalAmt.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                      <td className="border border-black p-1 text-right px-2 font-bold">{grassTotalAmt.toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                                     </tr>
                                   </tbody>
                                 </table>
@@ -1181,7 +1186,7 @@ export default function App() {
 
                               <div>
                                 <p className="font-bold mb-2">2.2 ตารางจัดจ้างฉีดยากำจัดวัชพืชสถานีไฟฟ้า (ใช้เครื่องมือผู้รับจ้าง)</p>
-                                <table className="w-[12cm] ml-auto border-collapse border border-black text-center text-[14pt]">
+                                <table className="w-[12cm] ml-auto border-collapse border border-black text-center text-[16pt]">
                                   <thead>
                                     <tr>
                                       <th className="border border-black p-1 w-12">ที่</th>
@@ -1194,12 +1199,12 @@ export default function App() {
                                       <tr key={idx}>
                                         <td className="border border-black p-1">{idx + 1}</td>
                                         <td className="border border-black p-1 text-left px-2">{item.description}</td>
-                                        <td className="border border-black p-1 text-right px-2">{item.amt.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                        <td className="border border-black p-1 text-right px-2">{item.amt.toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                                       </tr>
                                     ))}
                                     <tr>
                                       <td colSpan={2} className="border border-black p-1 font-bold">รวม</td>
-                                      <td className="border border-black p-1 text-right px-2 font-bold">{sprayTotalAmt.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                      <td className="border border-black p-1 text-right px-2 font-bold">{sprayTotalAmt.toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                                     </tr>
                                   </tbody>
                                 </table>
@@ -1238,47 +1243,47 @@ export default function App() {
                                 <tr key={`grass-${idx}`}>
                                   <td className="border border-black p-1">{idx + 1}</td>
                                   <td className="border border-black p-1 text-left px-2">{item.description || `จ้างตัดหญ้าสถานีไฟฟ้า${item.station}`}</td>
-                                  <td className="border border-black p-1 text-right px-2">{(item.amt || item.subtotal).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                  <td className="border border-black p-1 text-right px-2">{(item.amt || item.subtotal).toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                                   <td className="border border-black p-1">-</td>
-                                  <td className="border border-black p-1 text-right px-2">{(item.amt || item.subtotal).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                  <td className="border border-black p-1 text-right px-2">{(item.amt || item.subtotal).toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                                 </tr>
                               ))}
                               {data.sprayItems.map((item, idx) => (
                                 <tr key={`spray-${idx}`}>
                                   <td className="border border-black p-1">{data.grassItems.length + idx + 1}</td>
                                   <td className="border border-black p-1 text-left px-2">{item.description || `จ้างฉีดยากำจัดวัชพืชสถานีไฟฟ้า${item.station}`}</td>
-                                  <td className="border border-black p-1 text-right px-2">{(item.amt || item.subtotal).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                  <td className="border border-black p-1 text-right px-2">{(item.amt || item.subtotal).toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                                   <td className="border border-black p-1">-</td>
-                                  <td className="border border-black p-1 text-right px-2">{(item.amt || item.subtotal).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                  <td className="border border-black p-1 text-right px-2">{(item.amt || item.subtotal).toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                                 </tr>
                               ))}
                               <tr>
                                 <td colSpan={2} className="border border-black p-1 font-bold">รวม</td>
-                                <td className="border border-black p-1 text-right px-2 font-bold">{(grassTotalAmt + sprayTotalAmt).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                <td className="border border-black p-1 text-right px-2 font-bold">{(grassTotalAmt + sprayTotalAmt).toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                                 <td className="border border-black p-1 font-bold">-</td>
-                                <td className="border border-black p-1 text-right px-2 font-bold">{(grassTotalAmt + sprayTotalAmt).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                <td className="border border-black p-1 text-right px-2 font-bold">{(grassTotalAmt + sprayTotalAmt).toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                               </tr>
                             </>
                           ) : (
                             <tr>
                               <td className="border border-black p-1">1</td>
                               <td className="border border-black p-1 text-left px-2">{data.item}</td>
-                              <td className="border border-black p-1 text-right px-2">{data.priceBeforeVat.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-                              <td className="border border-black p-1 text-right px-2">{data.vatAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-                              <td className="border border-black p-1 text-right px-2">{data.totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                              <td className="border border-black p-1 text-right px-2">{data.priceBeforeVat.toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
+                              <td className="border border-black p-1 text-right px-2">{data.vatAmount.toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
+                              <td className="border border-black p-1 text-right px-2">{data.totalAmount.toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                             </tr>
                           )}
                           <tr>
                             <td colSpan={2} className="border border-black p-1 font-bold">ภาษีมูลค่าเพิ่ม 7%</td>
                             <td className="border border-black p-1 font-bold">-</td>
                             <td className="border border-black p-1 font-bold">-</td>
-                            <td className="border border-black p-1 text-right px-2 font-bold">{summaryVatAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                            <td className="border border-black p-1 text-right px-2 font-bold">{summaryVatAmount.toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                           </tr>
                           <tr className="bg-slate-50">
                             <td colSpan={2} className="border border-black p-1 font-bold">รวมเงินทั้งสิ้น</td>
                             <td className="border border-black p-1 font-bold">-</td>
                             <td className="border border-black p-1 font-bold">-</td>
-                            <td className="border border-black p-1 text-right px-2 font-bold">{summaryTotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                            <td className="border border-black p-1 text-right px-2 font-bold">{summaryTotalAmount.toLocaleString('th-TH-u-nu-latn', { minimumFractionDigits: 2 })}</td>
                           </tr>
                         </tbody>
                       </table>
