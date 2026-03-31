@@ -861,14 +861,14 @@ export default function App() {
                     <div className="mt-auto grid grid-cols-2 gap-12 pt-12 text-[14pt]">
                       <div className="text-center space-y-20">
                         <p>ลงชื่อ..........................................................ผู้สั่งจ้าง</p>
-                        <div className="leading-tight">
+                        <div className="leading-none">
                           <p className="font-bold m-0">( {data.signer2.name} )</p>
                           <p className="m-0">{data.signer2.position}</p>
                         </div>
                       </div>
                       <div className="text-center space-y-20">
                         <p>ลงชื่อ..........................................................ผู้รับใบสั่งจ้าง</p>
-                        <div className="leading-tight">
+                        <div className="leading-none">
                           <p className="m-0">(..........................................................)</p>
                           <p className="m-0">วันที่........./........./.........</p>
                         </div>
@@ -1197,13 +1197,13 @@ export default function App() {
                         <div className="grid grid-cols-2 border-b border-black">
                           <div className="border-r border-black p-4 min-h-[140px] flex flex-col">
                             <p className="text-center font-bold mb-4 leading-tight">เห็นชอบและอนุมัติสั่งซื้อ/สั่งจ้างดำเนินการได้ โดยปฏิบัติให้ถูกต้องตามระเบียบ</p>
-                            <div className="text-center mt-auto leading-tight">
+                            <div className="text-center mt-auto leading-none">
                               <p className="m-0">( <span>{data.signer2.name}</span> )</p>
                               <p className="m-0"><span>{data.signer2.position}</span></p>
                             </div>
                           </div>
                           <div className="p-4 flex flex-col items-center justify-center">
-                            <div className="text-center leading-tight">
+                            <div className="text-center leading-none">
                               <p className="mb-6">ลงชื่อ..............................................................</p>
                               <p className="m-0">( <span>{data.signer1.name}</span> )</p>
                               <p className="m-0">ตำแหน่ง <span>{data.signer1.position}</span></p>
@@ -1242,7 +1242,7 @@ export default function App() {
                           </div>
                           <div className="p-4 text-center">
                              <p className="mb-4 font-bold">อนุมัติจ่ายเงินจำนวน ทั้งสิ้น <span>{summaryTotalAmount.toLocaleString('th-TH-u-nu-latn', {minimumFractionDigits: 2})}</span> บาท (<span>{numberToThaiText(summaryTotalAmount)}</span>) รวมภาษีมูลค่าเพิ่ม</p>
-                             <div className="mt-4 leading-tight">
+                             <div className="mt-4 leading-none">
                                <p className="m-0">( <span>{data.signer2.name}</span> )</p>
                                <p className="m-0"><span>{data.signer2.position}</span></p>
                              </div>
@@ -1263,8 +1263,8 @@ export default function App() {
                       <div className="mt-12 space-y-12">
                         {/* Signer 1 on the right */}
                         <div className="flex justify-end pr-10">
-                          <div className="text-center w-[8cm] leading-tight">
-                            <p className="mb-10">( <span>{data.signer1.name}</span> )</p>
+                          <div className="text-center w-[8cm] leading-none pt-10">
+                            <p className="m-0">( <span>{data.signer1.name}</span> )</p>
                             <p className="m-0"><span>{data.signer1.position}</span></p>
                           </div>
                         </div>
@@ -1276,8 +1276,8 @@ export default function App() {
                           </div>
                           
                           <div className="flex justify-start ml-[2.5cm]">
-                            <div className="text-center w-[8cm] leading-tight">
-                              <p className="mb-10">( <span>{data.signer2.name}</span> )</p>
+                            <div className="text-center w-[8cm] leading-none pt-10">
+                              <p className="m-0">( <span>{data.signer2.name}</span> )</p>
                               <p className="m-0"><span>{data.signer2.position}</span></p>
                             </div>
                           </div>
@@ -1286,7 +1286,7 @@ export default function App() {
                     ) : (
                       <>
                         <div className="flex justify-end pr-10">
-                          <div className="text-center w-80 leading-tight">
+                          <div className="text-center w-80 leading-none">
                             <p className="mb-10">ลงชื่อ..............................................................</p>
                             <p className="m-0">( <span>{data.signer1.name}</span> )</p>
                             <p className="m-0">ตำแหน่ง <span>{data.signer1.position}</span></p>
@@ -1300,7 +1300,7 @@ export default function App() {
                           </div>
                           
                           <div className="flex justify-end pr-10">
-                            <div className="text-center w-80 leading-tight">
+                            <div className="text-center w-80 leading-none">
                               <p className="mb-10">ลงชื่อ..............................................................</p>
                               <p className="m-0">( <span>{data.signer2.name}</span> )</p>
                               <p className="m-0">ตำแหน่ง <span>{data.signer2.position}</span></p>
