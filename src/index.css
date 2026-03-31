@@ -36,18 +36,30 @@
   }
 
   @media print {
-    body {
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+    html, body {
       background: white;
       padding: 0;
       margin: 0;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
     .print-container {
+      box-sizing: border-box !important;
       margin: 0 !important;
-      padding: 0 !important;
+      padding-top: 0.25cm !important;
+      padding-left: 1.5cm !important;
+      padding-right: 1.5cm !important;
+      padding-bottom: 0.2cm !important;
       border: none !important;
       box-shadow: none !important;
-      width: 100% !important;
-      min-height: auto !important;
+      width: 210mm !important;
+      height: 297mm !important;
+      overflow: hidden !important;
+      page-break-after: always;
     }
     .print\:hidden {
       display: none !important;

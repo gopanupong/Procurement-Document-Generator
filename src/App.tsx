@@ -21,7 +21,7 @@ const initialData: ProcurementDoc = {
   to: 'อก.ปบ.(ก3)',
   docNumber: 'ก.3 กปบ.(จฟ.1)                /2569',
   docYear: '/2569',
-  date: '22 มีนาคม 2569',
+  date: '',
   subjectApproval: 'ขอความเห็นชอบดำเนินการจัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ 4 (สถานีไฟฟ้าศาลายา)',
   subjectAssignment: 'มอบหมายผู้จัดทำรายละเอียดคุณลักษณะเฉพาะของพัสดุ และกำหนดราคากลาง สำหรับงานขอจัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชสถานีไฟฟ้าในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ 4 (สถานีไฟฟ้าศาลายา) ด้วยวิธีเฉพาะเจาะจง',
   subjectReport: 'รายงานขอจัดจ้างตัดหญ้าและฉีดยากำจัดวัชพืชสถานีไฟฟ้าในหน่วยปฏิบัติงานสถานีไฟฟ้าที่ 4 (สถานีไฟฟ้าศาลายา) ด้วยวิธีเฉพาะเจาะจง',
@@ -32,7 +32,7 @@ const initialData: ProcurementDoc = {
   phone: '10520-21',
   logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/90/Logo_of_the_Provincial_Electricity_Authority_of_Thailand.svg',
   item: 'จัดจ้าง',
-  budgetYear: '2569',
+  budgetYear: '',
   wbs: 'WBS-123456',
   unitName: 'หน่วยปฏิบัติงานสถานีไฟฟ้าที่ 4 (สถานีไฟฟ้าศาลายา)',
   monthStart: 'ตุลาคม 2568',
@@ -47,7 +47,7 @@ const initialData: ProcurementDoc = {
   infoSection: {
     requester: 'ผจฟ.1 กปบ.(ก3)',
     approvalRef: 'ก.3 กปบ.(จฟ.1) /2569',
-    approvalDate: '22 มีนาคม 2569',
+    approvalDate: '',
   },
   considerationSection: {
     requester: 'ผจฟ.1 กปบ.(ก3)',
@@ -100,7 +100,7 @@ const initialData: ProcurementDoc = {
   warrantyYears: 2,
   penaltyRate: '0.20',
   deliveryPlace: 'สถานีไฟฟ้าศาลายา, สถานีไฟฟ้าพุทธมณฑล 2 และสถานีไฟฟ้าพุทธมณฑล 3',
-  poDate: '22 มีนาคม 2569',
+  poDate: '',
 };
 
 export default function App() {
@@ -275,8 +275,8 @@ export default function App() {
     setData(prev => ({
       ...prev,
       unitName: 'หน่วยปฏิบัติงานสถานีไฟฟ้าที่ 4 (สถานีไฟฟ้าศาลายา)',
-      budgetYear: '2569',
-      date: '22 มีนาคม 2569',
+      budgetYear: '',
+      date: '',
       docNumber: 'ก.3 กปบ.(จฟ.1)                /2569',
       department: 'แผนกจัดการสถานีไฟฟ้า 1',
       phone: '10520-21',
@@ -286,7 +286,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#e8edf2] font-sans text-[#1a1a2e]">
+    <div className="min-h-screen bg-[#e8edf2] font-sans text-[#1a1a2e] print:bg-white print:p-0 print:m-0">
       {/* App Header */}
       <header className="bg-gradient-to-br from-[#003087] via-[#0052cc] to-[#0073e6] text-white px-8 py-4 flex items-center gap-4 shadow-lg sticky top-0 z-[100] print:hidden">
         <div className="w-12 h-12 bg-white/15 border-2 border-white/50 rounded-full flex items-center justify-center text-2xl">
@@ -372,7 +372,7 @@ export default function App() {
         </div>
       )}
 
-      <main className="max-w-[960px] mx-auto p-7">
+      <main className="max-w-[960px] mx-auto p-7 print:p-0 print:m-0 print:max-w-none">
         <AnimatePresence mode="wait">
           {activeStep === 0 && (
           <motion.div
@@ -850,7 +850,7 @@ export default function App() {
 
         {isPreview && (
           <>
-            <div className={`print-container bg-white shadow-2xl border border-stone-200 pt-[0.25cm] px-[1.5cm] pb-[0.2cm] min-h-[297mm] w-[210mm] ${currentForm === 'SUMMARY' ? 'text-[14pt]' : 'text-[16pt]'} leading-normal font-serif text-black relative flex flex-col mx-auto`}>
+            <div className={`print-container bg-white shadow-2xl border border-stone-200 pt-[0.25cm] px-[1.5cm] pb-[0.2cm] h-[297mm] w-[210mm] ${currentForm === 'SUMMARY' ? 'text-[14pt]' : 'text-[16pt]'} leading-normal font-serif text-black relative flex flex-col mx-auto`}>
                 {/* Header */}
                 {currentForm !== 'PURCHASE_ORDER' && (
                   <div className="flex flex-col items-start mb-4">
