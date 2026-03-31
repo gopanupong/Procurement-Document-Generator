@@ -34,4 +34,23 @@
   body {
     font-family: "TH SarabunPSK", "Sarabun", serif;
   }
+
+  @media print {
+    body {
+      background: white;
+      padding: 0;
+      margin: 0;
+    }
+    .print-container {
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+      width: 100% !important;
+      min-height: auto !important;
+    }
+    .print\:hidden {
+      display: none !important;
+    }
+  }
 }

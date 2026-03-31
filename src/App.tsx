@@ -299,32 +299,45 @@ export default function App() {
       </header>
 
       {/* Tab Navigation */}
-      <nav className="bg-white border-b-[3px] border-[#003087] flex overflow-x-auto px-6 gap-0.5 shadow-md sticky top-[80px] z-[90] print:hidden">
-        {[
-          { id: 'APPROVAL', label: 'บันทึกขอความเห็นชอบ', num: 1 },
-          { id: 'ASSIGNMENT', label: 'มอบหมายจัดทำคุณลักษณะ', num: 2 },
-          { id: 'REPORT', label: 'รายงานขอจัดจ้าง', num: 3 },
-          { id: 'PURCHASE_ORDER', label: 'ใบสั่งจ้าง', num: 4 },
-          { id: 'SUMMARY', label: 'สรุปผลพิจารณาและตรวจรับ', num: 5 },
-        ].map((tab) => (
+      {activeStep > 0 && (
+        <nav className="bg-white border-b-[3px] border-[#003087] flex overflow-x-auto px-6 gap-0.5 shadow-md sticky top-[80px] z-[90] print:hidden">
+          {[
+            { id: 'APPROVAL', label: 'บันทึกขอความเห็นชอบ', num: 1 },
+            { id: 'ASSIGNMENT', label: 'มอบหมายจัดทำคุณลักษณะ', num: 2 },
+            { id: 'REPORT', label: 'รายงานขอจัดจ้าง', num: 3 },
+            { id: 'PURCHASE_ORDER', label: 'ใบสั่งจ้าง', num: 4 },
+            { id: 'SUMMARY', label: 'สรุปผลพิจารณาและตรวจรับ', num: 5 },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setCurrentForm(tab.id as FormType)}
+              className={`px-5 py-3 border-b-[3px] transition-all whitespace-nowrap font-medium text-sm flex items-center gap-1.5 ${
+                currentForm === tab.id
+                  ? 'text-[#003087] border-[#003087] font-bold bg-[#f0f4ff]'
+                  : 'text-[#555] border-transparent hover:text-[#003087] hover:bg-[#f0f4ff]'
+              }`}
+            >
+              <span className={`w-[22px] h-[22px] rounded-full text-[12px] flex items-center justify-center ${
+                currentForm === tab.id ? 'bg-[#0052cc] text-white' : 'bg-[#003087] text-white'
+              }`}>
+                {tab.num}
+              </span>
+              {tab.label}
+            </button>
+          ))}
+          <div className="flex-1" />
           <button
-            key={tab.id}
-            onClick={() => setCurrentForm(tab.id as FormType)}
-            className={`px-5 py-3 border-b-[3px] transition-all whitespace-nowrap font-medium text-sm flex items-center gap-1.5 ${
-              currentForm === tab.id
-                ? 'text-[#003087] border-[#003087] font-bold bg-[#f0f4ff]'
-                : 'text-[#555] border-transparent hover:text-[#003087] hover:bg-[#f0f4ff]'
-            }`}
+            onClick={() => {
+              setIsPreview(true);
+              setTimeout(() => window.print(), 100);
+            }}
+            className="px-4 py-3 text-[#003087] hover:bg-[#f0f4ff] font-bold text-sm flex items-center gap-2 border-l border-slate-200 transition-all"
           >
-            <span className={`w-[22px] h-[22px] rounded-full text-[12px] flex items-center justify-center ${
-              currentForm === tab.id ? 'bg-[#0052cc] text-white' : 'bg-[#003087] text-white'
-            }`}>
-              {tab.num}
-            </span>
-            {tab.label}
+            <Printer size={18} />
+            พิมพ์ฟอร์มนี้
           </button>
-        ))}
-      </nav>
+        </nav>
+      )}
 
       {/* Progress Stepper */}
       {!isPreview && (
@@ -521,11 +534,21 @@ export default function App() {
                   แก้ไขข้อมูลส่วนกลาง
                 </button>
                 <button
+                  onClick={() => {
+                    setIsPreview(true);
+                    setTimeout(() => window.print(), 100);
+                  }}
+                  className="px-4 py-2 rounded-xl bg-slate-800 text-white hover:bg-slate-900 shadow-lg transition-all text-sm font-bold flex items-center gap-2"
+                >
+                  <Printer size={16} />
+                  พิมพ์
+                </button>
+                <button
                   onClick={() => setIsPreview(true)}
                   className="px-6 py-2 rounded-xl bg-[#003087] text-white hover:bg-[#0052cc] shadow-lg transition-all text-sm font-bold flex items-center gap-2"
                 >
                   <Eye size={16} />
-                  ดูตัวอย่าง & พิมพ์
+                  ดูตัวอย่าง
                 </button>
               </div>
             </div>
@@ -731,6 +754,20 @@ export default function App() {
                 >
                   ย้อนกลับ
                 </button>
+                
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      setIsPreview(true);
+                      setTimeout(() => window.print(), 100);
+                    }}
+                    className="px-6 py-2.5 rounded-xl bg-slate-800 text-white hover:bg-slate-900 shadow-lg font-bold flex items-center gap-2 transition-all active:scale-95"
+                  >
+                    <Printer size={18} />
+                    พิมพ์ฟอร์มที่กำลังแก้ไข
+                  </button>
+                </div>
+
                 <button
                   disabled={currentForm === 'SUMMARY'}
                   onClick={() => {
@@ -744,14 +781,76 @@ export default function App() {
                   <ChevronLeft size={18} className="rotate-180" />
                 </button>
               </div>
+
+              {/* Quick Print All Forms Section */}
+              <div className="mt-12 pt-8 border-t border-slate-100">
+                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                  <Printer size={16} />
+                  พิมพ์เอกสารแยกตามแบบฟอร์ม (Print Separately)
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {[
+                    { id: 'APPROVAL', label: '1. บันทึกขอความเห็นชอบ', color: 'blue' },
+                    { id: 'ASSIGNMENT', label: '2. มอบหมายจัดทำคุณลักษณะ', color: 'indigo' },
+                    { id: 'REPORT', label: '3. รายงานขอจัดจ้าง', color: 'emerald' },
+                    { id: 'PURCHASE_ORDER', label: '4. ใบสั่งจ้าง (PO)', color: 'amber' },
+                    { id: 'SUMMARY', label: '5. สรุปผลพิจารณาและตรวจรับ', color: 'purple' },
+                  ].map((form) => (
+                    <button
+                      key={form.id}
+                      onClick={() => {
+                        setCurrentForm(form.id as FormType);
+                        setIsPreview(true);
+                        setTimeout(() => window.print(), 200);
+                      }}
+                      className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-2xl hover:border-[#003087] hover:shadow-md transition-all group text-left"
+                    >
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">แบบฟอร์มที่ {form.id === 'APPROVAL' ? '1' : form.id === 'ASSIGNMENT' ? '2' : form.id === 'REPORT' ? '3' : form.id === 'PURCHASE_ORDER' ? '4' : '5'}</span>
+                        <span className="text-sm font-bold text-slate-700 group-hover:text-[#003087]">{form.label}</span>
+                      </div>
+                      <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#003087] group-hover:text-white transition-all">
+                        <Printer size={18} />
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </motion.div>
         )}
         </AnimatePresence>
         
         {isPreview && (
+          <div className="max-w-[210mm] mx-auto mb-6 flex justify-between items-center print:hidden">
+            <button
+              onClick={() => setIsPreview(false)}
+              className="px-5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 shadow-sm font-bold flex items-center gap-2 transition-all active:scale-95"
+            >
+              <ChevronLeft size={20} />
+              กลับไปแก้ไขข้อมูล
+            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={() => window.print()}
+                className="px-8 py-2.5 rounded-xl bg-[#003087] text-white hover:bg-[#0052cc] shadow-lg font-bold flex items-center gap-2 transition-all active:scale-95 animate-pulse hover:animate-none"
+              >
+                <Printer size={20} />
+                พิมพ์แบบฟอร์มนี้ ({
+                  currentForm === 'APPROVAL' ? 'บันทึกขอความเห็นชอบ' :
+                  currentForm === 'ASSIGNMENT' ? 'มอบหมายจัดทำคุณลักษณะ' :
+                  currentForm === 'REPORT' ? 'รายงานขอจัดจ้าง' :
+                  currentForm === 'PURCHASE_ORDER' ? 'ใบสั่งจ้าง' :
+                  'สรุปผลพิจารณาและตรวจรับ'
+                })
+              </button>
+            </div>
+          </div>
+        )}
+
+        {isPreview && (
           <>
-            <div className={`print-container bg-white shadow-2xl border border-stone-200 pt-[0.25cm] px-[1.5cm] pb-[0.2cm] min-h-[297mm] w-[210mm] ${currentForm === 'SUMMARY' ? 'text-[14pt]' : 'text-[16pt]'} leading-normal font-serif text-black relative flex flex-col`}>
+            <div className={`print-container bg-white shadow-2xl border border-stone-200 pt-[0.25cm] px-[1.5cm] pb-[0.2cm] min-h-[297mm] w-[210mm] ${currentForm === 'SUMMARY' ? 'text-[14pt]' : 'text-[16pt]'} leading-normal font-serif text-black relative flex flex-col mx-auto`}>
                 {/* Header */}
                 {currentForm !== 'PURCHASE_ORDER' && (
                   <div className="flex flex-col items-start mb-4">
