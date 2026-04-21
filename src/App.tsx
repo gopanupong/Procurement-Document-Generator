@@ -962,7 +962,7 @@ export default function App() {
                       </tfoot>
                     </table>
 
-                    <div className="mt-auto grid grid-cols-2 gap-12 pt-12 text-[16pt] signature-block">
+                    <div className="mt-12 grid grid-cols-2 gap-12 pt-12 text-[16pt] signature-block">
                       <div className="text-center space-y-20">
                         <p>ลงชื่อ..........................................................ผู้สั่งจ้าง</p>
                         <div className="leading-none">
@@ -1362,7 +1362,7 @@ export default function App() {
 
                 {/* Signatures (Hidden for Form 4 as it has custom grid) */}
                 {currentForm !== 'SUMMARY' && currentForm !== 'PURCHASE_ORDER' && (
-                  <div className="mt-auto signature-block">
+                  <div className="mt-12 signature-block">
                     {currentForm === 'APPROVAL' ? (
                       <div className="mt-12 space-y-12">
                         {/* Signer 1 on the right */}
@@ -1415,7 +1415,7 @@ export default function App() {
                     )}
 
                     {/* Footer */}
-                    <div className="mt-auto pt-1 text-black border-t border-black flex justify-between items-end w-full flex-nowrap">
+                    <div className="mt-12 pt-1 text-black border-t border-black flex justify-between items-end w-full flex-nowrap">
                       <div className="leading-tight text-[11pt] flex-shrink-0">
                         <p>แผนกจัดการงานสถานีไฟฟ้า 1</p>
                         <p>เบอร์โทร 10520-21</p>
