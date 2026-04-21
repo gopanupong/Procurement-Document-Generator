@@ -855,7 +855,7 @@ export default function App() {
 
         {isPreview && (
           <>
-            <div className={`print-container bg-white shadow-2xl border border-stone-200 pt-[0.25cm] px-[1.5cm] pb-[0.2cm] h-[297mm] w-[210mm] text-[16pt] leading-normal font-serif text-black relative flex flex-col mx-auto`}>
+            <div className={`print-container bg-white shadow-2xl border border-stone-200 min-h-[297mm] w-[210mm] text-[16pt] leading-normal font-serif text-black relative flex flex-col mx-auto`}>
                 {/* Header */}
                 {currentForm !== 'PURCHASE_ORDER' && (
                   <div className="flex flex-col items-start mb-4">
@@ -962,7 +962,7 @@ export default function App() {
                       </tfoot>
                     </table>
 
-                    <div className="mt-auto grid grid-cols-2 gap-12 pt-12 text-[16pt]">
+                    <div className="mt-auto grid grid-cols-2 gap-12 pt-12 text-[16pt] signature-block">
                       <div className="text-center space-y-20">
                         <p>ลงชื่อ..........................................................ผู้สั่งจ้าง</p>
                         <div className="leading-none">
@@ -1297,7 +1297,7 @@ export default function App() {
                       </p>
 
                       {/* Signature Grid from PDF */}
-                      <div className="border border-black">
+                      <div className="border border-black signature-block">
                         <div className="grid grid-cols-2 border-b border-black">
                           <div className="border-r border-black p-4 min-h-[140px] flex flex-col">
                             <p className="text-center font-bold mb-4 leading-tight">เห็นชอบและอนุมัติสั่งซื้อ/สั่งจ้างดำเนินการได้ โดยปฏิบัติให้ถูกต้องตามระเบียบ</p>
@@ -1362,7 +1362,7 @@ export default function App() {
 
                 {/* Signatures (Hidden for Form 4 as it has custom grid) */}
                 {currentForm !== 'SUMMARY' && currentForm !== 'PURCHASE_ORDER' && (
-                  <div className="mt-auto">
+                  <div className="mt-auto signature-block">
                     {currentForm === 'APPROVAL' ? (
                       <div className="mt-12 space-y-12">
                         {/* Signer 1 on the right */}
